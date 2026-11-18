@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Token mirror as CSS variables (used by charts and inline SVG). Source of truth: tailwind.config.ts */
+:root {
+  --teal-50: #F0FDFA; --teal-100: #CCFBF1; --teal-200: #99F6E4; --teal-500: #14B8A6;
+  --teal-600: #0D9488; --teal-700: #0F766E; --teal-800: #115E59; --teal-900: #134E4A;
+  --slate-50: #F8FAFC; --slate-100: #F1F5F9; --slate-200: #E2E8F0; --slate-300: #CBD5E1;
+  --slate-400: #94A3B8; --slate-500: #64748B; --slate-700: #334155; --slate-900: #0F172A;
+  --success: #16A34A; --warning: #D97706; --danger: #DC2626; --info: #2563EB;
+  --ai: #7C3AED; --ai-bg: #F5F3FF;
+  --chart-captured: #0D9488; --chart-leaked: #F97316; --chart-pending: #CBD5E1;
+  --chart-baseline: #64748B; --chart-secondary: #6366F1;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-slate-50 text-slate-900 text-body antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+  /* Tabular numerals for all figures */
+  .tnum, table, [data-num] { font-variant-numeric: tabular-nums; }
+  :focus-visible { outline: 2px solid var(--teal-500); outline-offset: 2px; border-radius: 4px; }
+  button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { scrollbar-width: none; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+}
