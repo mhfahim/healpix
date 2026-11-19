@@ -113,14 +113,14 @@ export default function Login() {
           <path d="M500 175 L520 190 L505 212" fill="none" stroke={tokens.teal[500]} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <div className="relative flex h-full flex-col justify-end p-16 text-white">
-          <p className="text-display font-semibold leading-tight">We show hospitals the revenue walking out their door, and bring it back.</p>
+          <p className="text-display font-normal leading-tight">We show hospitals the revenue walking out their door, and bring it back.</p>
           <div className="mt-10 grid max-w-md grid-cols-2 gap-6">
             <div>
-              <p className="tnum text-kpi font-semibold">71%</p>
+              <p className="tnum text-kpi font-normal">71%</p>
               <p className="text-small text-teal-100">tests captured in-house, up from 58%</p>
             </div>
             <div>
-              <p className="tnum text-kpi font-semibold">1,140</p>
+              <p className="tnum text-kpi font-normal">1,140</p>
               <p className="text-small text-teal-100">chamber slots freed this month</p>
             </div>
           </div>

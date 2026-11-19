@@ -546,3 +546,28 @@ export const integrations = [
   { name: "SMS gateway", vendor: "Not configured", status: "Not connected", icon: "MessageSquare" },
   { name: "Phone / IVR", vendor: "Hotline 10655", status: "Connected", icon: "PhoneCall" },
 ];
+
+/* ------------------------------------------------------------------ */
+/* Overview hero modules (derived from the figures above)               */
+/* ------------------------------------------------------------------ */
+
+/** Leak heatmap: leak rate (1 − capture) per department × test group. */
+export const heatCols = ["Lipid", "HbA1c", "CBC", "ECG / Echo", "USG", "TSH"];
+const heatOffset = [0.12, 0.02, -0.08, 0.06, 0.08, 0.04];
+export const heatRows = deptCapture.map((d) => d.name.replace("Gynecology & Obstetrics", "Gynae & Obs"));
+export const heatLeak = deptCapture.map((d) => heatOffset.map((o) => Math.max(0.05, Math.min(0.62, 1 - d.rate / 100 + o))));
+
+/** Daily figures for 1–19 November (illustrative shape for the bar strips; Fridays are low). */
+export const dailyCaptured = [412, 455, 468, 430, 0, 471, 486, 492, 455, 470, 0, 489, 501, 478, 466, 495, 0, 512, 480].map((v) => v || 140);
+export const dailyRecovered = [148, 162, 170, 158, 52, 171, 176, 181, 166, 172, 50, 178, 184, 175, 170, 182, 48, 190, 177];
+/** Morning and evening sessions per day (38 bars for the strip). */
+export const sessionCaptured = dailyCaptured.flatMap((v, i) => [Math.round(v * (0.44 + (i % 3) * 0.02)), Math.round(v * (0.56 - (i % 3) * 0.02))]);
+export const sessionRecovered = dailyRecovered.flatMap((v, i) => [Math.round(v * (0.45 + (i % 2) * 0.03)), Math.round(v * (0.55 - (i % 2) * 0.03))]);
+export const monthLabels = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
+
+export const nextSteps = [
+  { icon: "BadgePercent", title: "Price", tag: "This week", items: ["Review Lipid Profile price (৳ 1,200 vs ~৳ 850 outside)", "Pilot a diabetes panel at ৳ 2,350"] },
+  { icon: "Home", title: "Home collection", tag: "Running", items: ["Extend to Mohammadpur and Kalabagan", "Offer it on every Lipid and HbA1c order"] },
+  { icon: "Stethoscope", title: "Cardiology", tag: "Lowest capture", items: ["Share capture view with Dr. Tanvir Ahmed", "Add one evening Echo slot on Sun, Tue, Thu"] },
+  { icon: "Activity", title: "Monitoring", tag: "Ongoing", items: ["Weekly leak review with department heads", "Alert when any test drops below 50% capture"] },
+];

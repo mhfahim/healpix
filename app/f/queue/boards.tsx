@@ -60,7 +60,7 @@ export function KanbanBoard({ rows, onArrive, onCheckIn }: { rows: Row[]; onArri
               {items.map((r) => (
                 <article
                   key={r.serial}
-                  className={cn("rounded-[14px] border border-slate-200/80 bg-surface p-3.5 shadow-card transition-shadow hover:shadow-sm", r.isNew && "ring-2 ring-teal-500/40")}
+                  className={cn("rounded-lg border border-slate-200/80 bg-surface p-3.5 shadow-card transition-shadow hover:shadow-sm", r.isNew && "ring-2 ring-teal-500/40")}
                 >
                   <div className="flex items-center justify-between">
                     <Badge tone={st.tone === "slate" ? "neutral" : (st.tone as any)} size="sm">
@@ -95,7 +95,7 @@ export function KanbanBoard({ rows, onArrive, onCheckIn }: { rows: Row[]; onArri
                   )}
                 </article>
               ))}
-              {items.length === 0 && <p className="rounded-[14px] border border-dashed border-slate-300 p-5 text-center text-caption text-slate-400">No patients</p>}
+              {items.length === 0 && <p className="rounded-lg border border-dashed border-slate-300 p-5 text-center text-caption text-slate-400">No patients</p>}
             </div>
           </section>
         );
@@ -231,7 +231,7 @@ export function ScheduleBoard({ rows, onCheckIn }: { rows: Row[]; onCheckIn: (se
                       key={a.id}
                       onClick={() => setOpen(isOpen ? null : a)}
                       className={cn(
-                        "absolute inset-x-1.5 flex items-center gap-2 overflow-hidden rounded-[10px] px-2 text-left transition-shadow hover:z-10 hover:shadow-sm",
+                        "absolute inset-x-1.5 flex items-center gap-2 overflow-hidden rounded px-2 text-left transition-shadow hover:z-10 hover:shadow-sm",
                         tint[st.tone],
                         "ring-1 ring-inset ring-slate-900/5",
                         a.status === "Done" && "opacity-60",
@@ -288,11 +288,11 @@ export function ScheduleBoard({ rows, onCheckIn }: { rows: Row[]; onCheckIn: (se
               <p className="text-small font-semibold">
                 Appointment <span className="ml-1 rounded-[6px] bg-slate-100 px-1.5 py-0.5 font-mono text-caption font-normal text-slate-600">#A-{1456990 + open.serial}</span>
               </p>
-              <button onClick={() => setOpen(null)} className="rounded-[8px] p-1 text-slate-400 hover:bg-slate-100" aria-label="Close">
+              <button onClick={() => setOpen(null)} className="rounded-sm p-1 text-slate-400 hover:bg-slate-100" aria-label="Close">
                 <X className="size-4" />
               </button>
             </div>
-            <div className="mt-3 rounded-[14px] border border-slate-200 p-3">
+            <div className="mt-3 rounded-lg border border-slate-200 p-3">
               <div className="flex items-center gap-3">
                 <Avatar initials={initialsOf(open.name)} size="md" />
                 <div className="min-w-0">
@@ -305,7 +305,7 @@ export function ScheduleBoard({ rows, onCheckIn }: { rows: Row[]; onCheckIn: (se
               </div>
               <p className="mt-3 border-t border-slate-100 pt-3 text-small text-slate-600">{open.note}</p>
             </div>
-            <div className="mt-2 grid grid-cols-[64px_1fr] overflow-hidden rounded-[14px] border border-slate-200">
+            <div className="mt-2 grid grid-cols-[64px_1fr] overflow-hidden rounded-lg border border-slate-200">
               <div className="flex flex-col items-center justify-center border-r border-slate-200 bg-slate-50 py-3">
                 <span className="text-caption font-medium uppercase text-slate-500">Nov</span>
                 <span className="tnum text-h2 font-semibold">19</span>

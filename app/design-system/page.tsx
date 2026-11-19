@@ -32,12 +32,12 @@ import {
 } from "@/components/ui/primitives";
 import { Tabs, TabsList, TabsTrigger, TabsContent, Segmented, Chip, Switch, Checkbox, Dialog, Sheet, Combobox, DatePicker, Tooltip } from "@/components/ui/controls";
 import { AiDraftBlock, SafetyAlert, Stepper, TimelineItem, Dropzone, RecordingIndicator, OfflineBadge } from "@/components/ui/clinical";
-import { KpiCard, DataTable, Progress, RateBar, TickMeter, DotMatrix, Gauge, MiniBars } from "@/components/ui/data";
+import { KpiCard, DataTable, Progress, RateBar, HeroCard, HeroTile, Heatmap, GradientLegend, RiskSlider, TickGauge, BarStrip, CompareBars, StepsList } from "@/components/ui/data";
 import { CaptureLine, RateBars, StackedCapture, Donut, Funnel, Legendary, ColumnChart, TwoSeriesBars, SimpleBars } from "@/components/ui/charts";
 import { ThemeSegment } from "@/components/shell/theme";
-import { IconChip, AvatarStack } from "@/components/ui/primitives";
+import { StatusDot } from "@/components/ui/primitives";
 import { Target, Wallet, FlaskConical as Flask, CalendarCheck } from "lucide-react";
-import { captureTrend as trend2, outsideLabs } from "@/data/mock";
+import { captureTrend as trend2, heatRows, heatCols, heatLeak, sessionCaptured } from "@/data/mock";
 import { Toast, useToast } from "@/components/ui/toast";
 import { captureTrend, deptCapture, funnel, leakReasons, metrics, drugDb, topLeakingTests } from "@/data/mock";
 import { tokens, categorical } from "@/lib/tokens";
@@ -105,7 +105,7 @@ const palette: { group: string; items: { name: string; v: string; note?: string 
 
 const type = [
   { name: "Page title", cls: "text-title font-semibold", spec: "28/34 semibold −2%" },
-  { name: "Display", cls: "text-display font-semibold", spec: "30/36 semibold" },
+  { name: "Display", cls: "text-display font-normal", spec: "30/36 semibold" },
   { name: "H1", cls: "text-h1 font-semibold", spec: "24/32 semibold" },
   { name: "H2", cls: "text-h2 font-semibold", spec: "20/28 semibold" },
   { name: "H3", cls: "text-h3 font-semibold", spec: "16/24 semibold" },
@@ -113,7 +113,7 @@ const type = [
   { name: "Body-strong", cls: "text-body font-medium", spec: "14/20 medium" },
   { name: "Small", cls: "text-small", spec: "13/18" },
   { name: "Caption", cls: "text-caption text-slate-500", spec: "12/16 slate-500" },
-  { name: "KPI number", cls: "text-kpi font-semibold tnum", spec: "32/40 semibold tabular" },
+  { name: "KPI number", cls: "text-kpi font-normal tnum", spec: "32/40 semibold tabular" },
   { name: "Patient body", cls: "text-base", spec: "16/24 (mobile minimum)" },
 ];
 
@@ -163,7 +163,7 @@ export default function DesignSystem() {
       </aside>
       <main className="mx-auto w-full max-w-content px-8 py-8">
         <p className="text-small font-medium text-teal-700">DS</p>
-        <h1 className="text-display font-semibold">Design System</h1>
+        <h1 className="text-display font-normal">Design System</h1>
         <p className="mt-2 max-w-2xl text-h3 font-normal text-slate-500">
           Calm, clinical, trustworthy. shadcn/ui patterns on Radix primitives, Tailwind tokens, Lucide icons at 1.5px stroke, 4px base grid.
         </p>
@@ -265,9 +265,9 @@ export default function DesignSystem() {
               <SectionLabel className="mb-3">Radius</SectionLabel>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  ["6px", "Buttons, inputs", "rounded"],
-                  ["8px", "Cards", "rounded-lg"],
-                  ["12px", "Dialogs, sheets", "rounded-xl"],
+                  ["8px", "Buttons, inputs", "rounded"],
+                  ["12px", "Cards", "rounded-lg"],
+                  ["16px", "Hero cards, dialogs", "rounded-xl"],
                   ["full", "Pills, avatars", "rounded-full"],
                 ].map(([v, n, c]) => (
                   <div key={v} className="flex flex-col items-center gap-2">
@@ -629,61 +629,75 @@ export default function DesignSystem() {
           </div>
         </Section>
 
-        <Section id="Chart language" title="Chart language" desc="One grammar for every graph: dashed hairline grid, rounded capsules, the active item solid and everything else hatched in the same hue, remainders (leaked, not yet, peer band) as hatch, and a single inverse tooltip pill.">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <Card>
-              <CardHeader title="Column · hover to move the solid bar" />
-              <CardBody>
-                <ColumnChart data={trend2} xKey="month" yKey="remote" name="Remote reviews" height={220} />
-              </CardBody>
-            </Card>
-            <Card>
-              <CardHeader title="Paired columns · comparison hatched" action={<Legendary items={[{ label: "In-person", color: tokens.slate[400], hatched: true }, { label: "Remote", color: tokens.chart.captured }]} />} />
-              <CardBody>
-                <TwoSeriesBars data={trend2} a={{ key: "inPerson", name: "In-person", color: tokens.slate[300] }} b={{ key: "remote", name: "Remote", color: tokens.chart.captured }} height={220} />
-              </CardBody>
-            </Card>
-            <Card>
-              <CardHeader title="Ranked bars · leader solid" />
-              <CardBody>
-                <SimpleBars data={outsideLabs} dataKey="uploads" nameKey="lab" />
-              </CardBody>
-            </Card>
-            <Card>
-              <CardHeader title="Donut · rounded, gapped, hatched unknown" />
-              <CardBody>
-                <Donut data={leakReasons.map((r) => ({ name: r.reason, value: r.value }))} height={200} centerValue="41%" centerLabel="Price" hatchIndex={4} />
-              </CardBody>
-            </Card>
+        <Section id="Chart language" title="Component language" desc="Neutral, almost monochrome UI. Color lives in data: a green → yellow → orange → red gradient for status ranges, teal for captured. Figures are large and regular-weight with small units; dark hero cards carry the richest visuals.">
+          <div className="grid gap-5 lg:grid-cols-12">
+            <HeroCard className="lg:col-span-7" title="Hero card · heatmap + gradient legend">
+              <div className="flex gap-5">
+                <div className="min-w-0 flex-1">
+                  <Heatmap rows={heatRows.slice(0, 4)} cols={heatCols} values={heatLeak.slice(0, 4).map((r) => r.map((v) => v / 0.62))} onDark format={(v) => `${Math.round(v * 62)}%`} />
+                </div>
+                <GradientLegend labels={["60%", "30%", "5%"]} height={180} onDark />
+              </div>
+            </HeroCard>
+            <HeroCard className="lg:col-span-5" title="Hero tiles · slider · tick gauge">
+              <div className="grid grid-cols-2 gap-3">
+                <HeroTile>
+                  <p className="text-small text-white/70">Leak risk</p>
+                  <p className="tnum mt-2 text-h1 font-normal">41%</p>
+                  <RiskSlider value={41} className="mt-2" />
+                </HeroTile>
+                <HeroTile>
+                  <p className="text-small text-white/70">Momentum</p>
+                  <p className="tnum mt-2 text-h1 font-normal">+13</p>
+                  <RiskSlider value={78} good className="mt-2" />
+                </HeroTile>
+              </div>
+              <TickGauge value={71} size={260} onDark>
+                <span className="tnum text-display font-normal text-white">71%</span>
+              </TickGauge>
+            </HeroCard>
           </div>
-          <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            <Card className="p-5">
-              <SectionLabel className="mb-4">Tick meter</SectionLabel>
-              <p className="tnum text-kpi font-semibold">46<span className="text-h2 font-normal text-slate-400"> / 52</span></p>
-              <TickMeter value={46} max={52} ticks={52} height={28} className="mt-3" label="Active doctors" />
+          <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            <KpiCard label="Metric · marker line" value={71} unit="%" delta="+13 pts" spark={metrics.spark.captureRate} sparkLabels={["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"]} sparkVar="chart-captured" format={(v) => `${v}%`} />
+            <KpiCard label="Bar strip" value="8,860" status={{ label: "Normal", tone: "green" }}>
+              <BarStrip data={sessionCaptured} colorVar="g-orange" height={44} split={19} labels={["Morning", "Evening"]} />
+            </KpiCard>
+            <KpiCard label="Compare bars" value="3,620" status={{ label: "Moderate", tone: "orange" }}>
+              <CompareBars rows={[{ label: "Average", value: 42, display: "42%" }, { label: "Your result", value: 29, display: "29%", strong: true }]} max={60} />
+            </KpiCard>
+            <KpiCard label="Compare bars · green" value="715" unit="cm³" status={{ label: "Normal", tone: "green" }}>
+              <CompareBars colorVar="g-green" rows={[{ label: "Average", value: 730, display: "730" }, { label: "Your result", value: 715, display: "715", strong: true }]} max={1200} />
+            </KpiCard>
+          </div>
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            <Card>
+              <CardHeader title="Steps timeline" action={<Button size="sm" variant="secondary">Create plan <Plus /></Button>} />
+              <CardBody className="pt-6">
+                <StepsList
+                  steps={[
+                    { icon: Target, title: "Diagnostic", tag: "May – June", items: ["Repeat HbA1c in 3 months", "Confirm with lipid profile"] },
+                    { icon: Wallet, title: "Pricing", tag: "This week", items: ["Review Lipid Profile price", "Pilot diabetes panel"] },
+                  ]}
+                />
+              </CardBody>
             </Card>
-            <Card className="p-5">
-              <SectionLabel className="mb-10">Dot matrix</SectionLabel>
-              <DotMatrix data={[640, 690, 520, 810, 700, 600]} labels={["Sa", "Su", "Mo", "Tu", "We", "Th"]} rows={6} peakLabel="Peak: Tue" />
-            </Card>
-            <Card className="flex flex-col items-center p-5">
-              <SectionLabel className="mb-3 self-start">Segmented gauge</SectionLabel>
-              <Gauge value={72} size={200}>
-                <span className="text-caption text-slate-500">Percentile</span>
-                <span className="tnum text-h1 font-semibold">P72</span>
-              </Gauge>
-            </Card>
-            <Card className="p-5">
-              <SectionLabel className="mb-4">Mini bars · icon chips · avatars</SectionLabel>
-              <MiniBars data={[5, 8, 6, 9, 7, 12, 10]} height={40} />
-              <div className="mt-4 flex gap-2">
-                {(["teal", "sky", "iris", "peach", "rose", "mint"] as const).map((t) => (
-                  <IconChip key={t} icon={Target} tone={t} size="sm" />
-                ))}
-              </div>
-              <div className="mt-4">
-                <AvatarStack names={["Farhana Rahman", "Tanvir Ahmed", "Nusrat Jahan", "Kamal Hossain", "Rahima Begum"]} size="sm" />
-              </div>
+            <Card>
+              <CardHeader title="Status pills · columns · donut" />
+              <CardBody>
+                <div className="flex flex-wrap gap-2">
+                  <StatusDot tone="green">Normal</StatusDot>
+                  <StatusDot tone="orange">Moderate</StatusDot>
+                  <StatusDot tone="red">High</StatusDot>
+                  <StatusDot tone="neutral">No data</StatusDot>
+                  {["Booked", "Arrived", "With doctor", "Done", "No-show"].map((x) => (
+                    <StatusPill key={x} status={x} />
+                  ))}
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  <ColumnChart data={trend2} xKey="month" yKey="remote" name="Remote reviews" height={170} />
+                  <Donut data={leakReasons.map((r) => ({ name: r.reason, value: r.value }))} height={170} centerValue="41%" centerLabel="Price" hatchIndex={4} />
+                </div>
+              </CardBody>
             </Card>
           </div>
         </Section>

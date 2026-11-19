@@ -116,7 +116,7 @@ export function PatientFrame({
         {header}
         <div className={cn("flex-1 overflow-y-auto text-base", className)}>{children}</div>
         {bottom && (
-          <div className="sticky bottom-0 z-20 rounded-t-[24px] border-t border-slate-200/70 bg-surface/90 px-4 pb-6 pt-3 shadow-[0_-8px_24px_-12px_rgb(var(--shadow)/0.12)] backdrop-blur-md">
+          <div className="sticky bottom-0 z-20 rounded-t-xl border-t border-slate-200/70 bg-surface/90 px-4 pb-6 pt-3 shadow-[0_-8px_24px_-12px_rgb(var(--shadow)/0.12)] backdrop-blur-md">
             {bottom}
           </div>
         )}
@@ -165,7 +165,7 @@ export function HospitalHeader() {
   return (
     <header className="shrink-0 bg-surface px-4 pb-3 pt-1">
       <div className="flex items-center gap-3">
-        <span className="inline-flex size-11 items-center justify-center rounded-[14px] bg-slate-900 text-small font-semibold text-on-accent">MS</span>
+        <span className="inline-flex size-11 items-center justify-center rounded-lg bg-slate-900 text-small font-semibold text-on-accent">MS</span>
         <div className="min-w-0 flex-1">
           <p className="truncate text-h3 font-semibold leading-tight">{t(hospital.nameBn, hospital.name)}</p>
           <p className="truncate text-small text-slate-500">{t(hospital.branchBn, hospital.branch)}</p>
@@ -213,7 +213,7 @@ export function PButton({
 }) {
   const cls = cn(
     "inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-base font-medium transition-all active:scale-[0.98] [&_svg]:size-5 disabled:opacity-50",
-    variant === "primary" && "bg-teal-700 text-on-accent shadow-card hover:bg-teal-800",
+    variant === "primary" && "bg-slate-900 text-on-accent hover:bg-slate-800",
     variant === "secondary" && "bg-slate-100 text-slate-900 hover:bg-slate-150",
     variant === "ghost" && "text-teal-700 hover:bg-teal-50",
     disabled && "pointer-events-none",

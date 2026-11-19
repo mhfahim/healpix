@@ -41,19 +41,19 @@ export default function LeakAuditCapture() {
       <div className="mb-6 grid gap-4 md:grid-cols-3">
         <Card className="p-4">
           <p className="text-small font-medium text-slate-500">Today</p>
-          <p className="tnum mt-1 text-kpi font-semibold">{count}</p>
+          <p className="tnum mt-1 text-kpi font-normal">{count}</p>
           <p className="text-caption text-slate-500">prescriptions captured</p>
         </Card>
         <Card className="p-4">
           <p className="text-small font-medium text-slate-500">Audit progress</p>
-          <p className="tnum mt-1 text-kpi font-semibold">
+          <p className="tnum mt-1 text-kpi font-normal">
             Day 18 <span className="text-h2 font-normal text-slate-500">of 30</span>
           </p>
           <TickMeter value={18} max={30} ticks={30} height={20} className="mt-3" label="Audit progress" />
         </Card>
         <Card className="p-4">
           <p className="text-small font-medium text-slate-500">Total captured</p>
-          <p className="tnum mt-1 text-kpi font-semibold">2,104</p>
+          <p className="tnum mt-1 text-kpi font-normal">2,104</p>
           <p className="text-caption text-slate-500">≈ 117 per day · target 110</p>
         </Card>
       </div>

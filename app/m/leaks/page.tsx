@@ -20,7 +20,7 @@ export default function LeakInsights() {
         <KpiCard icon={KCloudUpload} tone="sky" label="Outside reports uploaded" value={num(totalUploads)} sub="for remote review" />
         <Card className="p-5">
           <p className="text-small font-medium text-slate-600">Reason coverage</p>
-          <p className="tnum mt-1 text-kpi font-semibold">{metrics.reasonsKnownPct}%</p>
+          <p className="tnum mt-1 text-kpi font-normal">{metrics.reasonsKnownPct}%</p>
           <TickMeter value={metrics.reasonsKnownPct} ticks={32} height={24} className="mt-3" label="Reasons known" />
           <p className="mt-1.5 text-caption text-slate-500">Reasons known for 64% of leaked tests</p>
         </Card>
@@ -36,7 +36,7 @@ export default function LeakInsights() {
                 {leakReasons.map((r, i) => (
                   <li key={r.reason} className="flex items-center justify-between gap-2 text-body">
                     <span className="flex items-center gap-2">
-                      <span className={i === 4 ? "hatch size-2.5 rounded-[3px] bg-slate-100 text-slate-400" : "size-2.5 rounded-full"} style={i === 4 ? undefined : { background: categorical[i] }} />
+                      <span className="size-2 rounded-full" style={{ background: i === 4 ? "rgb(var(--slate-300))" : categorical[i] }} />
                       {r.reason}
                     </span>
                     <span className="tnum font-semibold">{r.value}%</span>

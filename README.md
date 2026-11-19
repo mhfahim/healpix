@@ -31,8 +31,10 @@ Open `/` for the prototype index, which lists every screen and the nine flows.
 - `?state=empty` on M7 shows the locked "Benchmark unlocks when 3 or more hospitals are live" variant.
 - D6 has two variants: `/d/reviews/rahima` (in-house lab) and `/d/reviews/mizanur` (outside upload with AI-extracted values).
 
-## Theme and chart language
+## Theme and component language
 
 - **Light/dark**: the sun/moon button in the top bar, the *Dark mode* switch in the sidebar, or the three-way control on `/design-system`. It defaults to the system setting and remembers the viewer's choice.
-- **Charts** share one grammar (`components/ui/charts.tsx`, `components/ui/data.tsx`): dashed hairline grid, rounded capsules, the active item solid and the rest hatched in the same hue, remainders (leaked, not yet, peer band) as hatch, and one inverse tooltip pill. Extra pieces: `TickMeter`, `DotMatrix`, `Gauge`, `MiniBars`.
-- **F1 Schedule view**: doctors × evening-session time grid with tinted appointment cards, a "now" line, a hatched prayer break and a detail popover.
+- **Language** (modelled on the BioSync reference): neutral, almost monochrome UI; near-black active pills and primary buttons; dark *hero* cards for the richest visuals; color reserved for data, using a green → yellow → orange → red gradient for status ranges and teal for captured.
+- **Components** (`components/ui/data.tsx`, `components/ui/charts.tsx`): `KpiCard` (status-dot pill, regular-weight figure with unit, one quiet visual), `MetricLine` (dashed marker + dark tooltip), `BarStrip`, `CompareBars` (Average vs Your result), `RiskSlider`, `TickGauge`, `Heatmap` + `GradientLegend`, `StepsList`, `HeroCard`/`HeroTile`, `StatusDot`.
+- **Radius scale**: 8px buttons/inputs, 12px cards, 16px hero cards and dialogs; pills stay round.
+- **F1 Schedule view**: doctors × evening-session time grid with tinted appointment cards, a "now" line, a prayer break and a detail popover.

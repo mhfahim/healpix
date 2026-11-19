@@ -251,7 +251,7 @@ export default function Onboarding() {
             </Card>
             <Card className="mt-4 p-5">
               <p className="text-small font-medium text-slate-500">Leak Audit baseline</p>
-              <p className="tnum text-kpi font-semibold">58%</p>
+              <p className="tnum text-kpi font-normal">58%</p>
               <p className="text-small text-slate-500">from your 30-day audit. Progress after go-live is measured against this.</p>
             </Card>
           </aside>

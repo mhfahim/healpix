@@ -12,21 +12,21 @@
   color-scheme: light;
   --surface: 255 255 255;
   --surface-raised: 255 255 255;
-  --surface-sunken: 246 247 249;
+  --surface-sunken: 247 247 248;
   --on-accent: 255 255 255;
   --shadow: 16 24 40;
 
-  --slate-50: 246 247 249;
-  --slate-100: 240 242 245;
-  --slate-150: 233 236 240;
-  --slate-200: 228 231 236;
-  --slate-300: 208 213 221;
-  --slate-400: 152 162 179;
-  --slate-500: 102 112 133;
-  --slate-600: 71 84 103;
-  --slate-700: 52 64 84;
-  --slate-800: 29 41 57;
-  --slate-900: 16 24 40;
+  --slate-50: 243 243 244;
+  --slate-100: 236 236 238;
+  --slate-150: 229 229 232;
+  --slate-200: 224 224 228;
+  --slate-300: 202 202 208;
+  --slate-400: 152 152 160;
+  --slate-500: 110 110 118;
+  --slate-600: 82 82 90;
+  --slate-700: 58 58 64;
+  --slate-800: 36 36 40;
+  --slate-900: 17 17 19;
 
   --teal-50: 240 253 250;
   --teal-100: 204 251 241;
@@ -52,35 +52,43 @@
 
   --chart-captured: 13 148 136;
   --chart-leaked: 249 115 22;
-  --chart-pending: 208 213 221;
+  --chart-pending: 222 222 226;
   --chart-baseline: 102 112 133;
   --chart-secondary: 99 102 241;
-  --chart-grid: 233 236 240;
+  --chart-grid: 236 236 238;
 
   --wa-bg: 239 234 226;
   --wa-bubble: 217 253 211;
   --wa-header: 7 94 84;
+
+  /* Hero (dark feature) cards and data gradients */
+  --hero: 12 12 13;
+  --g-green: 34 197 94;
+  --g-lime: 163 230 53;
+  --g-yellow: 234 179 8;
+  --g-orange: 249 115 22;
+  --g-red: 239 68 68;
 }
 
 .dark {
   color-scheme: dark;
-  --surface: 20 24 31;
-  --surface-raised: 27 32 41;
-  --surface-sunken: 12 15 20;
-  --on-accent: 4 28 26;
+  --surface: 22 22 24;
+  --surface-raised: 30 30 33;
+  --surface-sunken: 14 14 16;
+  --on-accent: 12 12 13;
   --shadow: 0 0 0;
 
-  --slate-50: 12 15 20;
-  --slate-100: 27 32 41;
-  --slate-150: 33 39 49;
-  --slate-200: 39 45 56;
-  --slate-300: 58 66 80;
-  --slate-400: 98 108 125;
-  --slate-500: 148 158 175;
-  --slate-600: 176 185 199;
-  --slate-700: 203 210 221;
-  --slate-800: 226 231 238;
-  --slate-900: 243 245 248;
+  --slate-50: 10 10 11;
+  --slate-100: 30 30 33;
+  --slate-150: 36 36 40;
+  --slate-200: 44 44 48;
+  --slate-300: 64 64 70;
+  --slate-400: 106 106 114;
+  --slate-500: 152 152 160;
+  --slate-600: 182 182 190;
+  --slate-700: 210 210 216;
+  --slate-800: 232 232 236;
+  --slate-900: 246 246 247;
 
   --teal-50: 14 38 37;
   --teal-100: 17 54 51;
@@ -106,14 +114,16 @@
 
   --chart-captured: 45 212 191;
   --chart-leaked: 251 146 60;
-  --chart-pending: 58 66 80;
+  --chart-pending: 58 58 64;
   --chart-baseline: 148 158 175;
   --chart-secondary: 129 140 248;
-  --chart-grid: 33 39 49;
+  --chart-grid: 36 36 40;
 
   --wa-bg: 11 20 26;
   --wa-bubble: 0 92 75;
   --wa-header: 31 44 52;
+
+  --hero: 0 0 0;
 }
 
 @layer base {
@@ -137,6 +147,13 @@
   .hatch {
     background-image: repeating-linear-gradient(135deg, currentColor 0 1px, transparent 1px 6px);
   }
+  /* Data gradients (BioSync language). risk: low→high is green→red; good: low→high is red→green */
+  .bg-grad-risk { background-image: linear-gradient(90deg, rgb(var(--g-green)), rgb(var(--g-lime)) 30%, rgb(var(--g-yellow)) 50%, rgb(var(--g-orange)) 72%, rgb(var(--g-red))); }
+  .bg-grad-good { background-image: linear-gradient(90deg, rgb(var(--g-red)), rgb(var(--g-orange)) 28%, rgb(var(--g-yellow)) 50%, rgb(var(--g-lime)) 72%, rgb(var(--g-green))); }
+  .bg-grad-risk-v { background-image: linear-gradient(0deg, rgb(var(--g-green)), rgb(var(--g-yellow)) 50%, rgb(var(--g-red))); }
+  .bg-grad-teal { background-image: linear-gradient(90deg, rgb(var(--teal-200)), rgb(var(--chart-captured))); }
+  .bg-grad-orange { background-image: linear-gradient(90deg, rgb(var(--g-orange) / 0.35), rgb(var(--g-orange))); }
+  .bg-grad-green { background-image: linear-gradient(90deg, rgb(var(--g-green) / 0.3), rgb(var(--g-green))); }
   .bg-dots {
     background-image: radial-gradient(rgb(var(--slate-300)) 1px, transparent 1px);
     background-size: 16px 16px;
