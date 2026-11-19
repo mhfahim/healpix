@@ -17,14 +17,18 @@ export function Sparkline({
   height = 28,
   className,
   dots,
+  fluid,
 }: {
   data: number[];
   color?: string;
   width?: number;
   height?: number;
+  /** Stretch to the container's width instead of a fixed pixel width */
+  fluid?: boolean;
   className?: string;
   dots?: boolean;
 }) {
+  if (fluid) return <FluidSparkline data={data} color={color} height={height} className={className} />;
   const min = Math.min(...data);
   const max = Math.max(...data);
   const range = max - min || 1;
@@ -38,6 +42,31 @@ export function Sparkline({
       {dots && pts.map((p, i) => <circle key={i} cx={p[0]} cy={p[1]} r={2} fill={color} />)}
       <circle cx={last[0]} cy={last[1]} r={2.5} fill={color} />
     </svg>
+  );
+}
+
+/** Width-flexible sparkline: the SVG stretches, strokes stay 1.5px, and the
+ *  end dot is an HTML element so it stays round at any aspect ratio. */
+function FluidSparkline({ data, color, height, className }: { data: number[]; color: string; height: number; className?: string }) {
+  const W = 100;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+  const pad = 3;
+  const pts = data.map((d, i) => [(i / (data.length - 1)) * W, height - pad - ((d - min) / range) * (height - pad * 2)]);
+  const path = pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(2)},${p[1].toFixed(2)}`).join(" ");
+  const last = pts[pts.length - 1];
+  return (
+    <div className={cn("relative", className)} style={{ height }} aria-hidden>
+      {/* inset by the dot radius so the end dot never touches the card edge */}
+      <div className="absolute inset-y-0 left-0 right-1">
+        <svg width="100%" height={height} viewBox={`0 0 ${W} ${height}`} preserveAspectRatio="none" className="block overflow-visible">
+          <path d={`${path} L${W},${height} L0,${height} Z`} fill={color} opacity={0.08} />
+          <path d={path} fill="none" stroke={color} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+        </svg>
+        <span className="absolute size-[5px] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ left: "100%", top: last[1], background: color }} />
+      </div>
+    </div>
   );
 }
 
@@ -79,15 +108,12 @@ export function KpiCard({
   const good = deltaTone === "neutral" ? null : deltaTone === "up-good" ? !negative : negative;
   const DeltaIcon = deltaTone === "neutral" ? Minus : negative ? ArrowDown : ArrowUp;
   return (
-    <Card className={cn("flex flex-col p-4", className)}>
+    <Card className={cn("flex min-w-0 flex-col overflow-hidden p-4", className)}>
       <div className="flex items-center justify-between gap-2">
         <p className="text-small font-medium text-slate-500">{label}</p>
         {icon}
       </div>
-      <div className="mt-1 flex items-end justify-between gap-2">
-        <p className="tnum whitespace-nowrap text-kpi font-semibold tracking-tight text-slate-900">{value}</p>
-        {spark && <Sparkline data={spark} color={sparkColor} className="mb-1.5 shrink-0" />}
-      </div>
+      <p className="tnum mt-1 whitespace-nowrap text-kpi font-semibold tracking-tight text-slate-900">{value}</p>
       {(delta || sub) && (
         <p className="mt-1 flex flex-wrap items-center gap-1.5 text-caption text-slate-500">
           {delta && (
@@ -105,6 +131,12 @@ export function KpiCard({
           )}
           {sub}
         </p>
+      )}
+      {/* Full-width row pinned to the bottom, so sparklines line up across a KPI row and never collide with the number */}
+      {spark && (
+        <div className="mt-auto pt-3">
+          <Sparkline fluid data={spark} color={sparkColor} height={32} className="w-full" />
+        </div>
       )}
     </Card>
   );

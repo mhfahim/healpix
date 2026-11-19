@@ -154,12 +154,12 @@ export function AppShell({
       {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="no-print sticky top-0 z-30 flex h-topbar shrink-0 items-center gap-4 border-b border-slate-200 bg-white/95 px-6 backdrop-blur">
-          <div className="min-w-0 flex-1">
+          <div className="min-w-[160px] flex-1">
             <h1 className="truncate text-h2 font-semibold text-slate-900">{title}</h1>
             {subtitle && <p className="-mt-0.5 truncate text-caption text-slate-500">{subtitle}</p>}
           </div>
           {offline && <OfflineBadge />}
-          <div className="relative hidden w-64 lg:block">
+          <div className="relative hidden w-64 shrink-0 xl:block">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
             <input
               placeholder={surface === "management" ? "Search tests, departments…" : "Search patient, phone, ID…"}
@@ -170,11 +170,11 @@ export function AppShell({
           </div>
           {management && (
             <>
-              <button className="inline-flex h-9 items-center gap-2 rounded border border-slate-200 bg-white px-3 text-body hover:bg-slate-50" aria-label="Date range">
+              <button className="inline-flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded border border-slate-200 bg-white px-3 text-body hover:bg-slate-50" aria-label="Date range">
                 <CalendarRange className="size-4 text-slate-500" /> This month
-                <span className="text-caption text-slate-500">1–19 Nov</span>
+                <span className="hidden text-caption text-slate-500 xl:inline">1–19 Nov</span>
               </button>
-              <button className="inline-flex h-9 items-center gap-2 rounded border border-slate-200 bg-white px-3 text-body hover:bg-slate-50" aria-label="Branch">
+              <button className="inline-flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded border border-slate-200 bg-white px-3 text-body hover:bg-slate-50" aria-label="Branch">
                 <MapPin className="size-4 text-slate-500" /> Dhanmondi
               </button>
               <Button variant="secondary" aria-label="Export PDF or CSV">
