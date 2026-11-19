@@ -90,7 +90,7 @@ export default function AuditReport() {
           <div className="mt-24">
             <p className="text-small font-medium uppercase tracking-wide text-teal-700">{hospital.name} · {hospital.branch}</p>
             <p className="mt-1 text-small text-slate-500">Audit period: {audit.period} (30 days)</p>
-            <h1 className="mt-6 text-display font-normal leading-tight tracking-tight">
+            <h1 className="mt-6 text-display font-semibold leading-tight tracking-tight">
               Estimated <span className="text-chart-leaked">{bdt(audit.leakedValue)}</span> in prescribed tests left your hospital this month.
             </h1>
             <p className="mt-4 max-w-lg text-h3 font-normal text-slate-500">

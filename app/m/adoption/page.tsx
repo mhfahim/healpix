@@ -18,7 +18,7 @@ export default function Adoption() {
       <div className="grid gap-4 md:grid-cols-4">
         <Card className="p-5">
           <p className="text-small font-medium text-slate-600">Active doctors</p>
-          <p className="tnum mt-1 text-kpi font-normal">
+          <p className="tnum mt-1 text-kpi font-semibold">
             {metrics.activeDoctors} <span className="text-h2 font-normal text-slate-500">of {metrics.totalDoctors}</span>
           </p>
           <TickMeter value={metrics.activeDoctors} max={metrics.totalDoctors} ticks={metrics.totalDoctors} height={24} className="mt-3" label="Active doctors" />

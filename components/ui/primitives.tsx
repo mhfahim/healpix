@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 /* Card ----------------------------------------------------------------- */
 export function Card({ className, ...p }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("rounded-lg bg-surface shadow-card ring-1 ring-slate-200/60", className)} {...p} />;
+  return <div className={cn("rounded-lg border border-slate-200/80 bg-surface shadow-card", className)} {...p} />;
 }
 export function CardHeader({
   title,
@@ -74,7 +74,7 @@ export const tint: Record<TintTone, string> = {
 };
 
 export function IconChip({ icon: Icon, tone = "teal", size = "md", className }: { icon: LucideIcon; tone?: TintTone; size?: "sm" | "md" | "lg"; className?: string }) {
-  const s = { sm: "size-8 rounded [&_svg]:size-4", md: "size-10 rounded [&_svg]:size-5", lg: "size-12 rounded-lg [&_svg]:size-6" }[size];
+  const s = { sm: "size-8 rounded-[10px] [&_svg]:size-4", md: "size-10 rounded-xl [&_svg]:size-5", lg: "size-12 rounded-[14px] [&_svg]:size-6" }[size];
   return (
     <span className={cn("inline-flex shrink-0 items-center justify-center", s, tint[tone], className)} aria-hidden>
       <Icon strokeWidth={1.75} />
@@ -127,40 +127,21 @@ export function Badge({
   );
 }
 
-/* Status pills: outlined pill + colored dot + label (never color alone) -- */
-export type DotTone = "green" | "orange" | "red" | "yellow" | "teal" | "sky" | "neutral";
-const dotColor: Record<DotTone, string> = {
-  green: "bg-[rgb(var(--g-green))]",
-  orange: "bg-[rgb(var(--g-orange))]",
-  red: "bg-[rgb(var(--g-red))]",
-  yellow: "bg-[rgb(var(--g-yellow))]",
-  teal: "bg-teal-600",
-  sky: "bg-sky",
-  neutral: "bg-slate-400",
-};
-export function StatusDot({ tone = "green", children, className, icon: Icon }: { tone?: DotTone; children: React.ReactNode; className?: string; icon?: LucideIcon }) {
-  return (
-    <span className={cn("inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-surface px-2.5 py-0.5 text-caption text-slate-600 ring-1 ring-inset ring-slate-200", className)}>
-      {Icon ? <Icon className="size-3" strokeWidth={2.25} aria-hidden /> : <span className={cn("size-1.5 rounded-full", dotColor[tone])} aria-hidden />}
-      {children}
-    </span>
-  );
-}
-
-const statusMap: Record<string, { tone: DotTone; icon: LucideIcon }> = {
-  Booked: { tone: "sky", icon: Clock },
+/* Status pill (never color alone: icon + label) ------------------------ */
+const statusMap: Record<string, { tone: Tone; icon: LucideIcon }> = {
+  Booked: { tone: "info", icon: Clock },
   Arrived: { tone: "teal", icon: UserCheck },
-  "With doctor": { tone: "green", icon: Stethoscope },
-  Done: { tone: "neutral", icon: CheckCircle2 },
-  "No-show": { tone: "orange", icon: AlertTriangle },
+  "With doctor": { tone: "iris", icon: Stethoscope },
+  Done: { tone: "success", icon: CheckCircle2 },
+  "No-show": { tone: "warning", icon: AlertTriangle },
   Cancelled: { tone: "neutral", icon: XCircle },
 };
 export function StatusPill({ status, className }: { status: string; className?: string }) {
-  const s = statusMap[status] ?? { tone: "neutral" as DotTone, icon: CircleDot };
+  const s = statusMap[status] ?? { tone: "neutral" as Tone, icon: CircleDot };
   return (
-    <StatusDot tone={s.tone} className={cn(status === "With doctor" && "bg-slate-900 text-on-accent ring-slate-900", className)}>
+    <Badge tone={s.tone} icon={s.icon} className={className}>
       {status}
-    </StatusDot>
+    </Badge>
   );
 }
 
@@ -267,8 +248,8 @@ export function EmptyState({
 }) {
   return (
     <div className={cn("flex flex-col items-center justify-center px-6 py-14 text-center", className)}>
-      <span className="relative mb-5 inline-flex size-14 items-center justify-center rounded-lg bg-surface shadow-sm ring-1 ring-slate-200">
-        <Icon className="size-6 text-slate-700" strokeWidth={1.5} />
+      <span className="relative mb-5 inline-flex size-14 items-center justify-center rounded-2xl bg-surface shadow-sm ring-1 ring-slate-200">
+        <Icon className="size-6 text-teal-700" strokeWidth={1.75} />
       </span>
       <p className="text-h3 font-semibold tracking-tight">{title}</p>
       {body && <p className="mt-1 max-w-sm text-body text-slate-500">{body}</p>}
@@ -311,7 +292,7 @@ export function Field({
 }
 
 export const inputCls =
-  "h-10 w-full rounded border border-slate-200 bg-surface px-3 text-body text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus:border-teal-500 focus:outline-none focus:shadow-ring disabled:bg-slate-50 disabled:text-slate-400 aria-[invalid=true]:border-danger";
+  "h-10 w-full rounded border border-slate-200 bg-surface px-3 text-body text-slate-900 shadow-card placeholder:text-slate-400 hover:border-slate-300 focus:border-teal-500 focus:outline-none focus:shadow-ring disabled:bg-slate-50 disabled:text-slate-400 aria-[invalid=true]:border-danger";
 
 export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   ({ className, ...p }, ref) => <input ref={ref} className={cn(inputCls, className)} {...p} />

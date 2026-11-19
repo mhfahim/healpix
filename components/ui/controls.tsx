@@ -16,13 +16,13 @@ import { inputCls } from "./primitives";
 /* Tabs ----------------------------------------------------------------- */
 export const Tabs = TabsPrimitive.Root;
 export function TabsList({ className, ...p }: React.ComponentProps<typeof TabsPrimitive.List>) {
-  return <TabsPrimitive.List className={cn("inline-flex w-fit items-center gap-1 rounded-full bg-surface p-1 shadow-card ring-1 ring-slate-200/60", className)} {...p} />;
+  return <TabsPrimitive.List className={cn("flex items-center gap-1 border-b border-slate-200", className)} {...p} />;
 }
 export function TabsTrigger({ className, ...p }: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        "inline-flex h-9 items-center gap-2 whitespace-nowrap rounded-full px-4 text-body text-slate-600 transition-colors hover:text-slate-900 data-[state=active]:bg-slate-900 data-[state=active]:text-on-accent [&_svg]:size-4",
+        "-mb-px inline-flex h-11 items-center gap-2 border-b-2 border-transparent px-3 text-body font-medium text-slate-500 transition-colors hover:text-slate-900 data-[state=active]:border-teal-700 data-[state=active]:text-slate-900 [&_svg]:size-4",
         className
       )}
       {...p}
@@ -61,7 +61,7 @@ export function Segmented<T extends string>({
             size === "sm" && "h-7 px-2.5 text-small",
             size === "md" && "h-8 px-3 text-body",
             size === "lg" && "h-11 px-4 text-base",
-            value === o.value && "bg-slate-900 text-on-accent"
+            value === o.value && "bg-surface text-slate-900 shadow-card ring-1 ring-slate-200/60"
           )}
         >
           {o.label}
@@ -97,8 +97,8 @@ export function Chip({
         "inline-flex shrink-0 items-center gap-1.5 rounded-full border font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:size-4",
         size === "md" ? "h-8 px-3 text-small" : "min-h-11 px-4 text-base",
         selected
-          ? "border-slate-900 bg-slate-900 text-on-accent"
-          : "border-slate-200 bg-surface text-slate-700 hover:border-slate-300 hover:bg-slate-50",
+          ? "border-teal-700 bg-teal-700 text-on-accent"
+          : "border-slate-200 bg-surface text-slate-700 shadow-card hover:border-slate-300 hover:bg-slate-50",
         className
       )}
     >
@@ -113,7 +113,7 @@ export function Switch({ className, ...p }: React.ComponentProps<typeof SwitchPr
   return (
     <SwitchPrimitive.Root
       className={cn(
-        "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full bg-slate-300 transition-colors data-[state=checked]:bg-slate-900",
+        "relative inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full bg-slate-300 transition-colors data-[state=checked]:bg-teal-700",
         className
       )}
       {...p}
@@ -128,7 +128,7 @@ export function Checkbox({ className, ...p }: React.ComponentProps<typeof Checkb
   return (
     <CheckboxPrimitive.Root
       className={cn(
-        "inline-flex size-5 shrink-0 items-center justify-center rounded-sm border border-slate-300 bg-surface data-[state=checked]:border-slate-900 data-[state=checked]:bg-slate-900",
+        "inline-flex size-5 shrink-0 items-center justify-center rounded-sm border border-slate-300 bg-surface data-[state=checked]:border-teal-700 data-[state=checked]:bg-teal-700",
         className
       )}
       {...p}
@@ -409,7 +409,7 @@ export function DatePicker({
                   }}
                   className={cn(
                     "tnum h-8 rounded text-small text-slate-900 hover:bg-teal-50",
-                    same(d) && "bg-slate-900 font-medium text-on-accent hover:bg-slate-900"
+                    same(d) && "bg-teal-700 font-medium text-on-accent hover:bg-teal-700"
                   )}
                 >
                   {d}

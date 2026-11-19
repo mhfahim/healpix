@@ -63,21 +63,21 @@ export function AppShell({
           title={collapsed ? it.label : undefined}
           aria-current={active ? "page" : undefined}
           className={cn(
-            "group relative flex h-10 items-center gap-3 rounded px-3 text-body transition-colors",
-            active ? "bg-slate-900 font-medium text-on-accent" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+            "group relative flex h-10 items-center gap-3 rounded-[10px] px-3 text-body transition-colors",
+            active ? "bg-teal-50 font-medium text-teal-800" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
             collapsed && "justify-center px-0"
           )}
         >
-          <Icon className={cn("size-[18px] shrink-0", active ? "text-on-accent" : "text-slate-400 group-hover:text-slate-600")} strokeWidth={1.75} />
+          <Icon className={cn("size-[18px] shrink-0", active ? "text-teal-700" : "text-slate-400 group-hover:text-slate-600")} strokeWidth={1.75} />
           {!collapsed && <span className="flex-1 truncate">{it.label}</span>}
           {it.badge &&
             (collapsed ? (
-              <span className="absolute right-2 top-2 size-1.5 rounded-full bg-[rgb(var(--g-orange))]" />
+              <span className="absolute right-2 top-2 size-1.5 rounded-full bg-teal-600" />
             ) : (
               <span
                 className={cn(
                   "tnum inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-caption font-semibold",
-                  active ? "bg-on-accent/20 text-on-accent" : "bg-slate-100 text-slate-700"
+                  active ? "bg-teal-700 text-on-accent" : "bg-slate-100 text-slate-700"
                 )}
               >
                 {it.badge}
@@ -132,7 +132,7 @@ export function AppShell({
             {collapsed ? <LogoMark size={30} /> : <Logo />}
           </Link>
           {!collapsed && (
-            <button onClick={() => setCollapsed(true)} className="rounded-sm p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700" aria-label="Collapse sidebar">
+            <button onClick={() => setCollapsed(true)} className="rounded-[8px] p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700" aria-label="Collapse sidebar">
               <PanelLeftClose className="size-[18px]" strokeWidth={1.75} />
             </button>
           )}
@@ -141,10 +141,10 @@ export function AppShell({
         {/* Hospital switcher */}
         <div className={cn(collapsed ? "px-3 pb-2" : "px-4 pb-2")}>
           <button
-            className={cn("flex w-full items-center gap-2.5 rounded-lg text-left transition-colors hover:bg-slate-50", collapsed ? "justify-center p-1" : "border border-slate-200 p-2 shadow-card")}
+            className={cn("flex w-full items-center gap-2.5 rounded-[12px] text-left transition-colors hover:bg-slate-50", collapsed ? "justify-center p-1" : "border border-slate-200 p-2 shadow-card")}
             aria-label="Switch hospital"
           >
-            <span className="inline-flex size-8 shrink-0 items-center justify-center rounded bg-slate-900 text-caption font-semibold text-on-accent">MS</span>
+            <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-[9px] bg-slate-900 text-caption font-semibold text-on-accent">MS</span>
             {!collapsed && (
               <>
                 <span className="min-w-0 flex-1">
@@ -175,12 +175,12 @@ export function AppShell({
           {collapsed ? (
             <div className="flex flex-col items-center gap-1">
               <ThemeToggle />
-              <button onClick={() => setCollapsed(false)} className="rounded-sm p-2 text-slate-400 hover:bg-slate-100" aria-label="Expand sidebar">
+              <button onClick={() => setCollapsed(false)} className="rounded-[8px] p-2 text-slate-400 hover:bg-slate-100" aria-label="Expand sidebar">
                 <PanelLeftOpen className="size-[18px]" strokeWidth={1.75} />
               </button>
             </div>
           ) : (
-            <label className="flex h-10 cursor-pointer items-center gap-3 rounded px-3 text-body text-slate-600 hover:bg-slate-100">
+            <label className="flex h-10 cursor-pointer items-center gap-3 rounded-[10px] px-3 text-body text-slate-600 hover:bg-slate-100">
               <Moon className="size-[18px] text-slate-400" strokeWidth={1.75} />
               <span className="flex-1">Dark mode</span>
               <Switch checked={dark} onCheckedChange={(v) => setPref(v ? "dark" : "light")} aria-label="Dark mode" />
@@ -191,7 +191,7 @@ export function AppShell({
           <div className="relative mt-2">
             <button
               onClick={() => setUserMenu((o) => !o)}
-              className={cn("flex w-full items-center gap-2.5 rounded-lg text-left hover:bg-slate-50", collapsed ? "justify-center p-1" : "border border-slate-200 p-2 shadow-card")}
+              className={cn("flex w-full items-center gap-2.5 rounded-[12px] text-left hover:bg-slate-50", collapsed ? "justify-center p-1" : "border border-slate-200 p-2 shadow-card")}
               aria-haspopup="menu"
               aria-expanded={userMenu}
             >
@@ -207,11 +207,11 @@ export function AppShell({
               )}
             </button>
             {userMenu && (
-              <div role="menu" className="absolute bottom-full left-0 z-40 mb-2 w-56 animate-pop-in rounded-lg border border-slate-200 bg-surface-raised p-1 shadow-sm">
-                <Link role="menuitem" href="/o/role" className="flex items-center gap-2 rounded-sm px-2.5 py-2 text-body hover:bg-slate-100">
+              <div role="menu" className="absolute bottom-full left-0 z-40 mb-2 w-56 animate-pop-in rounded-[12px] border border-slate-200 bg-surface-raised p-1 shadow-sm">
+                <Link role="menuitem" href="/o/role" className="flex items-center gap-2 rounded-[8px] px-2.5 py-2 text-body hover:bg-slate-100">
                   <Repeat className="size-4 text-slate-400" /> Switch role
                 </Link>
-                <Link role="menuitem" href="/o/login" className="flex items-center gap-2 rounded-sm px-2.5 py-2 text-body hover:bg-slate-100">
+                <Link role="menuitem" href="/o/login" className="flex items-center gap-2 rounded-[8px] px-2.5 py-2 text-body hover:bg-slate-100">
                   <LogOut className="size-4 text-slate-400" /> Sign out
                 </Link>
               </div>
@@ -227,7 +227,7 @@ export function AppShell({
             <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
             <input
               placeholder={surface === "management" ? "Search tests, departments, reports" : "Search patient, phone or ID"}
-              className="h-10 w-full rounded-full border border-transparent bg-surface pl-10 pr-14 shadow-card ring-1 ring-slate-200/60 text-body placeholder:text-slate-400 focus:border-teal-500 focus:bg-surface focus:shadow-ring focus:outline-none"
+              className="h-10 w-full rounded-full border border-slate-200 bg-slate-50 pl-10 pr-14 text-body placeholder:text-slate-400 focus:border-teal-500 focus:bg-surface focus:shadow-ring focus:outline-none"
               aria-label="Search"
             />
             <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded-[6px] border border-slate-200 bg-surface px-1.5 text-caption text-slate-400">⌘K</span>
@@ -235,9 +235,9 @@ export function AppShell({
           <div className="flex-1" />
           {offline && <OfflineBadge />}
           <ThemeToggle />
-          <button className="relative inline-flex size-10 items-center justify-center rounded-full bg-surface text-slate-700 shadow-card ring-1 ring-slate-200/60 hover:text-slate-900" aria-label="Notifications, 3 unread">
+          <button className="relative inline-flex size-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900" aria-label="Notifications, 3 unread">
             <Bell className="size-[18px]" strokeWidth={1.75} />
-            <span className="absolute right-2.5 top-2.5 size-2 rounded-full border-2 border-surface bg-[rgb(var(--g-red))]" />
+            <span className="absolute right-2 top-2 size-2 rounded-full border-2 border-surface bg-danger" />
           </button>
         </header>
         {fullBleed ? (

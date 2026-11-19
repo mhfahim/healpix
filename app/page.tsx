@@ -17,7 +17,7 @@ export default function Index() {
       <main className="mx-auto max-w-content px-6 py-10">
         <div className="max-w-3xl">
           <p className="text-small font-medium text-teal-700">Helpix product prototype</p>
-          <h1 className="mt-1 text-display font-normal tracking-tight">We show hospitals the revenue walking out their door, and bring it back.</h1>
+          <h1 className="mt-1 text-display font-semibold tracking-tight">We show hospitals the revenue walking out their door, and bring it back.</h1>
           <p className="mt-3 text-h3 font-normal text-slate-500">
             Every screen from the brief, wired into the nine clickable flows. Use the floating bar at the bottom-left of any screen to return here or switch
             between default, loading, empty, error and offline states (M1, D1, D5, F1).

@@ -148,7 +148,7 @@ export function TodayView({ state }: { state: ViewState }) {
                   <p className="flex items-center gap-2 text-small font-medium text-slate-600">
                     <IconChip icon={k.icon} tone={k.tone} size="sm" /> {k.label}
                   </p>
-                  <p className="tnum mt-3 text-kpi font-normal">{k.value}</p>
+                  <p className="tnum mt-3 text-kpi font-semibold">{k.value}</p>
                 </>
               )}
             </Card>
@@ -157,7 +157,7 @@ export function TodayView({ state }: { state: ViewState }) {
             <p className="flex items-center gap-1.5 text-small font-medium text-teal-800">
               <Inbox className="size-4" /> Remote reviews waiting
             </p>
-            <p className="tnum mt-1 text-kpi font-normal text-teal-900">{empty ? 0 : 8}</p>
+            <p className="tnum mt-1 text-kpi font-semibold text-teal-900">{empty ? 0 : 8}</p>
             <p className="text-small text-slate-700">3 with abnormal values · oldest from yesterday 8:30 PM</p>
             <Link href="/d/reviews" className="mt-3 inline-flex items-center gap-1 text-body font-medium text-teal-800 hover:underline">
               Review now <ArrowRight className="size-4" />

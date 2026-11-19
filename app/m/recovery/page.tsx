@@ -3,7 +3,7 @@ import { FlaskConical as KFlaskConical, Rocket as KRocket, Users as KUsers, Wall
 import * as React from "react";
 import { BellRing, Home, Package, Plus, MessageCircle, MessageSquare, Users, ArrowUpRight, Clock, MoreHorizontal, CircleDot, PauseCircle, TrendingUp } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
-import { Card, Badge, Field, Select, SectionLabel, IconChip, StatusDot } from "@/components/ui/primitives";
+import { Card, Badge, Field, Select, SectionLabel, IconChip } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { Chip, Segmented, Sheet, Switch } from "@/components/ui/controls";
 import { KpiCard, TickMeter } from "@/components/ui/data";
@@ -47,13 +47,15 @@ export default function Recovery({ searchParams }: { searchParams: { create?: st
               <div className="flex items-start gap-3">
                 <IconChip icon={Icon} tone={a.on ? tone : "slate"} />
                 <p className="min-w-0 flex-1 text-h3 font-semibold leading-snug tracking-tight">{a.title}</p>
-                <button className="rounded-sm p-1 text-slate-400 hover:bg-slate-100" aria-label="More">
+                <button className="rounded-[8px] p-1 text-slate-400 hover:bg-slate-100" aria-label="More">
                   <MoreHorizontal className="size-4" />
                 </button>
               </div>
               <div className="mt-5 flex items-center justify-between gap-3">
-                <p className="tnum text-display font-normal text-slate-900">{a.recovered ? bdt(a.recovered) : <span className="text-slate-300">৳ 0</span>}</p>
-                <StatusDot tone={a.on ? "green" : "neutral"}>{a.on ? "Running" : "Paused"}</StatusDot>
+                <p className="tnum text-display font-semibold text-slate-900">{a.recovered ? bdt(a.recovered) : <span className="text-slate-300">৳ 0</span>}</p>
+                <Badge tone={a.on ? "success" : "neutral"} icon={a.on ? CircleDot : PauseCircle}>
+                  {a.on ? "Running" : "Paused"}
+                </Badge>
               </div>
               <p className="mt-2 text-body text-slate-500">{a.detail}</p>
               <div className="mt-5 flex items-center justify-between gap-4">

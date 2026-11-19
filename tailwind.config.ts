@@ -48,9 +48,6 @@ const config: Config = {
         grid: v("chart-grid"),
       },
       brand: { deep: "#0B3B38" },
-      // Dark feature cards inside the light UI (heatmaps, AI insights, gauges)
-      hero: v("hero"),
-      grad: { green: v("g-green"), lime: v("g-lime"), yellow: v("g-yellow"), orange: v("g-orange"), red: v("g-red") },
       whatsapp: { bg: v("wa-bg"), bubble: v("wa-bubble"), header: v("wa-header") },
     },
     fontFamily: {
@@ -70,22 +67,22 @@ const config: Config = {
       h1: ["24px", { lineHeight: "32px" }],
       title: ["28px", { lineHeight: "34px", letterSpacing: "-0.02em" }], // page titles
       display: ["30px", { lineHeight: "36px", letterSpacing: "-0.02em" }],
-      kpi: ["34px", { lineHeight: "40px", letterSpacing: "-0.035em" }],
+      kpi: ["32px", { lineHeight: "40px", letterSpacing: "-0.03em" }],
       hero: ["48px", { lineHeight: "56px", letterSpacing: "-0.03em" }], // patient serial number only
     },
     borderRadius: {
       none: "0",
       sm: "6px",
-      DEFAULT: "8px", // buttons, inputs
-      md: "8px",
-      lg: "12px", // cards
-      xl: "16px", // hero cards, dialogs, sheets
-      "2xl": "28px", // phone frame only
+      DEFAULT: "10px", // buttons, inputs
+      md: "10px",
+      lg: "16px", // cards
+      xl: "20px", // dialogs, sheets
+      "2xl": "28px", // device frames
       full: "9999px",
     },
     boxShadow: {
       none: "none",
-      card: "0 1px 2px 0 rgb(var(--shadow) / 0.03), 0 4px 16px -4px rgb(var(--shadow) / 0.06)",
+      card: "0 1px 2px 0 rgb(var(--shadow) / 0.04), 0 1px 3px 0 rgb(var(--shadow) / 0.03)",
       sm: "0 1px 2px 0 rgb(var(--shadow) / 0.06), 0 8px 24px -6px rgb(var(--shadow) / 0.14)",
       ring: "0 0 0 4px rgb(var(--teal-500) / 0.15)",
     },

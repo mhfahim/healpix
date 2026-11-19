@@ -15,12 +15,12 @@ export default function DoctorSettings({ searchParams }: { searchParams: { tab?:
   return (
     <AppShell surface="doctor" title="Settings" subtitle={doc.name}>
       <Tabs defaultValue={initial} orientation="vertical" className="grid grid-cols-[220px_1fr] gap-6">
-        <TabsList className="h-fit w-full flex-col items-stretch gap-0.5 rounded-lg p-1.5">
+        <TabsList className="h-fit flex-col items-stretch gap-0.5 border-0">
           {tabs.map((t) => (
             <TabsTrigger
               key={t}
               value={t}
-              className="h-9 justify-start rounded px-3"
+              className="mb-0 h-9 justify-start rounded border-b-0 px-3 data-[state=active]:bg-teal-50"
             >
               {t}
             </TabsTrigger>

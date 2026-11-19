@@ -66,11 +66,11 @@ export default function Tracker() {
               <div className="mt-4 grid grid-cols-2 gap-3 text-center">
                 <div className="rounded-lg bg-slate-50 p-3">
                   <p className="text-small text-slate-500">{t("ডাক্তার এখন দেখছেন", "Doctor is on serial")}</p>
-                  <p className="tnum text-display font-normal">{n(current)}</p>
+                  <p className="tnum text-display font-semibold">{n(current)}</p>
                 </div>
                 <div className="rounded-lg bg-teal-700 p-3 text-on-accent">
                   <p className="text-small text-teal-100">{t("আপনার সিরিয়াল", "You are serial")}</p>
-                  <p className="tnum text-display font-normal">{n(serial)}</p>
+                  <p className="tnum text-display font-semibold">{n(serial)}</p>
                 </div>
               </div>
               <div className="mt-5">

@@ -26,4 +26,4 @@ export const tokens = {
 } as const;
 
 /** Categorical order for leak reasons and other multi-series charts */
-export const categorical = [c("g-orange"), c("g-yellow"), c("g-lime"), c("chart-captured"), c("sky"), c("chart-pending")];
+export const categorical = [c("chart-leaked"), c("chart-secondary"), c("chart-captured"), c("sky"), c("rose"), c("chart-pending")];
