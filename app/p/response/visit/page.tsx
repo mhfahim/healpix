@@ -24,7 +24,7 @@ export default function ResponseVisit() {
           <Stethoscope className="mb-1 size-4 text-teal-700" />
           রিপোর্ট নিয়ে সরাসরি কথা বলা দরকার। অনুগ্রহ করে চেম্বারে আসুন।
         </div>
-        <div className="rounded-xl border border-teal-200 bg-white p-4">
+        <div className="rounded-xl border border-teal-200 bg-surface p-4">
           <p className="text-small text-slate-500">{t("আপনার জন্য রাখা সিরিয়াল", "Serial held for you")}</p>
           <p className="mt-1 text-h2 font-semibold">
             {t(`রবিবার, ২২ নভেম্বর · সিরিয়াল ${n(27)}`, "Sunday, 22 Nov · Serial 27")}

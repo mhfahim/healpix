@@ -6,7 +6,7 @@ import { Segmented, Checkbox } from "@/components/ui/controls";
 import { cn } from "@/lib/utils";
 
 const fieldCls =
-  "h-12 w-full rounded border border-slate-200 bg-white px-4 text-base placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20";
+  "h-12 w-full rounded border border-slate-200 bg-surface px-4 text-base placeholder:text-slate-400 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20";
 
 export default function Details({ searchParams }: { searchParams: { from?: string } }) {
   const { t, ts, n } = useLang();
@@ -90,7 +90,7 @@ export default function Details({ searchParams }: { searchParams: { from?: strin
           <button
             type="button"
             onClick={() => setRec(rec === "rec" ? "done" : "rec")}
-            className={cn("mt-2 flex h-12 w-full items-center justify-center gap-2 rounded border text-base font-medium", rec === "rec" ? "border-danger bg-danger-bg text-danger-fg" : "border-slate-200 bg-white")}
+            className={cn("mt-2 flex h-12 w-full items-center justify-center gap-2 rounded border text-base font-medium", rec === "rec" ? "border-danger bg-danger-bg text-danger-fg" : "border-slate-200 bg-surface")}
           >
             {rec === "rec" ? (
               <>
@@ -104,7 +104,7 @@ export default function Details({ searchParams }: { searchParams: { from?: strin
           </button>
         </div>
 
-        <div className="rounded-lg border border-slate-200 bg-white p-4">
+        <div className="rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-4">
           <p className="flex items-center gap-2 font-semibold">
             <ShieldCheck className="size-5 text-teal-700" /> {t("আপনার তথ্যের সুরক্ষা", "Your records")}
           </p>

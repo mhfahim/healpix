@@ -11,7 +11,7 @@ export default function TestsConfirmed() {
     t("এই বুকিং আইডি সাথে রাখুন", "Keep this booking ID with you"),
   ];
   return (
-    <PatientFrame bg="bg-white" bottom={<PButton href="/p/report-status">{t("রিপোর্টের অবস্থা দেখুন", "Track report status")}</PButton>}>
+    <PatientFrame bg="bg-surface" bottom={<PButton href="/p/report-status">{t("রিপোর্টের অবস্থা দেখুন", "Track report status")}</PButton>}>
       <div className="flex justify-end px-4 pt-3">
         <LangToggle />
       </div>
@@ -24,7 +24,7 @@ export default function TestsConfirmed() {
           <p className="mt-1 text-slate-500">{t("বুকিং আইডি", "Booking ID")}</p>
           <p className="tnum text-h2 font-semibold tracking-wider">LB-{n("26-118204")}</p>
         </div>
-        <dl className="mt-6 space-y-3 rounded-xl border border-slate-200 p-4">
+        <dl className="mt-6 space-y-3 rounded-xl bg-surface shadow-card ring-1 ring-slate-200/70 p-4">
           <div className="flex gap-3">
             <Clock className="mt-0.5 size-5 shrink-0 text-teal-700" />
             <div>

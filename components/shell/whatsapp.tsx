@@ -13,7 +13,7 @@ export function WhatsAppFrame({ children }: { children: React.ReactNode }) {
         <div className="relative mx-auto flex min-h-screen w-full max-w-[390px] flex-col overflow-hidden bg-whatsapp-bg sm:h-[844px] sm:min-h-0 sm:rounded-xl sm:border sm:border-slate-200 sm:shadow-sm">
           <header className="flex h-16 shrink-0 items-center gap-2 bg-whatsapp-header px-2 text-white">
             <ArrowLeft className="size-5" />
-            <span className="inline-flex size-9 items-center justify-center rounded-full bg-white text-caption font-semibold text-slate-900">MS</span>
+            <span className="inline-flex size-9 items-center justify-center rounded-full bg-surface text-caption font-semibold text-slate-900">MS</span>
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-1 truncate text-body font-semibold">
                 Meridian Hospital <BadgeCheck className="size-4 text-teal-200" />
@@ -26,12 +26,12 @@ export function WhatsAppFrame({ children }: { children: React.ReactNode }) {
           </header>
           <div className="flex-1 space-y-2 overflow-y-auto px-3 py-4">{children}</div>
           <div className="flex shrink-0 items-center gap-2 px-2 pb-4 pt-2">
-            <div className="flex h-11 flex-1 items-center gap-3 rounded-full bg-white px-4 text-slate-400">
+            <div className="flex h-11 flex-1 items-center gap-3 rounded-full bg-surface px-4 text-slate-400">
               <Smile className="size-5" />
               <span className="flex-1 text-body">Message</span>
               <Paperclip className="size-5" />
             </div>
-            <span className="inline-flex size-11 items-center justify-center rounded-full bg-teal-700 text-white">
+            <span className="inline-flex size-11 items-center justify-center rounded-full bg-teal-700 text-on-accent">
               <Mic className="size-5" />
             </span>
           </div>
@@ -44,7 +44,7 @@ export function WhatsAppFrame({ children }: { children: React.ReactNode }) {
 export function DayDivider({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex justify-center py-1">
-      <span className="rounded bg-white/90 px-3 py-1 text-caption text-slate-500 shadow-sm">{children}</span>
+      <span className="rounded bg-surface/90 px-3 py-1 text-caption text-slate-500 shadow-sm">{children}</span>
     </div>
   );
 }
@@ -68,7 +68,7 @@ export function Bubble({
         <div
           className={cn(
             "rounded-lg px-3 pb-1.5 pt-2 text-body text-slate-900 shadow-[0_1px_0.5px_rgba(15,23,42,0.13)]",
-            from === "me" ? "rounded-tr-sm bg-whatsapp-bubble" : "rounded-tl-sm bg-white",
+            from === "me" ? "rounded-tr-sm bg-whatsapp-bubble" : "rounded-tl-sm bg-surface",
             className
           )}
         >
@@ -87,7 +87,7 @@ export function Bubble({
 export function WaButton({ children, href, icon }: { children: React.ReactNode; href?: string; icon?: "list" | "link" }) {
   const { href: h } = useLang();
   const cls =
-    "flex h-10 items-center justify-center gap-2 rounded-lg bg-white text-body font-medium text-info-fg shadow-[0_1px_0.5px_rgba(15,23,42,0.13)] hover:bg-slate-50";
+    "flex h-10 items-center justify-center gap-2 rounded-lg bg-surface text-body font-medium text-info-fg shadow-[0_1px_0.5px_rgba(15,23,42,0.13)] hover:bg-slate-50";
   const inner = (
     <>
       {icon === "list" && <List className="size-4" />}
@@ -106,7 +106,7 @@ export function WaButton({ children, href, icon }: { children: React.ReactNode; 
 
 export function WaList({ title, items, selected }: { title: string; items: { label: string; sub?: string }[]; selected?: string }) {
   return (
-    <div className="overflow-hidden rounded-lg bg-white shadow-[0_1px_0.5px_rgba(15,23,42,0.13)]">
+    <div className="overflow-hidden rounded-lg bg-surface shadow-[0_1px_0.5px_rgba(15,23,42,0.13)]">
       <p className="border-b border-slate-100 px-4 py-2 text-caption font-medium text-slate-500">{title}</p>
       {items.map((i) => (
         <div key={i.label} className="flex items-center justify-between border-b border-slate-100 px-4 py-2.5 last:border-b-0">
@@ -124,7 +124,7 @@ export function WaList({ title, items, selected }: { title: string; items: { lab
 export function PdfAttachment({ name, meta }: { name: string; meta: string }) {
   return (
     <div className="mb-1 flex items-center gap-3 rounded bg-slate-100 p-2.5">
-      <span className="inline-flex size-10 items-center justify-center rounded bg-danger text-caption font-bold text-white">
+      <span className="inline-flex size-10 items-center justify-center rounded bg-danger text-caption font-bold text-on-accent">
         <FileText className="size-5" />
       </span>
       <div className="min-w-0">

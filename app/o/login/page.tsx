@@ -3,6 +3,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { Building2, ArrowRight, Loader2, ShieldCheck } from "lucide-react";
 import { Logo } from "@/components/shell/logo";
+import { ThemeToggle } from "@/components/shell/theme";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Divider } from "@/components/ui/primitives";
 import { Segmented } from "@/components/ui/controls";
@@ -27,7 +28,10 @@ export default function Login() {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="flex flex-col px-8 py-8 sm:px-16">
-        <Logo />
+        <div className="flex items-center justify-between">
+          <Logo />
+          <ThemeToggle />
+        </div>
         <div className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center py-12">
           <h1 className="text-h1 font-semibold">Sign in to Helpix</h1>
           <p className="mt-1 text-body text-slate-500">Meridian Specialized Hospital</p>
@@ -101,7 +105,7 @@ export default function Login() {
         <p className="text-caption text-slate-400">© 2026 Helpix · Privacy · Terms</p>
       </div>
 
-      <div className="relative hidden overflow-hidden bg-teal-900 lg:block">
+      <div className="relative hidden overflow-hidden bg-brand-deep lg:block">
         <svg className="absolute inset-0 h-full w-full" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice" aria-hidden>
           <circle cx="480" cy="160" r="260" fill={tokens.teal[800]} />
           <circle cx="120" cy="720" r="200" fill={tokens.teal[800]} />

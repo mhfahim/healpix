@@ -1,7 +1,8 @@
 "use client";
+import { CalendarCheck as KCalendarCheck, CalendarX2 as KCalendarX2, Timer as KTimer, UserPlus as KUserPlus } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
 import { Card, CardHeader, CardBody, Badge } from "@/components/ui/primitives";
-import { KpiCard, DataTable } from "@/components/ui/data";
+import { KpiCard, DataTable, DotMatrix } from "@/components/ui/data";
 import { TwoSeriesBars, Legendary } from "@/components/ui/charts";
 import { captureTrend, metrics } from "@/data/mock";
 import { tokens } from "@/lib/tokens";
@@ -21,21 +22,21 @@ export default function Capacity() {
   return (
     <AppShell surface="management" title="Capacity and follow-up" subtitle="Chamber time freed by remote report review · November 2026" management>
       <div className="grid gap-4 md:grid-cols-4">
-        <KpiCard label="Report-only visits avoided" value={num(metrics.reportVisitsAvoided)} delta="+13%" sub="vs. Oct" spark={metrics.spark.slotsFreed} />
-        <KpiCard label="Chamber slots freed" value={num(metrics.slotsFreed)} sub="≈ 190 chamber hours" spark={metrics.spark.slotsFreed} sparkColor={tokens.chart.secondary} />
-        <KpiCard label="Median remote review turnaround" value={`${metrics.medianTurnaroundH} h`} delta="-0.8 h" deltaTone="down-good" sub="report ready → doctor response" />
-        <KpiCard label="New patients seen in freed slots" value={num(metrics.newPatientsInFreedSlots)} sub="68% of freed slots re-used" />
+        <KpiCard icon={KCalendarX2} tone="teal" label="Report-only visits avoided" value={num(metrics.reportVisitsAvoided)} delta="+13%" sub="vs. Oct" spark={metrics.spark.slotsFreed} />
+        <KpiCard icon={KCalendarCheck} tone="iris" label="Chamber slots freed" value={num(metrics.slotsFreed)} sub="≈ 190 chamber hours" spark={metrics.spark.slotsFreed} sparkColor={tokens.chart.secondary} />
+        <KpiCard icon={KTimer} tone="sky" label="Median remote review turnaround" value={`${metrics.medianTurnaroundH} h`} delta="-0.8 h" deltaTone="down-good" sub="report ready → doctor response" />
+        <KpiCard icon={KUserPlus} tone="mint" label="New patients seen in freed slots" value={num(metrics.newPatientsInFreedSlots)} sub="68% of freed slots re-used" />
       </div>
 
       <div className="mt-6 grid grid-cols-12 gap-6">
-        <Card className="col-span-12 lg:col-span-8">
+        <Card className="col-span-12 lg:col-span-8 lg:row-span-2">
           <CardHeader
             title="In-person follow-ups vs. remote reviews"
             description="Report follow-ups per month"
             action={
               <Legendary
                 items={[
-                  { label: "In-person report visits", color: tokens.chart.pending },
+                  { label: "In-person report visits", color: tokens.slate[400], hatched: true },
                   { label: "Remote reviews", color: tokens.chart.captured },
                 ]}
               />
@@ -48,6 +49,12 @@ export default function Capacity() {
               b={{ key: "remote", name: "Remote reviews", color: tokens.chart.captured }}
               height={280}
             />
+          </CardBody>
+        </Card>
+        <Card className="col-span-12 lg:col-span-4">
+          <CardHeader title="Remote reviews by weekday" description="This month · each dot ≈ 120 reviews" />
+          <CardBody className="flex justify-center pb-6 pt-10">
+            <DotMatrix data={[640, 690, 520, 810, 700, 600, 0].slice(0, 6)} labels={["Sat", "Sun", "Mon", "Tue", "Wed", "Thu"]} rows={7} peakLabel="Peak: Tue" />
           </CardBody>
         </Card>
         <Card className="col-span-12 lg:col-span-4">

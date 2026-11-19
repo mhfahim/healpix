@@ -63,7 +63,7 @@ export default function Otp({ searchParams }: { searchParams: { from?: string } 
               maxLength={1}
               aria-label={`Digit ${i + 1}`}
               className={cn(
-                "tnum h-14 w-12 rounded border bg-white text-center text-h1 font-semibold focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20",
+                "tnum h-14 w-12 rounded border bg-surface text-center text-h1 font-semibold focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20",
                 d ? "border-teal-700" : "border-slate-300"
               )}
             />

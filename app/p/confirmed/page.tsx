@@ -10,7 +10,7 @@ export default function Confirmed({ searchParams }: { searchParams: { from?: str
     : { serial: 18, date: t("আজ, বৃহস্পতিবার ১৯ নভেম্বর", "Today, Thursday 19 Nov"), time: t("আনুমানিক সন্ধ্যা ৭:০০", "around 7:00 PM") };
   return (
     <PatientFrame
-      bg="bg-white"
+      bg="bg-surface"
       bottom={
         <div className="space-y-2">
           <PButton href="/p/tracker">
@@ -30,7 +30,7 @@ export default function Confirmed({ searchParams }: { searchParams: { from?: str
           <CheckCircle2 className="size-9 text-success" strokeWidth={1.75} />
         </span>
         <h1 className="mt-4 text-h1 font-semibold">{t("বুকিং নিশ্চিত হয়েছে", "Booking confirmed")}</h1>
-        <div className="mt-6 rounded-xl border border-slate-200 p-5">
+        <div className="mt-6 rounded-xl bg-surface shadow-card ring-1 ring-slate-200/70 p-5">
           <p className="text-body text-slate-500">{t("আপনার সিরিয়াল নম্বর", "Your serial number")}</p>
           <p className="tnum mt-1 text-hero font-semibold text-teal-800">{n(s.serial)}</p>
           <dl className="mt-4 space-y-3 border-t border-slate-100 pt-4 text-left">

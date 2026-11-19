@@ -37,7 +37,7 @@ export default function DoctorList({ searchParams }: { searchParams: { dept?: st
         {list.map((d) => {
           const available = d.nextSerial > 0 && !(when === "today" && d.id === "x1");
           return (
-            <li key={d.id} className="rounded-lg border border-slate-200 bg-white p-4">
+            <li key={d.id} className="rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-4">
               <div className="flex gap-3">
                 <Avatar initials={d.initials} size="lg" />
                 <div className="min-w-0 flex-1">
@@ -67,7 +67,7 @@ export default function DoctorList({ searchParams }: { searchParams: { dept?: st
                 </p>
                 <PLink
                   href={`/p/doctor/${d.id === "x1" || d.id === "x2" ? "farhana" : d.id}`}
-                  className="inline-flex h-11 items-center rounded bg-teal-700 px-5 text-base font-medium text-white hover:bg-teal-800"
+                  className="inline-flex h-11 items-center rounded bg-teal-700 px-5 text-base font-medium text-on-accent hover:bg-teal-800"
                 >
                   {t("সিরিয়াল নিন", "Book serial")}
                 </PLink>

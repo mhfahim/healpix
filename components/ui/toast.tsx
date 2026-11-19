@@ -31,7 +31,7 @@ export function Toast({ title, body, tone = "success", onClose, className }: Omi
     <div
       role="status"
       className={cn(
-        "pointer-events-auto flex animate-toast-in items-start gap-3 rounded-lg border border-slate-200 bg-slate-900 px-4 py-3 text-white shadow-sm",
+        "pointer-events-auto flex animate-toast-in items-start gap-3 rounded-lg border border-slate-200 bg-slate-900 px-4 py-3 text-on-accent shadow-sm",
         className
       )}
     >
@@ -41,7 +41,7 @@ export function Toast({ title, body, tone = "success", onClose, className }: Omi
         {body && <p className="text-small text-slate-300">{body}</p>}
       </div>
       {onClose && (
-        <button onClick={onClose} aria-label="Dismiss" className="rounded p-0.5 text-slate-400 hover:text-white">
+        <button onClick={onClose} aria-label="Dismiss" className="rounded p-0.5 text-slate-400 hover:text-on-accent">
           <X className="size-4" />
         </button>
       )}

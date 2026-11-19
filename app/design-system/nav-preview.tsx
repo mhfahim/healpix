@@ -8,7 +8,7 @@ export function NavPreview() {
     { label: "Patients", icon: Users },
   ];
   return (
-    <ul className="w-56 rounded-lg border border-slate-200 bg-white p-2">
+    <ul className="w-56 rounded-lg border border-slate-200 bg-surface p-2">
       {items.map((it) => (
         <li key={it.label}>
           <span
@@ -19,7 +19,7 @@ export function NavPreview() {
           >
             <it.icon className={cn("size-[18px]", it.active ? "text-teal-700" : "text-slate-500")} strokeWidth={1.5} />
             <span className="flex-1">{it.label}</span>
-            {it.badge && <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-teal-700 px-1.5 text-caption font-semibold text-white">{it.badge}</span>}
+            {it.badge && <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-teal-700 px-1.5 text-caption font-semibold text-on-accent">{it.badge}</span>}
           </span>
         </li>
       ))}

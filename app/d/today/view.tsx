@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowRight, BellRing, CalendarX2, CheckCircle2, Clock, HeartPulse, Inbox, MapPin, RefreshCw, UserRound, Users } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
-import { Card, CardHeader, Badge, Banner, Skeleton, EmptyState, StatusPill } from "@/components/ui/primitives";
+import { Card, CardHeader, Badge, Banner, Skeleton, EmptyState, StatusPill, IconChip, Avatar, initialsOf } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { queue, today } from "@/data/mock";
 import { cn } from "@/lib/utils";
@@ -103,7 +103,7 @@ export function TodayView({ state }: { state: ViewState }) {
                         )}
                         aria-current={isCurrent ? "true" : undefined}
                       >
-                        <span className={cn("tnum inline-flex size-9 items-center justify-center rounded-full text-body font-semibold", isCurrent ? "bg-teal-700 text-white" : "bg-slate-100 text-slate-700")}>
+                        <span className={cn("tnum inline-flex size-9 items-center justify-center rounded-full text-body font-semibold", isCurrent ? "bg-teal-700 text-on-accent" : "bg-slate-100 text-slate-700")}>
                           {r.serial}
                         </span>
                         <span className="min-w-0">
@@ -132,12 +132,12 @@ export function TodayView({ state }: { state: ViewState }) {
         {/* Summary */}
         <div className="col-span-12 grid grid-cols-2 content-start gap-4 lg:col-span-4">
           {[
-            { label: "Patients today", value: empty ? 0 : 32, icon: Users },
-            { label: "Seen", value: empty ? 0 : seen, icon: CheckCircle2 },
-            { label: "Remaining", value: empty ? 0 : 32 - seen - 1, icon: UserRound },
-            { label: "Running late", value: empty ? "—" : "15 min", icon: Clock },
+            { label: "Patients today", value: empty ? 0 : 32, icon: Users, tone: "sky" as const },
+            { label: "Seen", value: empty ? 0 : seen, icon: CheckCircle2, tone: "mint" as const },
+            { label: "Remaining", value: empty ? 0 : 32 - seen - 1, icon: UserRound, tone: "iris" as const },
+            { label: "Running late", value: empty ? "—" : "15 min", icon: Clock, tone: "peach" as const },
           ].map((k) => (
-            <Card key={k.label} className="p-4">
+            <Card key={k.label} className="p-5">
               {loading ? (
                 <>
                   <Skeleton className="h-3 w-20" />
@@ -145,10 +145,10 @@ export function TodayView({ state }: { state: ViewState }) {
                 </>
               ) : (
                 <>
-                  <p className="flex items-center gap-1.5 text-small font-medium text-slate-500">
-                    <k.icon className="size-4" strokeWidth={1.5} /> {k.label}
+                  <p className="flex items-center gap-2 text-small font-medium text-slate-600">
+                    <IconChip icon={k.icon} tone={k.tone} size="sm" /> {k.label}
                   </p>
-                  <p className="tnum mt-1 text-kpi font-semibold">{k.value}</p>
+                  <p className="tnum mt-3 text-kpi font-semibold">{k.value}</p>
                 </>
               )}
             </Card>

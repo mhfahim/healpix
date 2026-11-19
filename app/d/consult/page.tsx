@@ -144,7 +144,7 @@ export default function Consultation() {
               · {p.age} F · {p.id} · Serial 9
             </span>
           </span>
-          <Badge tone="danger" icon={ShieldAlert} className="border-danger bg-danger text-white">
+          <Badge tone="danger" icon={ShieldAlert} className="border-danger bg-danger text-on-accent">
             Penicillin allergy
           </Badge>
         </span>
@@ -155,9 +155,9 @@ export default function Consultation() {
         </Button>
       }
     >
-      <div className={cn("grid h-[calc(100vh-64px)]", leftOpen ? "grid-cols-[248px_minmax(0,1fr)_minmax(340px,400px)]" : "grid-cols-[44px_minmax(0,1fr)_minmax(340px,400px)]")}>
+      <div className={cn("grid h-[calc(100vh-128px)]", leftOpen ? "grid-cols-[248px_minmax(0,1fr)_minmax(340px,400px)]" : "grid-cols-[44px_minmax(0,1fr)_minmax(340px,400px)]")}>
         {/* LEFT: patient context */}
-        <aside className="overflow-y-auto border-r border-slate-200 bg-white">
+        <aside className="overflow-y-auto border-r border-slate-200 bg-surface">
           <div className={cn("flex items-center border-b border-slate-200 px-3 py-2", leftOpen ? "justify-between" : "justify-center")}>
             {leftOpen && <SectionLabel>Patient context</SectionLabel>}
             <button onClick={() => setLeftOpen((o) => !o)} className="rounded p-1 text-slate-500 hover:bg-slate-100" aria-label={leftOpen ? "Collapse patient context" : "Expand patient context"}>
@@ -339,7 +339,7 @@ export default function Consultation() {
         </section>
 
         {/* RIGHT: prescription builder */}
-        <aside className="flex min-h-0 flex-col border-l border-slate-200 bg-white">
+        <aside className="flex min-h-0 flex-col border-l border-slate-200 bg-surface">
           <div className="flex-1 space-y-6 overflow-y-auto px-5 py-5">
             <div>
               <div className="mb-2 flex items-center justify-between">
@@ -425,7 +425,7 @@ export default function Consultation() {
                 {testIds.map((id) => {
                   const t = testById(id);
                   return (
-                    <span key={id} className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white py-1 pl-2.5 pr-1 text-small font-medium">
+                    <span key={id} className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-surface py-1 pl-2.5 pr-1 text-small font-medium">
                       <CheckCircle2 className="size-3.5 text-success" aria-label="Available in-house" />
                       {t.name}
                       <button className="rounded-full p-0.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700" aria-label={`Remove ${t.name}`} onClick={() => setTestIds((s) => s.filter((x) => x !== id))}>

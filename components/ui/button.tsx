@@ -4,22 +4,22 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded font-medium tracking-[-0.005em] transition-all disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        primary: "bg-teal-700 text-white hover:bg-teal-800 active:bg-teal-900",
-        secondary: "border border-slate-200 bg-white text-slate-900 hover:bg-slate-50 active:bg-slate-100",
+        primary: "bg-teal-700 text-on-accent shadow-card hover:bg-teal-800",
+        secondary: "border border-slate-200 bg-surface text-slate-900 shadow-card hover:bg-slate-50",
         ghost: "text-slate-700 hover:bg-slate-100 hover:text-slate-900",
-        destructive: "bg-danger text-white hover:bg-danger-fg",
+        destructive: "bg-danger text-on-accent shadow-card hover:opacity-90",
         ai: "border border-ai/30 bg-ai-bg text-ai-fg hover:bg-ai/10",
         link: "h-auto px-0 text-teal-700 underline-offset-4 hover:underline",
       },
       size: {
         sm: "h-8 px-3 text-small",
-        md: "h-9 px-4 text-body",
+        md: "h-10 px-4 text-body",
         lg: "h-11 px-5 text-base [&_svg]:size-5",
-        icon: "h-9 w-9",
+        icon: "h-10 w-10",
         "icon-sm": "h-8 w-8",
       },
     },

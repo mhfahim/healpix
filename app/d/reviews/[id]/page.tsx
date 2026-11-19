@@ -75,7 +75,7 @@ export default function ReviewDetail({ params }: { params: { id: string } }) {
       subtitle={`${item.patient} · ${item.tests.join(", ")} · received ${item.received}`}
       fullBleed
     >
-      <div className="grid h-[calc(100vh-64px)] grid-cols-[minmax(0,1fr)_400px]">
+      <div className="grid h-[calc(100vh-128px)] grid-cols-[minmax(0,1fr)_400px]">
         {/* LEFT: viewer */}
         <section className="overflow-y-auto bg-slate-50 px-6 py-5">
           <div className="mb-4 flex items-center gap-3">
@@ -118,7 +118,7 @@ export default function ReviewDetail({ params }: { params: { id: string } }) {
                 <div className="h-[520px] overflow-auto bg-slate-700 p-6">
                   {/* Simulated photographed report */}
                   <div
-                    className="mx-auto w-[360px] origin-top -rotate-1 bg-white p-6 shadow-sm transition-transform"
+                    className="mx-auto w-[360px] origin-top -rotate-1 bg-surface p-6 shadow-sm transition-transform"
                     style={{ transform: `scale(${zoom}) rotate(-1.2deg)` }}
                   >
                     <p className="text-center text-body font-semibold text-slate-700">NORTHGATE DIAGNOSTICS</p>
@@ -226,7 +226,7 @@ export default function ReviewDetail({ params }: { params: { id: string } }) {
         </section>
 
         {/* RIGHT: summary + outcomes */}
-        <aside className="flex min-h-0 flex-col border-l border-slate-200 bg-white">
+        <aside className="flex min-h-0 flex-col border-l border-slate-200 bg-surface">
           <div className="flex-1 space-y-5 overflow-y-auto p-5">
             <AiDraftBlock title="Summary of findings" actions={false}>
               {outside ? (

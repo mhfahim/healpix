@@ -53,7 +53,7 @@ export default function Snapshot() {
           <div>
             <dt className="text-slate-500">Allergies</dt>
             <dd>
-              <Badge tone="danger" icon={ShieldAlert} className="bg-danger text-white border-danger">
+              <Badge tone="danger" icon={ShieldAlert} className="bg-danger text-on-accent border-danger">
                 Penicillin
               </Badge>
             </dd>

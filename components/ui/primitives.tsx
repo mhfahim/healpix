@@ -1,6 +1,6 @@
 /**
- * Small presentational primitives: Card, Badge, StatusPill, Avatar, Skeleton,
- * Banner, EmptyState, Field/Input/Select/Textarea, Kbd, Divider.
+ * Small presentational primitives: Card, Badge, StatusPill, Avatar, IconChip,
+ * Skeleton, Banner, EmptyState, Field/Input/Select/Textarea, Kbd, Divider.
  */
 import * as React from "react";
 import {
@@ -12,7 +12,6 @@ import {
   Stethoscope,
   UserCheck,
   XCircle,
-  Ban,
   AlertOctagon,
   type LucideIcon,
 } from "lucide-react";
@@ -20,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 /* Card ----------------------------------------------------------------- */
 export function Card({ className, ...p }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("rounded-lg border border-slate-200 bg-surface", className)} {...p} />;
+  return <div className={cn("rounded-lg border border-slate-200/80 bg-surface shadow-card", className)} {...p} />;
 }
 export function CardHeader({
   title,
@@ -28,21 +27,26 @@ export function CardHeader({
   action,
   className,
   icon: Icon,
+  tone,
 }: {
   title: React.ReactNode;
   description?: React.ReactNode;
   action?: React.ReactNode;
   className?: string;
   icon?: LucideIcon;
+  tone?: TintTone;
 }) {
   return (
-    <div className={cn("flex items-start justify-between gap-4 px-5 pt-4", className)}>
-      <div className="min-w-0">
-        <h3 className="flex items-center gap-2 text-h3 font-semibold text-slate-900">
-          {Icon && <Icon className="size-4 text-slate-500" strokeWidth={1.5} />}
-          {title}
-        </h3>
-        {description && <p className="mt-0.5 text-small text-slate-500">{description}</p>}
+    <div className={cn("flex items-start justify-between gap-4 px-5 pt-5", className)}>
+      <div className="flex min-w-0 items-start gap-3">
+        {Icon && tone && <IconChip icon={Icon} tone={tone} size="sm" />}
+        <div className="min-w-0">
+          <h3 className="flex items-center gap-2 text-h3 font-semibold tracking-tight text-slate-900">
+            {Icon && !tone && <Icon className="size-4 text-slate-400" strokeWidth={1.75} />}
+            {title}
+          </h3>
+          {description && <p className="mt-0.5 text-small text-slate-500">{description}</p>}
+        </div>
       </div>
       {action && <div className="flex shrink-0 items-center gap-2">{action}</div>}
     </div>
@@ -52,16 +56,46 @@ export function CardBody({ className, ...p }: React.HTMLAttributes<HTMLDivElemen
   return <div className={cn("px-5 py-4", className)} {...p} />;
 }
 
+/* Tints: subtle category color (icon chips, avatars, tags) -------------- */
+export type TintTone = "teal" | "sky" | "iris" | "peach" | "rose" | "mint" | "slate" | "warning" | "danger" | "success" | "info" | "ai";
+export const tint: Record<TintTone, string> = {
+  teal: "bg-teal-50 text-teal-700",
+  sky: "bg-sky-bg text-sky-fg",
+  iris: "bg-iris-bg text-iris-fg",
+  peach: "bg-peach-bg text-peach-fg",
+  rose: "bg-rose-bg text-rose-fg",
+  mint: "bg-mint-bg text-mint-fg",
+  slate: "bg-slate-100 text-slate-600",
+  warning: "bg-warning-bg text-warning-fg",
+  danger: "bg-danger-bg text-danger-fg",
+  success: "bg-success-bg text-success-fg",
+  info: "bg-info-bg text-info-fg",
+  ai: "bg-ai-bg text-ai-fg",
+};
+
+export function IconChip({ icon: Icon, tone = "teal", size = "md", className }: { icon: LucideIcon; tone?: TintTone; size?: "sm" | "md" | "lg"; className?: string }) {
+  const s = { sm: "size-8 rounded-[10px] [&_svg]:size-4", md: "size-10 rounded-xl [&_svg]:size-5", lg: "size-12 rounded-[14px] [&_svg]:size-6" }[size];
+  return (
+    <span className={cn("inline-flex shrink-0 items-center justify-center", s, tint[tone], className)} aria-hidden>
+      <Icon strokeWidth={1.75} />
+    </span>
+  );
+}
+
 /* Badge ---------------------------------------------------------------- */
 const badgeTones = {
-  neutral: "bg-slate-100 text-slate-700 border-slate-200",
-  teal: "bg-teal-50 text-teal-800 border-teal-200",
-  success: "bg-success-bg text-success-fg border-success/25",
-  warning: "bg-warning-bg text-warning-fg border-warning/25",
-  danger: "bg-danger-bg text-danger-fg border-danger/25",
-  info: "bg-info-bg text-info-fg border-info/25",
-  ai: "bg-ai-bg text-ai-fg border-ai/25",
-  outline: "bg-white text-slate-700 border-slate-200",
+  neutral: "bg-slate-100 text-slate-700",
+  teal: "bg-teal-50 text-teal-800",
+  success: "bg-success-bg text-success-fg",
+  warning: "bg-warning-bg text-warning-fg",
+  danger: "bg-danger-bg text-danger-fg",
+  info: "bg-info-bg text-info-fg",
+  ai: "bg-ai-bg text-ai-fg",
+  sky: "bg-sky-bg text-sky-fg",
+  iris: "bg-iris-bg text-iris-fg",
+  peach: "bg-peach-bg text-peach-fg",
+  rose: "bg-rose-bg text-rose-fg",
+  outline: "bg-surface text-slate-700 ring-1 ring-inset ring-slate-200",
 } as const;
 export type Tone = keyof typeof badgeTones;
 
@@ -81,13 +115,13 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 whitespace-nowrap rounded-full border font-medium",
-        size === "sm" ? "px-1.5 py-px text-caption" : "px-2 py-0.5 text-caption",
+        "inline-flex items-center gap-1 whitespace-nowrap rounded-full font-medium",
+        size === "sm" ? "px-1.5 py-px text-caption" : "px-2.5 py-0.5 text-caption",
         badgeTones[tone],
         className
       )}
     >
-      {Icon && <Icon className="size-3" strokeWidth={2} aria-hidden />}
+      {Icon && <Icon className="size-3" strokeWidth={2.25} aria-hidden />}
       {children}
     </span>
   );
@@ -97,31 +131,47 @@ export function Badge({
 const statusMap: Record<string, { tone: Tone; icon: LucideIcon }> = {
   Booked: { tone: "info", icon: Clock },
   Arrived: { tone: "teal", icon: UserCheck },
-  "With doctor": { tone: "ai", icon: Stethoscope },
+  "With doctor": { tone: "iris", icon: Stethoscope },
   Done: { tone: "success", icon: CheckCircle2 },
   "No-show": { tone: "warning", icon: AlertTriangle },
   Cancelled: { tone: "neutral", icon: XCircle },
 };
 export function StatusPill({ status, className }: { status: string; className?: string }) {
   const s = statusMap[status] ?? { tone: "neutral" as Tone, icon: CircleDot };
-  // "With doctor" uses teal-dark rather than AI violet — violet is reserved for AI content.
-  const tone = status === "With doctor" ? "teal" : s.tone;
   return (
-    <Badge tone={tone} icon={s.icon} className={cn(status === "With doctor" && "bg-teal-700 text-white border-teal-700", className)}>
+    <Badge tone={s.tone} icon={s.icon} className={className}>
       {status}
     </Badge>
   );
 }
 
-/* Avatar --------------------------------------------------------------- */
-export function Avatar({ initials, size = "md", className }: { initials: string; size?: "sm" | "md" | "lg" | "xl"; className?: string }) {
-  const s = { sm: "size-7 text-caption", md: "size-9 text-small", lg: "size-12 text-h3", xl: "size-16 text-h2" }[size];
+/* Avatar: initials on a soft tint picked from the name ------------------ */
+const avatarTints: TintTone[] = ["teal", "sky", "iris", "peach", "rose", "mint"];
+function hashTone(s: string): TintTone {
+  let h = 0;
+  for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return avatarTints[h % avatarTints.length];
+}
+export function Avatar({ initials, size = "md", className, tone }: { initials: string; size?: "xs" | "sm" | "md" | "lg" | "xl"; className?: string; tone?: TintTone }) {
+  const s = { xs: "size-6 text-[10px]", sm: "size-7 text-caption", md: "size-9 text-small", lg: "size-12 text-h3", xl: "size-16 text-h2" }[size];
   return (
-    <span
-      className={cn("inline-flex shrink-0 items-center justify-center rounded-full bg-teal-100 font-semibold text-teal-800", s, className)}
-      aria-hidden
-    >
+    <span className={cn("inline-flex shrink-0 items-center justify-center rounded-full font-semibold", s, tint[tone ?? hashTone(initials)], className)} aria-hidden>
       {initials}
+    </span>
+  );
+}
+
+export function AvatarStack({ names, max = 3, size = "xs" }: { names: string[]; max?: number; size?: "xs" | "sm" }) {
+  return (
+    <span className="flex -space-x-1.5">
+      {names.slice(0, max).map((n) => (
+        <Avatar key={n} initials={initialsOf(n)} size={size} className="ring-2 ring-surface" />
+      ))}
+      {names.length > max && (
+        <span className={cn("inline-flex items-center justify-center rounded-full bg-slate-100 font-medium text-slate-600 ring-2 ring-surface", size === "xs" ? "size-6 text-[10px]" : "size-7 text-caption")}>
+          +{names.length - max}
+        </span>
+      )}
     </span>
   );
 }
@@ -138,18 +188,18 @@ export function initialsOf(name: string) {
 /* Skeleton ------------------------------------------------------------- */
 export function Skeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("relative overflow-hidden rounded bg-slate-100", className)} aria-hidden>
-      <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+    <div className={cn("relative overflow-hidden rounded-md bg-slate-100", className)} aria-hidden>
+      <div className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-surface/70 to-transparent" />
     </div>
   );
 }
 
 /* Banner --------------------------------------------------------------- */
 const bannerTones = {
-  info: { cls: "bg-info-bg border-info/25 text-info-fg", icon: Info },
-  warning: { cls: "bg-warning-bg border-warning/30 text-warning-fg", icon: AlertTriangle },
-  danger: { cls: "bg-danger-bg border-danger/25 text-danger-fg", icon: AlertOctagon },
-  success: { cls: "bg-success-bg border-success/25 text-success-fg", icon: CheckCircle2 },
+  info: { cls: "bg-info-bg text-info-fg", icon: Info },
+  warning: { cls: "bg-warning-bg text-warning-fg", icon: AlertTriangle },
+  danger: { cls: "bg-danger-bg text-danger-fg", icon: AlertOctagon },
+  success: { cls: "bg-success-bg text-success-fg", icon: CheckCircle2 },
 };
 export function Banner({
   tone = "info",
@@ -169,8 +219,10 @@ export function Banner({
   const t = bannerTones[tone];
   const Icon = icon ?? t.icon;
   return (
-    <div role={tone === "danger" ? "alert" : "status"} className={cn("flex items-start gap-3 rounded-lg border px-4 py-3", t.cls, className)}>
-      <Icon className="mt-0.5 size-4 shrink-0" strokeWidth={2} aria-hidden />
+    <div role={tone === "danger" ? "alert" : "status"} className={cn("flex items-start gap-3 rounded-lg px-4 py-3", t.cls, className)}>
+      <span className="mt-px inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-surface/70">
+        <Icon className="size-3.5" strokeWidth={2.25} aria-hidden />
+      </span>
       <div className="min-w-0 flex-1 text-body">
         {title && <p className="font-medium">{title}</p>}
         {children && <div className={cn(title && "mt-0.5", "text-slate-700")}>{children}</div>}
@@ -195,11 +247,11 @@ export function EmptyState({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col items-center justify-center px-6 py-12 text-center", className)}>
-      <span className="mb-4 inline-flex size-12 items-center justify-center rounded-full bg-slate-100">
-        <Icon className="size-6 text-slate-500" strokeWidth={1.5} />
+    <div className={cn("flex flex-col items-center justify-center px-6 py-14 text-center", className)}>
+      <span className="relative mb-5 inline-flex size-14 items-center justify-center rounded-2xl bg-surface shadow-sm ring-1 ring-slate-200">
+        <Icon className="size-6 text-teal-700" strokeWidth={1.75} />
       </span>
-      <p className="text-h3 font-semibold">{title}</p>
+      <p className="text-h3 font-semibold tracking-tight">{title}</p>
       {body && <p className="mt-1 max-w-sm text-body text-slate-500">{body}</p>}
       {action && <div className="mt-5 flex gap-2">{action}</div>}
     </div>
@@ -240,7 +292,7 @@ export function Field({
 }
 
 export const inputCls =
-  "h-9 w-full rounded border border-slate-200 bg-white px-3 text-body text-slate-900 placeholder:text-slate-400 hover:border-slate-300 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20 disabled:bg-slate-50 disabled:text-slate-400 aria-[invalid=true]:border-danger aria-[invalid=true]:ring-danger/20";
+  "h-10 w-full rounded border border-slate-200 bg-surface px-3 text-body text-slate-900 shadow-card placeholder:text-slate-400 hover:border-slate-300 focus:border-teal-500 focus:outline-none focus:shadow-ring disabled:bg-slate-50 disabled:text-slate-400 aria-[invalid=true]:border-danger";
 
 export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
   ({ className, ...p }, ref) => <input ref={ref} className={cn(inputCls, className)} {...p} />
@@ -253,22 +305,20 @@ export function Textarea({ className, ...p }: React.TextareaHTMLAttributes<HTMLT
 
 export function Select({ className, children, ...p }: React.SelectHTMLAttributes<HTMLSelectElement>) {
   return (
-    <select
-      className={cn(
-        inputCls,
-        "appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%2364748B%22 stroke-width=%221.5%22><path d=%22m6 9 6 6 6-6%22/></svg>')] bg-[right_8px_center] bg-no-repeat pr-8",
-        className
-      )}
-      {...p}
-    >
-      {children}
-    </select>
+    <div className={cn("relative", className)}>
+      <select className={cn(inputCls, "appearance-none pr-9")} {...p}>
+        {children}
+      </select>
+      <svg className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </div>
   );
 }
 
 export function Kbd({ children }: { children: React.ReactNode }) {
   return (
-    <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-sm border border-slate-200 bg-slate-50 px-1 font-mono text-caption text-slate-500">
+    <kbd className="inline-flex h-5 min-w-5 items-center justify-center rounded-sm border border-slate-200 bg-slate-50 px-1 font-mono text-[11px] text-slate-500">
       {children}
     </kbd>
   );
@@ -279,5 +329,5 @@ export function Divider({ className }: { className?: string }) {
 }
 
 export function SectionLabel({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <p className={cn("text-caption font-medium uppercase tracking-wide text-slate-500", className)}>{children}</p>;
+  return <p className={cn("text-caption font-medium uppercase tracking-[0.06em] text-slate-400", className)}>{children}</p>;
 }

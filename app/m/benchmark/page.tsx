@@ -1,4 +1,5 @@
 "use client";
+import { Award as KAward, Building2 as KBuilding2, Target as KTarget, Users as KUsers } from "lucide-react";
 import { ShieldCheck, Lock, Building2 } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
 import { Card, CardHeader, CardBody, Banner, EmptyState } from "@/components/ui/primitives";
@@ -11,7 +12,7 @@ function Legend() {
   return (
     <div className="flex flex-wrap items-center gap-4 text-caption text-slate-500">
       <span className="flex items-center gap-1.5">
-        <span className="size-3 rounded-full border-2 border-white bg-chart-captured ring-1 ring-teal-700" /> Your hospital
+        <span className="size-3 rounded-full border-2 border-surface bg-chart-captured ring-1 ring-teal-700" /> Your hospital
       </span>
       <span className="flex items-center gap-1.5">
         <span className="h-2.5 w-6 rounded-sm bg-slate-200" /> Peer range P25–P75
@@ -52,10 +53,10 @@ export default function Benchmark({ searchParams }: { searchParams: { state?: st
       ) : (
         <>
           <div className="grid gap-4 md:grid-cols-4">
-            <KpiCard label="Your capture rate" value="71%" sub="all departments" />
-            <KpiCard label="Peer median" value="66%" sub="11 hospitals" deltaTone="neutral" />
-            <KpiCard label="Your percentile" value="P72" sub="above 72% of peers" />
-            <KpiCard label="Departments above P75" value="4 of 7" />
+            <KpiCard icon={KTarget} tone="teal" label="Your capture rate" value="71%" sub="all departments" />
+            <KpiCard icon={KUsers} tone="slate" label="Peer median" value="66%" sub="11 hospitals" deltaTone="neutral" />
+            <KpiCard icon={KAward} tone="iris" label="Your percentile" value="P72" sub="above 72% of peers" />
+            <KpiCard icon={KBuilding2} tone="mint" label="Departments above P75" value="4 of 7" />
           </div>
           <Banner tone="info" icon={ShieldCheck} className="mt-6" title="Peer data is anonymized. No hospital names are shared.">
             Peers: 11 private hospitals and diagnostic chains with 100–400 beds. Bands are shown only when at least 3 hospitals contribute.

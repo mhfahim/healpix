@@ -6,7 +6,7 @@ import { AppShell } from "@/components/shell/app-shell";
 import { Card, CardHeader, CardBody, Field, Input, Select, Banner } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { AiDraftBlock, Dropzone } from "@/components/ui/clinical";
-import { Progress } from "@/components/ui/data";
+import { TickMeter } from "@/components/ui/data";
 import { departments } from "@/data/mock";
 import { useToast } from "@/components/ui/toast";
 
@@ -49,7 +49,7 @@ export default function LeakAuditCapture() {
           <p className="tnum mt-1 text-kpi font-semibold">
             Day 18 <span className="text-h2 font-normal text-slate-500">of 30</span>
           </p>
-          <Progress value={60} className="mt-2" label="Audit progress" />
+          <TickMeter value={18} max={30} ticks={30} height={20} className="mt-3" label="Audit progress" />
         </Card>
         <Card className="p-4">
           <p className="text-small font-medium text-slate-500">Total captured</p>
@@ -65,7 +65,7 @@ export default function LeakAuditCapture() {
             {captured ? (
               <div className="flex h-[460px] items-center justify-center overflow-hidden rounded-lg bg-slate-700 p-6">
                 {/* Simulated handwritten paper prescription */}
-                <div className="h-full w-[300px] rotate-1 bg-white p-5 shadow-sm">
+                <div className="h-full w-[300px] rotate-1 bg-surface p-5 shadow-sm">
                   <div className="border-b border-slate-300 pb-2">
                     <p className="text-body font-semibold text-slate-700">Dr. Tanvir Ahmed</p>
                     <p className="text-caption text-slate-500">MBBS, MD (Cardiology) · Meridian</p>
@@ -107,7 +107,7 @@ export default function LeakAuditCapture() {
                     <dt className="mb-1 text-caption text-slate-500">Tests detected ({tests.length})</dt>
                     <dd className="flex flex-wrap gap-1.5">
                       {tests.map((t) => (
-                        <span key={t} className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white py-0.5 pl-2.5 pr-1 text-small font-medium">
+                        <span key={t} className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-surface py-0.5 pl-2.5 pr-1 text-small font-medium">
                           {t}
                           <button aria-label={`Remove ${t}`} className="rounded-full p-0.5 text-slate-400 hover:bg-slate-100" onClick={() => setTests((s) => s.filter((x) => x !== t))}>
                             <X className="size-3" />

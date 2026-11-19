@@ -1,4 +1,5 @@
 "use client";
+import { Clock as KClock, ShieldCheck as KShieldCheck, ShieldOff as KShieldOff, Trash2 as KTrash2 } from "lucide-react";
 import * as React from "react";
 import { Download, Search, ShieldCheck, Trash2, Eye } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
@@ -29,10 +30,10 @@ export default function Consent() {
       }
     >
       <div className="grid gap-4 md:grid-cols-4">
-        <KpiCard label="Consents collected" value={num(consentStats.collected)} sub="all time" />
-        <KpiCard label="Withdrawn" value={num(consentStats.withdrawn)} sub="0.2% of collected" deltaTone="neutral" />
-        <KpiCard label="Pending" value={num(consentStats.pending)} sub="booked by phone, awaiting SMS confirm" />
-        <KpiCard label="Deletion requests" value="1 open" sub="respond within 30 days" />
+        <KpiCard icon={KShieldCheck} tone="teal" label="Consents collected" value={num(consentStats.collected)} sub="all time" />
+        <KpiCard icon={KShieldOff} tone="slate" label="Withdrawn" value={num(consentStats.withdrawn)} sub="0.2% of collected" deltaTone="neutral" />
+        <KpiCard icon={KClock} tone="warning" label="Pending" value={num(consentStats.pending)} sub="booked by phone, awaiting SMS confirm" />
+        <KpiCard icon={KTrash2} tone="rose" label="Deletion requests" value="1 open" sub="respond within 30 days" />
       </div>
       <Banner tone="info" icon={ShieldCheck} className="mt-6">
         Patient IDs are masked on this page. Opening an individual record is logged with your name, role and reason.

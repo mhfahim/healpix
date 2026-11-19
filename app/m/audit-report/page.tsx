@@ -11,7 +11,7 @@ import { useToast } from "@/components/ui/toast";
 
 function A4({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <section className={cn("mx-auto mb-8 aspect-[210/297] w-full max-w-[794px] overflow-hidden rounded-sm border border-slate-200 bg-white px-14 py-12 print:mb-0 print:break-after-page print:border-0", className)}>
+    <section className={cn("mx-auto mb-8 aspect-[210/297] w-full max-w-[794px] overflow-hidden rounded-sm border border-slate-200 bg-surface px-14 py-12 print:mb-0 print:break-after-page print:border-0", className)}>
       {children}
     </section>
   );
@@ -171,7 +171,7 @@ export default function AuditReport() {
               ["Let doctors review reports remotely.", "Frees chamber slots now used for 5-minute report-showing visits."],
             ].map(([t, b], i) => (
               <li key={t} className="flex gap-3">
-                <span className="tnum inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-teal-700 text-caption font-semibold text-white">{i + 1}</span>
+                <span className="tnum inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-teal-700 text-caption font-semibold text-on-accent">{i + 1}</span>
                 <div>
                   <p className="text-body font-medium">{t}</p>
                   <p className="text-small text-slate-500">{b}</p>

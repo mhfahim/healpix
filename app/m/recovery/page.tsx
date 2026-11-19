@@ -1,11 +1,12 @@
 "use client";
+import { FlaskConical as KFlaskConical, Rocket as KRocket, Users as KUsers, Wallet as KWallet } from "lucide-react";
 import * as React from "react";
-import { BellRing, Home, Package, Plus, MessageCircle, MessageSquare, Users, ArrowUpRight, Clock } from "lucide-react";
+import { BellRing, Home, Package, Plus, MessageCircle, MessageSquare, Users, ArrowUpRight, Clock, MoreHorizontal, CircleDot, PauseCircle, TrendingUp } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
-import { Card, Badge, Field, Select, SectionLabel } from "@/components/ui/primitives";
+import { Card, Badge, Field, Select, SectionLabel, IconChip } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { Chip, Segmented, Sheet, Switch } from "@/components/ui/controls";
-import { KpiCard } from "@/components/ui/data";
+import { KpiCard, TickMeter } from "@/components/ui/data";
 import { recoveryActions, departments } from "@/data/mock";
 import { bdt, cn, num } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
@@ -30,58 +31,66 @@ export default function Recovery({ searchParams }: { searchParams: { create?: st
       }
     >
       <div className="grid gap-4 md:grid-cols-4">
-        <KpiCard label="Active actions" value={`${actions.filter((a) => a.on).length} of ${actions.length}`} />
-        <KpiCard label="Patients reached" value={num(actions.reduce((s, a) => s + a.reach, 0))} sub="this month" />
-        <KpiCard label="Tests booked after nudge" value={num(actions.reduce((s, a) => s + a.conversions, 0))} delta="+18%" sub="vs. Oct" />
-        <KpiCard label="Revenue recovered by actions" value={bdt(total)} sub={`of ${bdt(3240000)} total recovered`} />
+        <KpiCard icon={KRocket} tone="teal" label="Active actions" value={`${actions.filter((a) => a.on).length} of ${actions.length}`} />
+        <KpiCard icon={KUsers} tone="sky" label="Patients reached" value={num(actions.reduce((s, a) => s + a.reach, 0))} sub="this month" />
+        <KpiCard icon={KFlaskConical} tone="mint" label="Tests booked after nudge" value={num(actions.reduce((s, a) => s + a.conversions, 0))} delta="+18%" sub="vs. Oct" />
+        <KpiCard icon={KWallet} tone="teal" label="Revenue recovered by actions" value={bdt(total)} sub={`of ${bdt(3240000)} total recovered`} />
       </div>
 
-      <div className="mt-6 space-y-3">
-        {actions.map((a) => {
+      <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {actions.map((a, idx) => {
           const Icon = icons[a.id];
           const conv = a.reach ? Math.round((a.conversions / a.reach) * 100) : 0;
+          const tone = (["teal", "sky", "iris"] as const)[idx % 3];
           return (
-            <Card key={a.id} className={cn("flex flex-wrap items-center gap-6 p-5", !a.on && "bg-slate-50")}>
-              <span className={cn("inline-flex size-10 shrink-0 items-center justify-center rounded-lg", a.on ? "bg-teal-50 text-teal-700" : "bg-slate-100 text-slate-500")}>
-                <Icon className="size-5" strokeWidth={1.5} />
-              </span>
-              <div className="min-w-[280px] flex-1">
-                <div className="flex items-center gap-2">
-                  <p className="text-h3 font-semibold">{a.title}</p>
-                  <Badge tone={a.on ? "success" : "neutral"}>{a.on ? "Running" : "Paused"}</Badge>
-                </div>
-                <p className="text-small text-slate-500">{a.detail}</p>
+            <Card key={a.title} className={cn("flex flex-col p-5 transition-shadow hover:shadow-sm", !a.on && "bg-surface-sunken")}>
+              <div className="flex items-start gap-3">
+                <IconChip icon={Icon} tone={a.on ? tone : "slate"} />
+                <p className="min-w-0 flex-1 text-h3 font-semibold leading-snug tracking-tight">{a.title}</p>
+                <button className="rounded-[8px] p-1 text-slate-400 hover:bg-slate-100" aria-label="More">
+                  <MoreHorizontal className="size-4" />
+                </button>
               </div>
-              <dl className="grid grid-cols-3 gap-8 text-right">
-                <div>
-                  <dt className="text-caption text-slate-500">Reach</dt>
-                  <dd className="tnum text-h3 font-semibold">{a.reach ? num(a.reach) : "—"}</dd>
-                </div>
-                <div>
-                  <dt className="text-caption text-slate-500">Conversions</dt>
-                  <dd className="tnum text-h3 font-semibold">
-                    {a.conversions ? num(a.conversions) : "—"} {conv > 0 && <span className="text-caption font-normal text-slate-500">{conv}%</span>}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-caption text-slate-500">Recovered</dt>
-                  <dd className="tnum text-h3 font-semibold text-teal-800">{a.recovered ? bdt(a.recovered) : "—"}</dd>
-                </div>
-              </dl>
-              <label className="flex items-center gap-2 text-small text-slate-700">
+              <div className="mt-5 flex items-center justify-between gap-3">
+                <p className="tnum text-display font-semibold text-slate-900">{a.recovered ? bdt(a.recovered) : <span className="text-slate-300">৳ 0</span>}</p>
+                <Badge tone={a.on ? "success" : "neutral"} icon={a.on ? CircleDot : PauseCircle}>
+                  {a.on ? "Running" : "Paused"}
+                </Badge>
+              </div>
+              <p className="mt-2 text-body text-slate-500">{a.detail}</p>
+              <div className="mt-5 flex items-center justify-between gap-4">
+                <TickMeter value={conv} max={40} ticks={14} height={16} className="w-28" colorVar={a.on ? "chart-captured" : "slate-400"} label="Conversion" />
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-caption text-slate-600">
+                  <TrendingUp className="size-3.5" /> {conv ? `${conv}% booked` : "No data yet"}
+                </span>
+              </div>
+              <div className="mt-5 flex items-center justify-between border-t border-slate-200 pt-4 text-small">
+                <span className="tnum text-slate-500">
+                  Reached <span className="font-medium text-slate-900">{a.reach ? num(a.reach) : "—"}</span> · Booked{" "}
+                  <span className="font-medium text-slate-900">{a.conversions ? num(a.conversions) : "—"}</span>
+                </span>
                 <Switch
                   checked={a.on}
                   onCheckedChange={(v) => {
-                    setActions((s) => s.map((x) => (x.id === a.id ? { ...x, on: v } : x)));
+                    setActions((s) => s.map((x) => (x.title === a.title ? { ...x, on: v } : x)));
                     toast({ title: v ? "Action resumed" : "Action paused", body: a.title, tone: "info" });
                   }}
                   aria-label={`Toggle ${a.title}`}
                 />
-                {a.on ? "On" : "Off"}
-              </label>
+              </div>
             </Card>
           );
         })}
+        <button
+          onClick={() => setOpen(true)}
+          className="flex min-h-[280px] flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed border-slate-200 text-slate-500 transition-colors hover:border-teal-500 hover:text-teal-700"
+        >
+          <span className="inline-flex size-11 items-center justify-center rounded-full bg-surface shadow-sm ring-1 ring-slate-200">
+            <Plus className="size-5" />
+          </span>
+          <span className="text-body font-medium">Create recovery action</span>
+          <span className="max-w-[220px] text-center text-small text-slate-400">Target a leaking test with a reminder, price offer or home collection</span>
+        </button>
       </div>
 
       <CreateActionSheet
@@ -192,7 +201,7 @@ function CreateActionSheet({ open, onOpenChange, onCreate }: { open: boolean; on
         <div>
           <SectionLabel className="mb-2">Message preview (Bangla)</SectionLabel>
           <div className="rounded-lg bg-whatsapp-bg p-4">
-            <div className="max-w-[85%] rounded-lg rounded-tl-sm bg-white p-3 text-body shadow-sm">
+            <div className="max-w-[85%] rounded-lg rounded-tl-sm bg-surface p-3 text-body shadow-sm">
               <p className="font-bn">
                 আসসালামু আলাইকুম রহিমা বেগম, ডা. তানভীর আহমেদ আপনার জন্য লিপিড প্রোফাইল পরীক্ষা দিয়েছেন। মেরিডিয়ান হাসপাতালে এখন মাত্র ৳ ৯৫০ (আগে ৳ ১,২০০)। রিপোর্ট সরাসরি আপনার ডাক্তারের কাছে যাবে।
               </p>

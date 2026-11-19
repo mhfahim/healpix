@@ -1,7 +1,9 @@
 "use client";
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { KanbanBoard, ScheduleBoard } from "./boards";
 import {
+  CalendarRange,
   CalendarX2,
   Clock,
   Globe,
@@ -55,7 +57,7 @@ export const newBooking: Row = {
 export function QueueView({ state, newSerial, arrived }: { state: ViewState; newSerial?: number; arrived?: number }) {
   const router = useRouter();
   const toast = useToast();
-  const [view, setView] = React.useState<"table" | "kanban">("table");
+  const [view, setView] = React.useState<"table" | "kanban" | "schedule">("table");
   const [date, setDate] = React.useState(new Date(2026, 10, 19));
   const [selectedDocs, setSelectedDocs] = React.useState<string[]>(["farhana"]);
   const [walkIn, setWalkIn] = React.useState(false);
@@ -117,7 +119,7 @@ export function QueueView({ state, newSerial, arrived }: { state: ViewState; new
               key={d.id}
               onClick={() => setSelectedDocs((s) => (s.includes(d.id) ? s.filter((x) => x !== d.id) : [...s, d.id]))}
               aria-pressed={on}
-              className={cn("rounded-lg border bg-white p-3 text-left transition-colors", on ? "border-teal-700 ring-1 ring-teal-700" : "border-slate-200 hover:border-slate-300")}
+              className={cn("rounded-lg border bg-surface p-3 text-left transition-colors", on ? "border-teal-700 ring-1 ring-teal-700" : "border-slate-200 hover:border-slate-300")}
             >
               {loading ? (
                 <Skeleton className="h-12 w-full" />
@@ -160,6 +162,7 @@ export function QueueView({ state, newSerial, arrived }: { state: ViewState; new
             options={[
               { value: "table", label: <><List /> Table</> },
               { value: "kanban", label: <><LayoutGrid /> Kanban</> },
+              { value: "schedule", label: <><CalendarRange /> Schedule</> },
             ]}
           />
         </div>
@@ -251,44 +254,11 @@ export function QueueView({ state, newSerial, arrived }: { state: ViewState; new
             ]}
           />
         ) : (
-          <div className="grid grid-cols-5 gap-3 overflow-x-auto bg-slate-50 p-4">
-            {(["Booked", "Arrived", "With doctor", "Done", "No-show"] as Status[]).map((col) => {
-              const items = data.filter((r) => r.status === col);
-              return (
-                <div key={col} className="min-w-[200px]">
-                  <div className="mb-2 flex items-center justify-between px-1">
-                    <StatusPill status={col} />
-                    <span className="tnum text-small text-slate-500">{items.length}</span>
-                  </div>
-                  <div className="space-y-2">
-                    {items.map((r) => (
-                      <div key={r.serial} className={cn("rounded-lg border border-slate-200 bg-white p-3", r.isNew && "border-teal-500")}>
-                        <div className="flex items-center justify-between">
-                          <span className="tnum text-h3 font-semibold">#{r.serial}</span>
-                          <span className="tnum flex items-center gap-1 text-caption text-slate-500">
-                            <Clock className="size-3" /> {r.time}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-body font-medium">{r.name}</p>
-                        <p className="truncate text-caption text-slate-500">{r.reason}</p>
-                        <div className="mt-2 flex items-center gap-2 text-caption text-slate-500">
-                          {React.createElement(channelIcon[r.via].icon, { className: "size-3.5" })}
-                          {channelIcon[r.via].label}
-                          {r.vitals && <HeartPulse className="ml-auto size-3.5 text-teal-600" aria-label="Vitals done" />}
-                        </div>
-                        {col === "Booked" && (
-                          <Button size="sm" variant="secondary" className="mt-2 w-full" onClick={() => setStatus(r.serial, "Arrived")}>
-                            Mark arrived
-                          </Button>
-                        )}
-                      </div>
-                    ))}
-                    {items.length === 0 && <p className="rounded-lg border border-dashed border-slate-200 p-4 text-center text-caption text-slate-400">None</p>}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          view === "kanban" ? (
+            <KanbanBoard rows={data} onArrive={(n) => setStatus(n, "Arrived")} onCheckIn={(n) => `/f/check-in?serial=${n}`} />
+          ) : (
+            <ScheduleBoard rows={data} onCheckIn={(n) => `/f/check-in?serial=${n}`} />
+          )
         )}
       </Card>
 

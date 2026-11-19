@@ -29,7 +29,7 @@ export default function Record() {
   const Icon = icon;
   return (
     <PatientFrame header={<PHeader title={t("আমার স্বাস্থ্য রেকর্ড", "My health record")} back="/p/home" sub={t("রহিমা বেগম · MSH-240318", "Rahima Begum · MSH-240318")} />}>
-      <div role="tablist" className="sticky top-0 z-10 grid grid-cols-3 border-b border-slate-200 bg-white">
+      <div role="tablist" className="sticky top-0 z-10 grid grid-cols-3 border-b border-slate-200 bg-surface">
         {(
           [
             ["visits", t("ভিজিট", "Visits")],
@@ -52,10 +52,10 @@ export default function Record() {
         <span className="absolute bottom-8 left-[35px] top-8 w-px bg-slate-200" aria-hidden />
         {data[tab].map((e, i) => (
           <li key={i} className="relative mb-3 flex gap-3">
-            <span className="z-10 mt-3 inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white">
+            <span className="z-10 mt-3 inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-surface">
               <Icon className="size-5 text-teal-700" strokeWidth={1.5} />
             </span>
-            <PLink href={e.href} className="flex min-h-[72px] flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white p-3">
+            <PLink href={e.href} className="flex min-h-[72px] flex-1 items-center gap-2 rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-3">
               <span className="min-w-0 flex-1">
                 <span className="flex items-center gap-2 text-small text-slate-500">
                   {e.date}

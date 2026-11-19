@@ -50,7 +50,7 @@ export default function Upload() {
               <div key={i} className="relative flex aspect-[3/4] flex-col items-center justify-center rounded-lg border border-slate-200 bg-slate-100">
                 <FileImage className="size-8 text-slate-400" strokeWidth={1.5} />
                 <span className="mt-1 text-caption text-slate-500">{t(`পাতা ${n(i + 1)}`, `Page ${i + 1}`)}</span>
-                <button aria-label="Remove" onClick={() => setPages((p) => p - 1)} className="absolute right-1 top-1 inline-flex size-7 items-center justify-center rounded-full bg-slate-900/70 text-white">
+                <button aria-label="Remove" onClick={() => setPages((p) => p - 1)} className="absolute right-1 top-1 inline-flex size-7 items-center justify-center rounded-full bg-slate-900/70 text-on-accent">
                   <X className="size-4" />
                 </button>
               </div>
@@ -60,7 +60,7 @@ export default function Upload() {
               {t("ছবি তুলুন", "Take photo")}
             </button>
           </div>
-          <button onClick={() => setPages((p) => p + 1)} className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded border border-slate-200 bg-white font-medium">
+          <button onClick={() => setPages((p) => p + 1)} className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded border border-slate-200 bg-surface font-medium">
             <ImagePlus className="size-5 text-teal-700" /> {t("গ্যালারি থেকে যোগ করুন", "Add from gallery")}
           </button>
         </section>
@@ -74,13 +74,13 @@ export default function Upload() {
             value={lab}
             onChange={(e) => setLab(e.target.value)}
             placeholder={ts("ল্যাবের নাম", "Lab name")}
-            className="h-12 w-full rounded border border-slate-200 bg-white px-4 text-base focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+            className="h-12 w-full rounded border border-slate-200 bg-surface px-4 text-base focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
           />
           <div className="mt-2 flex flex-wrap gap-2">
             {labs
               .filter((l) => l.toLowerCase().includes(lab.toLowerCase()) && l !== lab)
               .map((l) => (
-                <button key={l} onClick={() => setLab(l)} className="min-h-11 rounded-full border border-slate-200 bg-white px-4 text-small">
+                <button key={l} onClick={() => setLab(l)} className="min-h-11 rounded-full border border-slate-200 bg-surface px-4 text-small">
                   {l}
                 </button>
               ))}

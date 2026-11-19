@@ -21,7 +21,7 @@ export default function ReportStatus() {
   return (
     <PatientFrame header={<PHeader title={t("রিপোর্টের অবস্থা", "Report status")} back="/p/home" sub={t("বুকিং LB-26-118204 · ৪টি পরীক্ষা", "Booking LB-26-118204 · 4 tests")} />}>
       <div className="px-4 py-5">
-        <div className="rounded-lg border border-slate-200 bg-white p-5">
+        <div className="rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-5">
           <ol>
             {steps.map((s, i) => (
               <TimelineItem key={i} big title={s.title} time={s.time} state={s.state} body={(s as any).body} last={i === steps.length - 1} />
@@ -32,7 +32,7 @@ export default function ReportStatus() {
           <Bell className="size-5 shrink-0 text-slate-500" />
           {t("রিপোর্ট দেখাতে চেম্বারে আসার দরকার নেই।", "You don't need to visit the chamber to show the report.")}
         </div>
-        <PLink href="/p/record" className="mt-4 flex h-12 items-center justify-center rounded border border-slate-200 bg-white font-medium">
+        <PLink href="/p/record" className="mt-4 flex h-12 items-center justify-center rounded border border-slate-200 bg-surface font-medium">
           {t("রিপোর্ট PDF দেখুন", "View report PDF")}
         </PLink>
       </div>

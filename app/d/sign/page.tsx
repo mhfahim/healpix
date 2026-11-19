@@ -49,7 +49,7 @@ export default function Sign({ searchParams }: { searchParams: { abx?: string } 
       <div className="grid grid-cols-12 gap-6">
         {/* A4 preview */}
         <div className="col-span-12 lg:col-span-8">
-          <div className="mx-auto aspect-[210/297] w-full max-w-[720px] overflow-hidden rounded-sm border border-slate-200 bg-white text-slate-900">
+          <div className="mx-auto aspect-[210/297] w-full max-w-[720px] overflow-hidden rounded-sm border border-slate-200 bg-surface text-slate-900">
             {/* Letterhead */}
             <div className="flex items-start justify-between border-b-2 border-teal-700 px-10 pb-4 pt-8">
               <div>
@@ -59,7 +59,7 @@ export default function Sign({ searchParams }: { searchParams: { abx?: string } 
               </div>
               <div className="text-right">
                 <p className="flex items-center justify-end gap-2 text-body font-semibold">
-                  <span className="inline-flex size-7 items-center justify-center rounded bg-slate-900 text-caption text-white">MS</span>
+                  <span className="inline-flex size-7 items-center justify-center rounded bg-slate-900 text-caption text-on-accent">MS</span>
                   {hospital.name}
                 </p>
                 <p className="text-caption text-slate-500">{hospital.address}</p>

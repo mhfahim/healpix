@@ -1,9 +1,10 @@
 "use client";
+import { CloudUpload as KCloudUpload, LogOut as KLogOut, Wallet as KWallet } from "lucide-react";
 import { ArrowRight, Info, MessageSquareQuote } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
 import { Card, CardHeader, CardBody, Badge, Banner } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
-import { DataTable, KpiCard, Progress } from "@/components/ui/data";
+import { DataTable, KpiCard, TickMeter } from "@/components/ui/data";
 import { Donut, SimpleBars, Legendary } from "@/components/ui/charts";
 import { leakReasons, metrics, outsideLabs, priceGap } from "@/data/mock";
 import { categorical, tokens } from "@/lib/tokens";
@@ -14,13 +15,13 @@ export default function LeakInsights() {
   return (
     <AppShell surface="management" title="Leak insights" subtitle="Where patients took their tests, and why · November 2026" management>
       <div className="grid gap-4 md:grid-cols-4">
-        <KpiCard label="Estimated leaked tests" value={num(metrics.leaked)} delta="-2.7%" deltaTone="down-good" sub="vs. Oct" />
-        <KpiCard label="Estimated value leaked" value={bdt(metrics.leaked * metrics.avgOrder)} sub="at ৳ 2,000 avg order" />
-        <KpiCard label="Outside reports uploaded" value={num(totalUploads)} sub="for remote review" />
-        <Card className="p-4">
-          <p className="text-small font-medium text-slate-500">Reason coverage</p>
+        <KpiCard icon={KLogOut} tone="peach" label="Estimated leaked tests" value={num(metrics.leaked)} delta="-2.7%" deltaTone="down-good" sub="vs. Oct" />
+        <KpiCard icon={KWallet} tone="rose" label="Estimated value leaked" value={bdt(metrics.leaked * metrics.avgOrder)} sub="at ৳ 2,000 avg order" />
+        <KpiCard icon={KCloudUpload} tone="sky" label="Outside reports uploaded" value={num(totalUploads)} sub="for remote review" />
+        <Card className="p-5">
+          <p className="text-small font-medium text-slate-600">Reason coverage</p>
           <p className="tnum mt-1 text-kpi font-semibold">{metrics.reasonsKnownPct}%</p>
-          <Progress value={metrics.reasonsKnownPct} className="mt-2" label="Reasons known" />
+          <TickMeter value={metrics.reasonsKnownPct} ticks={32} height={24} className="mt-3" label="Reasons known" />
           <p className="mt-1.5 text-caption text-slate-500">Reasons known for 64% of leaked tests</p>
         </Card>
       </div>
@@ -30,12 +31,12 @@ export default function LeakInsights() {
           <CardHeader title="Why patients left" description="Patient-reported, when uploading an outside report or replying to a reminder" />
           <CardBody>
             <div className="grid grid-cols-[1fr_1fr] items-center gap-4">
-              <Donut data={leakReasons.map((r) => ({ name: r.reason, value: r.value }))} centerValue="41%" centerLabel="cited price" height={220} />
+              <Donut data={leakReasons.map((r) => ({ name: r.reason, value: r.value }))} centerValue="41%" centerLabel="Price" height={220} hatchIndex={4} />
               <ul className="space-y-2">
                 {leakReasons.map((r, i) => (
                   <li key={r.reason} className="flex items-center justify-between gap-2 text-body">
                     <span className="flex items-center gap-2">
-                      <span className="size-2.5 rounded-sm" style={{ background: categorical[i] }} />
+                      <span className={i === 4 ? "hatch size-2.5 rounded-[3px] bg-slate-100 text-slate-400" : "size-2.5 rounded-full"} style={i === 4 ? undefined : { background: categorical[i] }} />
                       {r.reason}
                     </span>
                     <span className="tnum font-semibold">{r.value}%</span>

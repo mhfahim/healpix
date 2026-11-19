@@ -1,10 +1,11 @@
 "use client";
+import { FileSignature as KFileSignature, Inbox as KInbox, Sparkles as KSparkles } from "lucide-react";
 import * as React from "react";
 import { CalendarPlus, Lock } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
 import { Card, CardHeader, Badge, Avatar, initialsOf } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
-import { KpiCard, DataTable, Progress } from "@/components/ui/data";
+import { KpiCard, DataTable, Progress, TickMeter } from "@/components/ui/data";
 import { adoptionByDept, inactiveDoctors, metrics } from "@/data/mock";
 import { num } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
@@ -15,17 +16,17 @@ export default function Adoption() {
   return (
     <AppShell surface="management" title="Doctor adoption" subtitle="How doctors are using Helpix · November 2026" management>
       <div className="grid gap-4 md:grid-cols-4">
-        <Card className="p-4">
-          <p className="text-small font-medium text-slate-500">Active doctors</p>
+        <Card className="p-5">
+          <p className="text-small font-medium text-slate-600">Active doctors</p>
           <p className="tnum mt-1 text-kpi font-semibold">
             {metrics.activeDoctors} <span className="text-h2 font-normal text-slate-500">of {metrics.totalDoctors}</span>
           </p>
-          <Progress value={(metrics.activeDoctors / metrics.totalDoctors) * 100} className="mt-2" label="Active doctors" />
+          <TickMeter value={metrics.activeDoctors} max={metrics.totalDoctors} ticks={metrics.totalDoctors} height={24} className="mt-3" label="Active doctors" />
           <p className="mt-1.5 text-caption text-slate-500">Active = signed a digital prescription in the last 7 days</p>
         </Card>
-        <KpiCard label="Digital prescriptions" value={`${metrics.digitalRxPct}%`} delta="+9 pts" sub="of all OPD prescriptions" />
-        <KpiCard label="AI draft acceptance rate" value={`${metrics.aiAcceptance}%`} sub="accepted as-is or with small edits" />
-        <KpiCard label="Remote reviews completed" value={num(metrics.remoteReviews)} delta="+12%" sub="vs. Oct" />
+        <KpiCard icon={KFileSignature} tone="teal" label="Digital prescriptions" value={`${metrics.digitalRxPct}%`} delta="+9 pts" sub="of all OPD prescriptions" />
+        <KpiCard icon={KSparkles} tone="ai" label="AI draft acceptance rate" value={`${metrics.aiAcceptance}%`} sub="accepted as-is or with small edits" />
+        <KpiCard icon={KInbox} tone="sky" label="Remote reviews completed" value={num(metrics.remoteReviews)} delta="+12%" sub="vs. Oct" />
       </div>
 
       <Card className="mt-6 overflow-hidden">

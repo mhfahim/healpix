@@ -32,64 +32,79 @@ import {
 } from "@/components/ui/primitives";
 import { Tabs, TabsList, TabsTrigger, TabsContent, Segmented, Chip, Switch, Checkbox, Dialog, Sheet, Combobox, DatePicker, Tooltip } from "@/components/ui/controls";
 import { AiDraftBlock, SafetyAlert, Stepper, TimelineItem, Dropzone, RecordingIndicator, OfflineBadge } from "@/components/ui/clinical";
-import { KpiCard, DataTable, Progress, RateBar } from "@/components/ui/data";
-import { CaptureLine, RateBars, StackedCapture, Donut, Funnel, Legendary } from "@/components/ui/charts";
+import { KpiCard, DataTable, Progress, RateBar, TickMeter, DotMatrix, Gauge, MiniBars } from "@/components/ui/data";
+import { CaptureLine, RateBars, StackedCapture, Donut, Funnel, Legendary, ColumnChart, TwoSeriesBars, SimpleBars } from "@/components/ui/charts";
+import { ThemeSegment } from "@/components/shell/theme";
+import { IconChip, AvatarStack } from "@/components/ui/primitives";
+import { Target, Wallet, FlaskConical as Flask, CalendarCheck } from "lucide-react";
+import { captureTrend as trend2, outsideLabs } from "@/data/mock";
 import { Toast, useToast } from "@/components/ui/toast";
 import { captureTrend, deptCapture, funnel, leakReasons, metrics, drugDb, topLeakingTests } from "@/data/mock";
 import { tokens, categorical } from "@/lib/tokens";
 import { bdt, num } from "@/lib/utils";
 import { NavPreview } from "./nav-preview";
 
-const palette: { group: string; items: { name: string; hex: string; note?: string }[] }[] = [
+const palette: { group: string; items: { name: string; v: string; note?: string }[] }[] = [
   {
     group: "Primary · Helpix Teal",
     items: [
-      { name: "teal-50", hex: "#F0FDFA" },
-      { name: "teal-100", hex: "#CCFBF1" },
-      { name: "teal-200", hex: "#99F6E4" },
-      { name: "teal-500", hex: "#14B8A6", note: "Focus ring" },
-      { name: "teal-600", hex: "#0D9488", note: "Captured" },
-      { name: "teal-700", hex: "#0F766E", note: "PRIMARY" },
-      { name: "teal-800", hex: "#115E59" },
-      { name: "teal-900", hex: "#134E4A" },
+      { name: "teal-50", v: "teal-50", note: "Active nav, tints" },
+      { name: "teal-100", v: "teal-100" },
+      { name: "teal-200", v: "teal-200" },
+      { name: "teal-500", v: "teal-500", note: "Focus ring" },
+      { name: "teal-600", v: "teal-600", note: "Captured" },
+      { name: "teal-700", v: "teal-700", note: "PRIMARY" },
+      { name: "teal-800", v: "teal-800" },
+      { name: "teal-900", v: "teal-900" },
     ],
   },
   {
-    group: "Neutrals · Slate",
+    group: "Neutrals · Slate (inverts in dark mode)",
     items: [
-      { name: "slate-50", hex: "#F8FAFC", note: "App bg" },
-      { name: "slate-100", hex: "#F1F5F9" },
-      { name: "slate-200", hex: "#E2E8F0", note: "Borders" },
-      { name: "slate-300", hex: "#CBD5E1" },
-      { name: "slate-400", hex: "#94A3B8" },
-      { name: "slate-500", hex: "#64748B", note: "Secondary text" },
-      { name: "slate-700", hex: "#334155" },
-      { name: "slate-900", hex: "#0F172A", note: "Primary text" },
+      { name: "slate-50", v: "slate-50", note: "App background" },
+      { name: "surface", v: "surface", note: "Cards" },
+      { name: "slate-100", v: "slate-100", note: "Fills, tracks" },
+      { name: "slate-200", v: "slate-200", note: "Borders" },
+      { name: "slate-400", v: "slate-400", note: "Ticks, icons" },
+      { name: "slate-500", v: "slate-500", note: "Secondary text" },
+      { name: "slate-700", v: "slate-700" },
+      { name: "slate-900", v: "slate-900", note: "Primary text" },
     ],
   },
   {
-    group: "Semantic (icon · tint · text-on-tint)",
+    group: "Semantic · status only",
     items: [
-      { name: "success", hex: "#16A34A", note: "bg #F0FDF4 · fg #15803D" },
-      { name: "warning", hex: "#D97706", note: "bg #FFFBEB · fg #B45309" },
-      { name: "danger", hex: "#DC2626", note: "bg #FEF2F2 · fg #B91C1C" },
-      { name: "info", hex: "#2563EB", note: "bg #EFF6FF · fg #1D4ED8" },
-      { name: "ai (only AI)", hex: "#7C3AED", note: "bg #F5F3FF · fg #6D28D9" },
+      { name: "success", v: "success" },
+      { name: "warning", v: "warning" },
+      { name: "danger", v: "danger" },
+      { name: "info", v: "info" },
+      { name: "ai (AI only)", v: "ai" },
+    ],
+  },
+  {
+    group: "Tints · subtle category color (icon chips, avatars, schedule)",
+    items: [
+      { name: "mint", v: "mint" },
+      { name: "sky", v: "sky" },
+      { name: "iris", v: "iris" },
+      { name: "peach", v: "peach" },
+      { name: "rose", v: "rose" },
     ],
   },
   {
     group: "Data visualization",
     items: [
-      { name: "Captured in-house", hex: "#0D9488" },
-      { name: "Leaked / outside", hex: "#F97316" },
-      { name: "Pending / unknown", hex: "#CBD5E1" },
-      { name: "Baseline (dashed)", hex: "#64748B" },
-      { name: "Secondary series", hex: "#6366F1" },
+      { name: "Captured in-house", v: "chart-captured" },
+      { name: "Leaked / outside", v: "chart-leaked" },
+      { name: "Pending / unknown", v: "chart-pending" },
+      { name: "Baseline (dashed)", v: "chart-baseline" },
+      { name: "Secondary series", v: "chart-secondary" },
     ],
   },
 ];
 
 const type = [
+  { name: "Page title", cls: "text-title font-semibold", spec: "28/34 semibold −2%" },
   { name: "Display", cls: "text-display font-semibold", spec: "30/36 semibold" },
   { name: "H1", cls: "text-h1 font-semibold", spec: "24/32 semibold" },
   { name: "H2", cls: "text-h2 font-semibold", spec: "20/28 semibold" },
@@ -131,11 +146,11 @@ export default function DesignSystem() {
   const [step, setStep] = React.useState(2);
   const [rec, setRec] = React.useState<"idle" | "recording" | "paused">("recording");
 
-  const toc = ["Foundations", "Typography", "Spacing & shape", "Buttons & inputs", "Selection", "Display", "Feedback", "AI & clinical", "Data", "Charts", "Overlays", "Layout"];
+  const toc = ["Theme", "Foundations", "Typography", "Spacing & shape", "Buttons & inputs", "Selection", "Display", "Feedback", "AI & clinical", "Data", "Charts", "Chart language", "Overlays", "Layout"];
 
   return (
     <div className="flex min-h-screen">
-      <aside className="sticky top-0 hidden h-screen w-56 shrink-0 border-r border-slate-200 bg-white p-5 lg:block">
+      <aside className="sticky top-0 hidden h-screen w-56 shrink-0 border-r border-slate-200 bg-surface p-5 lg:block">
         <Logo />
         <p className="mt-1 text-caption text-slate-500">Design System v1.0</p>
         <nav className="mt-6 flex flex-col gap-0.5">
@@ -153,6 +168,19 @@ export default function DesignSystem() {
           Calm, clinical, trustworthy. shadcn/ui patterns on Radix primitives, Tailwind tokens, Lucide icons at 1.5px stroke, 4px base grid.
         </p>
 
+        <Section id="Theme" title="Light and dark" desc="Every token is a CSS variable with a light and a dark value. Slate inverts in dark mode, saturated fills lighten and their text flips to a deep teal, so components never need dark-specific classes. The choice is remembered per viewer and defaults to the system setting.">
+          <div className="flex flex-wrap items-center gap-4">
+            <ThemeSegment />
+            <span className="text-small text-slate-500">Also in the sidebar (Dark mode switch) and the top bar (sun/moon).</span>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-4">
+            <KpiCard icon={Target} label="Test capture rate" value="71%" delta="+13 pts" sub="vs. 58% baseline" spark={metrics.spark.captureRate} />
+            <KpiCard icon={Wallet} tone="peach" sparkVar="chart-leaked" label="Estimated leaked" value="3,620" delta="-2.7%" deltaTone="down-good" sub="vs. Oct" spark={metrics.spark.leaked} />
+            <KpiCard icon={Flask} tone="mint" sparkVar="mint" chart="line" label="Captured in-house" value="8,860" delta="+6.9%" sub="vs. Oct" spark={metrics.spark.captured} />
+            <KpiCard icon={CalendarCheck} tone="iris" sparkVar="iris" chart="step" label="Slots freed" value="1,140" sub="report-only visits" spark={metrics.spark.slotsFreed} />
+          </div>
+        </Section>
+
         <Section id="Foundations" title="Color tokens" desc="Tailwind's default palette is replaced by these tokens, so screens cannot use one-off colors. Violet is reserved for AI-generated content.">
           <div className="grid gap-8">
             {palette.map((g) => (
@@ -160,11 +188,19 @@ export default function DesignSystem() {
                 <SectionLabel className="mb-3">{g.group}</SectionLabel>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
                   {g.items.map((c) => (
-                    <div key={c.name} className="overflow-hidden rounded-lg border border-slate-200 bg-white">
-                      <div className="h-14" style={{ background: c.hex }} />
+                    <div key={c.name} className="overflow-hidden rounded-lg border border-slate-200 bg-surface">
+                      <div className="flex h-14">
+                        <div className="flex-1" style={{ background: `rgb(var(--${c.v}))` }} />
+                        {["success", "warning", "danger", "info", "ai", "mint", "sky", "iris", "peach", "rose"].includes(c.v) && (
+                          <>
+                            <div className="w-5" style={{ background: `rgb(var(--${c.v}-bg))` }} />
+                            <div className="w-5" style={{ background: `rgb(var(--${c.v}-fg))` }} />
+                          </>
+                        )}
+                      </div>
                       <div className="px-2.5 py-2">
                         <p className="text-small font-medium">{c.name}</p>
-                        <p className="font-mono text-caption text-slate-500">{c.hex}</p>
+                        <p className="font-mono text-caption text-slate-500">--{c.v}</p>
                         {c.note && <p className="text-caption text-slate-500">{c.note}</p>}
                       </div>
                     </div>
@@ -178,7 +214,7 @@ export default function DesignSystem() {
                 <div className="flex items-center gap-8">
                   <Logo size={36} />
                   <LogoMark size={48} />
-                  <span className="rounded-lg bg-teal-900 p-3">
+                  <span className="rounded-lg bg-brand-deep p-3">
                     <LogoMark size={40} inverted />
                   </span>
                 </div>
@@ -197,7 +233,7 @@ export default function DesignSystem() {
           </div>
         </Section>
 
-        <Section id="Typography" title="Typography" desc="Inter for Latin, Noto Sans Bengali for Bangla. Tabular numerals for all figures.">
+        <Section id="Typography" title="Typography" desc="Geist for Latin (tight tracking on headings and figures), Noto Sans Bengali for Bangla. Tabular numerals for all figures.">
           <Card>
             {type.map((t) => (
               <div key={t.name} className="grid grid-cols-[140px_1fr_200px] items-baseline gap-4 border-b border-slate-100 px-5 py-3 last:border-0">
@@ -246,8 +282,8 @@ export default function DesignSystem() {
             <Card className="p-5">
               <SectionLabel className="mb-3">Elevation</SectionLabel>
               <div className="space-y-3">
-                <div className="rounded-lg border border-slate-200 bg-white p-3 text-small">Flat card · 1px slate-200, no shadow</div>
-                <div className="rounded-lg border border-slate-200 bg-white p-3 text-small shadow-sm">shadow-sm · popovers, dropdowns, dialogs only</div>
+                <div className="rounded-lg border border-slate-200 bg-surface p-3 text-small">Flat card · 1px slate-200, no shadow</div>
+                <div className="rounded-lg border border-slate-200 bg-surface p-3 text-small shadow-sm">shadow-sm · popovers, dropdowns, dialogs only</div>
               </div>
             </Card>
           </div>
@@ -593,6 +629,65 @@ export default function DesignSystem() {
           </div>
         </Section>
 
+        <Section id="Chart language" title="Chart language" desc="One grammar for every graph: dashed hairline grid, rounded capsules, the active item solid and everything else hatched in the same hue, remainders (leaked, not yet, peer band) as hatch, and a single inverse tooltip pill.">
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Card>
+              <CardHeader title="Column · hover to move the solid bar" />
+              <CardBody>
+                <ColumnChart data={trend2} xKey="month" yKey="remote" name="Remote reviews" height={220} />
+              </CardBody>
+            </Card>
+            <Card>
+              <CardHeader title="Paired columns · comparison hatched" action={<Legendary items={[{ label: "In-person", color: tokens.slate[400], hatched: true }, { label: "Remote", color: tokens.chart.captured }]} />} />
+              <CardBody>
+                <TwoSeriesBars data={trend2} a={{ key: "inPerson", name: "In-person", color: tokens.slate[300] }} b={{ key: "remote", name: "Remote", color: tokens.chart.captured }} height={220} />
+              </CardBody>
+            </Card>
+            <Card>
+              <CardHeader title="Ranked bars · leader solid" />
+              <CardBody>
+                <SimpleBars data={outsideLabs} dataKey="uploads" nameKey="lab" />
+              </CardBody>
+            </Card>
+            <Card>
+              <CardHeader title="Donut · rounded, gapped, hatched unknown" />
+              <CardBody>
+                <Donut data={leakReasons.map((r) => ({ name: r.reason, value: r.value }))} height={200} centerValue="41%" centerLabel="Price" hatchIndex={4} />
+              </CardBody>
+            </Card>
+          </div>
+          <div className="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <Card className="p-5">
+              <SectionLabel className="mb-4">Tick meter</SectionLabel>
+              <p className="tnum text-kpi font-semibold">46<span className="text-h2 font-normal text-slate-400"> / 52</span></p>
+              <TickMeter value={46} max={52} ticks={52} height={28} className="mt-3" label="Active doctors" />
+            </Card>
+            <Card className="p-5">
+              <SectionLabel className="mb-10">Dot matrix</SectionLabel>
+              <DotMatrix data={[640, 690, 520, 810, 700, 600]} labels={["Sa", "Su", "Mo", "Tu", "We", "Th"]} rows={6} peakLabel="Peak: Tue" />
+            </Card>
+            <Card className="flex flex-col items-center p-5">
+              <SectionLabel className="mb-3 self-start">Segmented gauge</SectionLabel>
+              <Gauge value={72} size={200}>
+                <span className="text-caption text-slate-500">Percentile</span>
+                <span className="tnum text-h1 font-semibold">P72</span>
+              </Gauge>
+            </Card>
+            <Card className="p-5">
+              <SectionLabel className="mb-4">Mini bars · icon chips · avatars</SectionLabel>
+              <MiniBars data={[5, 8, 6, 9, 7, 12, 10]} height={40} />
+              <div className="mt-4 flex gap-2">
+                {(["teal", "sky", "iris", "peach", "rose", "mint"] as const).map((t) => (
+                  <IconChip key={t} icon={Target} tone={t} size="sm" />
+                ))}
+              </div>
+              <div className="mt-4">
+                <AvatarStack names={["Farhana Rahman", "Tanvir Ahmed", "Nusrat Jahan", "Kamal Hossain", "Rahima Begum"]} size="sm" />
+              </div>
+            </Card>
+          </div>
+        </Section>
+
         <Section id="Overlays" title="Overlays">
           <div className="flex gap-3">
             <Button variant="secondary" onClick={() => setDlg(true)}>
@@ -626,17 +721,17 @@ export default function DesignSystem() {
           </Sheet>
         </Section>
 
-        <Section id="Layout" title="Layout" desc="Desktop: 240px collapsible sidebar, 64px top bar, content max 1280 on a 12-column grid with 24px gutters. Patient: single column, 16px padding, sticky bottom action bar, 44px min touch targets.">
+        <Section id="Layout" title="Layout" desc="Desktop: 248px collapsible sidebar with section labels, 64px top bar with search, page title in the content area, content max 1320 on a 12-column grid with 24px gutters. Patient: single column, 16px padding, sticky bottom action bar, 44px min touch targets.">
           <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
             <div className="flex h-56 overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-              <div className="w-1/5 border-r border-slate-200 bg-white p-2">
+              <div className="w-1/5 border-r border-slate-200 bg-surface p-2">
                 <div className="h-6 rounded bg-slate-100" />
                 {[0, 1, 2, 3].map((i) => (
                   <div key={i} className={`mt-2 h-4 rounded ${i === 0 ? "bg-teal-50" : "bg-slate-100"}`} />
                 ))}
               </div>
               <div className="flex-1">
-                <div className="h-8 border-b border-slate-200 bg-white" />
+                <div className="h-8 border-b border-slate-200 bg-surface" />
                 <div className="grid grid-cols-12 gap-2 p-3">
                   {Array.from({ length: 12 }).map((_, i) => (
                     <div key={i} className="h-36 rounded-sm bg-teal-50 ring-1 ring-teal-100" />
@@ -645,12 +740,12 @@ export default function DesignSystem() {
               </div>
             </div>
             <div className="mx-auto flex h-56 w-28 flex-col overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-              <div className="h-6 border-b border-slate-200 bg-white" />
+              <div className="h-6 border-b border-slate-200 bg-surface" />
               <div className="flex-1 space-y-1.5 p-2">
-                <div className="h-8 rounded bg-white ring-1 ring-slate-200" />
-                <div className="h-8 rounded bg-white ring-1 ring-slate-200" />
+                <div className="h-8 rounded bg-surface ring-1 ring-slate-200" />
+                <div className="h-8 rounded bg-surface ring-1 ring-slate-200" />
               </div>
-              <div className="border-t border-slate-200 bg-white p-1.5">
+              <div className="border-t border-slate-200 bg-surface p-1.5">
                 <div className="h-5 rounded bg-teal-700" />
               </div>
             </div>

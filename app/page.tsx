@@ -3,14 +3,15 @@ import { ArrowRight, Monitor, Smartphone, Layers, GitBranch } from "lucide-react
 import { groups, flows, screenByCode } from "@/lib/screens";
 import { Logo } from "@/components/shell/logo";
 import { Badge } from "@/components/ui/primitives";
+import { ThemeToggle } from "@/components/shell/theme";
 
 export default function Index() {
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
+      <header className="border-b border-slate-200 bg-surface">
         <div className="mx-auto flex max-w-content items-center justify-between px-6 py-5">
           <Logo />
-          <span className="text-small text-slate-500">Prototype · Meridian Specialized Hospital (fictional sample data)</span>
+          <span className="flex items-center gap-3 text-small text-slate-500">Prototype · Meridian Specialized Hospital (fictional sample data) <ThemeToggle /></span>
         </div>
       </header>
       <main className="mx-auto max-w-content px-6 py-10">
@@ -35,7 +36,7 @@ export default function Index() {
                 <Link
                   key={f.n}
                   href={first.path}
-                  className="group rounded-lg border border-slate-200 bg-white p-4 transition-colors hover:border-teal-500"
+                  className="group rounded-lg border border-slate-200 bg-surface p-4 transition-colors hover:border-teal-500"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-caption font-medium text-slate-500">Flow {f.n}</span>
@@ -70,7 +71,7 @@ export default function Index() {
             <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
               {g.screens.map((s) => (
                 <li key={s.code}>
-                  <Link href={s.path} className="flex h-full flex-col rounded-lg border border-slate-200 bg-white px-4 py-3 hover:border-teal-500">
+                  <Link href={s.path} className="flex h-full flex-col rounded-lg border border-slate-200 bg-surface px-4 py-3 hover:border-teal-500">
                     <span className="flex items-center justify-between gap-2">
                       <span className="text-caption font-semibold text-teal-700">{s.code}</span>
                       {s.states && (

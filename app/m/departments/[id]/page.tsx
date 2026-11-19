@@ -1,4 +1,5 @@
 "use client";
+import { ClipboardList as KClipboardList, FlaskConical as KFlaskConical, LogOut as KLogOut, Target as KTarget, Wallet as KWallet } from "lucide-react";
 import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Lock, Send } from "lucide-react";
@@ -40,11 +41,11 @@ export default function DepartmentDetail({ params }: { params: { id: string } })
       management
     >
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-        <KpiCard label="Capture rate" value={`${dept.rate}%`} delta={`+${dept.rate - dept.baseline} pts`} sub={`vs. ${dept.baseline}% dept. baseline`} spark={dept.trend} />
-        <KpiCard label="Tests prescribed" value={num(dept.prescribed)} />
-        <KpiCard label="Captured in-house" value={num(dept.captured)} />
-        <KpiCard label="Estimated leaked" value={num(leaked)} sparkColor={tokens.chart.leaked} />
-        <KpiCard label="Est. value leaked" value={bdt(leaked * 2000)} sub="at ৳ 2,000 avg order" />
+        <KpiCard icon={KTarget} tone="teal" label="Capture rate" value={`${dept.rate}%`} delta={`+${dept.rate - dept.baseline} pts`} sub={`vs. ${dept.baseline}% dept. baseline`} spark={dept.trend} />
+        <KpiCard icon={KClipboardList} tone="sky" label="Tests prescribed" value={num(dept.prescribed)} />
+        <KpiCard icon={KFlaskConical} tone="mint" label="Captured in-house" value={num(dept.captured)} />
+        <KpiCard icon={KLogOut} tone="peach" label="Estimated leaked" value={num(leaked)} sparkColor={tokens.chart.leaked} />
+        <KpiCard icon={KWallet} tone="rose" label="Est. value leaked" value={bdt(leaked * 2000)} sub="at ৳ 2,000 avg order" />
       </div>
 
       {dept.id === "cardiology" && (
@@ -103,7 +104,7 @@ export default function DepartmentDetail({ params }: { params: { id: string } })
                   </div>
                 ))}
               </div>
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 px-6 text-center">
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-surface/70 px-6 text-center">
                 <span className="inline-flex size-10 items-center justify-center rounded-full bg-slate-100">
                   <Lock className="size-5 text-slate-700" strokeWidth={1.5} />
                 </span>

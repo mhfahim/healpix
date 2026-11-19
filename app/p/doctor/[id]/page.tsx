@@ -54,7 +54,7 @@ export default function DoctorProfile({ params, searchParams }: { params: { id: 
             <p className="text-small text-slate-700">{t(dept.bn, dept.name)}</p>
           </div>
         </div>
-        <dl className="grid grid-cols-1 gap-2 rounded-lg border border-slate-200 bg-white p-4 text-body">
+        <dl className="grid grid-cols-1 gap-2 rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-4 text-body">
           <div className="flex items-center gap-3">
             <MapPin className="size-5 text-slate-500" />
             <dd>
@@ -89,7 +89,7 @@ export default function DoctorProfile({ params, searchParams }: { params: { id: 
                   onClick={() => setSel(i)}
                   className={cn(
                     "flex min-w-[64px] flex-col items-center rounded-lg border px-2 py-2.5",
-                    sel === i ? "border-teal-700 bg-teal-700 text-white" : "border-slate-200 bg-white",
+                    sel === i ? "border-teal-700 bg-teal-700 text-on-accent" : "border-slate-200 bg-surface",
                     closed && "border-dashed bg-slate-50 text-slate-400"
                   )}
                 >

@@ -2,9 +2,9 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Lightbulb, TrendingDown, TrendingUp, RefreshCw, Database, FlaskConical, Stethoscope, CheckCircle2, Circle, Info } from "lucide-react";
+import { ArrowRight, Lightbulb, TrendingDown, TrendingUp, RefreshCw, Database, FlaskConical, Stethoscope, CheckCircle2, Circle, Info, Target, ClipboardList, LogOut as LeakIcon, Wallet, CalendarCheck } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
-import { Card, CardHeader, CardBody, Badge, Banner, Skeleton, EmptyState } from "@/components/ui/primitives";
+import { Card, CardHeader, CardBody, Badge, Banner, Skeleton, EmptyState, IconChip } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { KpiCard, DataTable, RateBar } from "@/components/ui/data";
 import { CaptureLine, RateBars, Funnel, Legendary } from "@/components/ui/charts";
@@ -43,11 +43,13 @@ export function OverviewView({ state }: { state: ViewState }) {
       ) : (
         <>
           {/* KPI row */}
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
-            <KpiCard loading={loading} label="Test capture rate" value={`${metrics.captureRate}%`} delta="+13 pts" sub={`vs. ${metrics.baselineRate}% baseline`} spark={metrics.spark.captureRate} />
-            <KpiCard loading={loading} label="Tests prescribed" value={num(metrics.prescribed)} delta="+3.9%" sub="vs. Oct" spark={metrics.spark.prescribed} sparkColor={tokens.slate[500]} />
-            <KpiCard loading={loading} label="Captured in-house" value={num(metrics.captured)} delta="+6.9%" sub="vs. Oct" spark={metrics.spark.captured} />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1680px]:grid-cols-6">
+            <KpiCard icon={Target} tone="teal" loading={loading} label="Test capture rate" value={`${metrics.captureRate}%`} delta="+13 pts" sub={`vs. ${metrics.baselineRate}% baseline`} spark={metrics.spark.captureRate} />
+            <KpiCard icon={ClipboardList} tone="sky" sparkVar="sky" loading={loading} label="Tests prescribed" value={num(metrics.prescribed)} delta="+3.9%" sub="vs. Oct" spark={metrics.spark.prescribed} />
+            <KpiCard icon={FlaskConical} tone="mint" sparkVar="mint" loading={loading} label="Captured in-house" value={num(metrics.captured)} delta="+6.9%" sub="vs. Oct" spark={metrics.spark.captured} />
             <KpiCard
+              icon={LeakIcon}
+              tone="peach"
               loading={loading}
               label="Estimated leaked"
               value={num(metrics.leaked)}
@@ -57,8 +59,8 @@ export function OverviewView({ state }: { state: ViewState }) {
               spark={metrics.spark.leaked}
               sparkColor={tokens.chart.leaked}
             />
-            <KpiCard loading={loading} label="Recovered revenue" value={<span className="text-h1">{bdt(metrics.recovered)}</span>} sub="vs. 58% baseline · ৳ 2,000 avg order" />
-            <KpiCard loading={loading} label="Chamber slots freed" value={num(metrics.slotsFreed)} sub="report-only visits avoided" spark={metrics.spark.slotsFreed} sparkColor={tokens.chart.secondary} />
+            <KpiCard icon={Wallet} tone="teal" loading={loading} label="Recovered revenue" value={bdt(metrics.recovered)} spark={metrics.spark.recovered} sub="vs. 58% baseline · ৳ 2,000 avg order" />
+            <KpiCard icon={CalendarCheck} tone="iris" sparkVar="iris" loading={loading} label="Chamber slots freed" value={num(metrics.slotsFreed)} sub="report-only visits avoided" spark={metrics.spark.slotsFreed} />
           </div>
 
           <div className="mt-6 grid grid-cols-12 gap-6">
@@ -83,7 +85,7 @@ export function OverviewView({ state }: { state: ViewState }) {
             </Card>
 
             <Card className="col-span-12 md:col-span-6 xl:col-span-5">
-              <CardHeader title="Capture rate by department" description="Lowest first · click a bar to open the department" />
+              <CardHeader title="Capture rate by department" description="Lowest first · hatched = leaked · click to open" />
               <CardBody>
                 {loading ? (
                   <Skeleton className="h-[280px] w-full" />
@@ -122,7 +124,7 @@ export function OverviewView({ state }: { state: ViewState }) {
               {insights.map((i) => {
                 const Icon = i.tone === "leak" ? TrendingDown : i.tone === "win" ? TrendingUp : Info;
                 return (
-                  <Card key={i.title} className="flex flex-col p-4">
+                  <Card key={i.title} className="flex flex-col p-5">
                     {loading ? (
                       <>
                         <Skeleton className="h-4 w-3/4" />
@@ -131,16 +133,7 @@ export function OverviewView({ state }: { state: ViewState }) {
                     ) : (
                       <>
                         <div className="flex items-start gap-3">
-                          <span
-                            className={cn(
-                              "inline-flex size-8 shrink-0 items-center justify-center rounded-full",
-                              i.tone === "leak" && "bg-danger-bg text-danger-fg",
-                              i.tone === "win" && "bg-success-bg text-success-fg",
-                              i.tone === "info" && "bg-info-bg text-info-fg"
-                            )}
-                          >
-                            <Icon className="size-4" />
-                          </span>
+                          <IconChip icon={Icon} tone={i.tone === "leak" ? "peach" : i.tone === "win" ? "mint" : "sky"} size="sm" />
                           <div>
                             <p className="text-body font-semibold">{i.title}</p>
                             <p className="mt-0.5 text-small text-slate-700">{i.body}</p>

@@ -1,6 +1,6 @@
 # Helpix prototype
 
-Clickable prototype of every screen in the Helpix design brief. It uses Next.js 14 (App Router), TypeScript, Tailwind, Radix primitives (shadcn/ui style), Lucide and Recharts. There is no backend. All data is fictional and lives in `data/mock.ts`.
+Clickable prototype of every screen in the Helpix design brief. It uses Next.js 14 (App Router), TypeScript, Tailwind, Radix primitives (shadcn/ui style), Lucide, Recharts and the Geist typeface, with light and dark themes. There is no backend. All data is fictional and lives in `data/mock.ts`.
 
 ```bash
 npm install
@@ -13,7 +13,7 @@ Open `/` for the prototype index, which lists every screen and the nine flows.
 
 | Path | What |
 |---|---|
-| `tailwind.config.ts` | Design tokens. The default palette, type scale and radii are **replaced**, so screens can only use brief tokens. |
+| `tailwind.config.ts` + `app/globals.css` | Design tokens. Every color is a CSS variable with a light and a dark value; the default palette, type scale and radii are **replaced**, so screens can only use these tokens. |
 | `app/design-system` | DS page: tokens, type, spacing, every core component and its states |
 | `components/ui/*` | Button, inputs, Combobox, DatePicker, Tabs, Segmented, Chip, Badge, StatusPill, KPI card, DataTable, charts, AI draft block, Safety alert, Stepper, Timeline, Dropzone, recording indicator, Dialog, Sheet, Toast, Skeleton, Banner, Empty state |
 | `components/shell/*` | Desktop app shell (collapsible sidebar + top bar), patient 390×844 frame with the Bangla/English toggle, WhatsApp frame, prototype bar |
@@ -30,3 +30,9 @@ Open `/` for the prototype index, which lists every screen and the nine flows.
 - Patient screens are Bangla by default. Add `?lang=en` or use the toggle in the header. Digits switch to Bangla numerals too.
 - `?state=empty` on M7 shows the locked "Benchmark unlocks when 3 or more hospitals are live" variant.
 - D6 has two variants: `/d/reviews/rahima` (in-house lab) and `/d/reviews/mizanur` (outside upload with AI-extracted values).
+
+## Theme and chart language
+
+- **Light/dark**: the sun/moon button in the top bar, the *Dark mode* switch in the sidebar, or the three-way control on `/design-system`. It defaults to the system setting and remembers the viewer's choice.
+- **Charts** share one grammar (`components/ui/charts.tsx`, `components/ui/data.tsx`): dashed hairline grid, rounded capsules, the active item solid and the rest hatched in the same hue, remainders (leaked, not yet, peer band) as hatch, and one inverse tooltip pill. Extra pieces: `TickMeter`, `DotMatrix`, `Gauge`, `MiniBars`.
+- **F1 Schedule view**: doctors × evening-session time grid with tinted appointment cards, a "now" line, a hatched prayer break and a detail popover.

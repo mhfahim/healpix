@@ -3,10 +3,10 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { AlertTriangle, CloudUpload, FlaskConical, Inbox, RefreshCw, Target, ChevronRight, PartyPopper } from "lucide-react";
 import { AppShell } from "@/components/shell/app-shell";
-import { Card, Badge, Banner, EmptyState, Select } from "@/components/ui/primitives";
+import { Card, Badge, Banner, EmptyState, Select, IconChip } from "@/components/ui/primitives";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/controls";
-import { DataTable, Progress } from "@/components/ui/data";
+import { DataTable, TickMeter } from "@/components/ui/data";
 import { reviewInbox } from "@/data/mock";
 import { cn } from "@/lib/utils";
 import type { ViewState } from "@/lib/screens";
@@ -108,14 +108,12 @@ export function InboxView({ state }: { state: ViewState }) {
       )}
 
       <Card className="mb-6 flex flex-wrap items-center gap-6 p-4">
-        <span className="inline-flex size-10 items-center justify-center rounded-full bg-teal-50">
-          <Target className="size-5 text-teal-700" strokeWidth={1.5} />
-        </span>
+        <IconChip icon={Target} tone="teal" />
         <div className="min-w-[220px] flex-1">
           <p className="text-body font-medium">
             Daily goal: <span className="tnum">{empty ? "14 of 14" : "6 of 14"}</span> reviewed
           </p>
-          <Progress value={empty ? 100 : (6 / 14) * 100} className="mt-1.5 max-w-md" label="Daily review goal" />
+          <TickMeter value={empty ? 14 : 6} max={14} ticks={14} height={14} className="mt-2 max-w-sm" label="Daily review goal" />
         </div>
         <div className="flex gap-6 text-small">
           <span>

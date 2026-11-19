@@ -3,6 +3,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, Circle, Plus, Rocket, Trash2, FileSpreadsheet, MessageCircle, MessageSquare, PhoneCall, FlaskConical } from "lucide-react";
 import { Logo } from "@/components/shell/logo";
+import { ThemeToggle } from "@/components/shell/theme";
 import { Button } from "@/components/ui/button";
 import { Card, CardBody, Field, Input, Select, Badge, SectionLabel, Textarea, Banner, Avatar } from "@/components/ui/primitives";
 import { Stepper, Dropzone } from "@/components/ui/clinical";
@@ -24,10 +25,10 @@ export default function Onboarding() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
+      <header className="border-b border-slate-200 bg-surface">
         <div className="mx-auto flex max-w-content items-center justify-between px-6 py-4">
           <Logo />
-          <span className="text-small text-slate-500">Hospital setup · saved automatically</span>
+          <span className="flex items-center gap-3 text-small text-slate-500">Hospital setup · saved automatically <ThemeToggle /></span>
         </div>
       </header>
       <div className="mx-auto max-w-content px-6 py-8">

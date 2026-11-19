@@ -74,7 +74,7 @@ export function AiDraftBlock({
     <div
       className={cn(
         "rounded-lg border-y border-r border-l-2",
-        accepted ? "border-slate-200 border-l-teal-600 bg-white" : "border-ai/20 border-l-ai bg-ai-bg/60",
+        accepted ? "border-slate-200 border-l-teal-600 bg-surface" : "border-ai/20 border-l-ai bg-ai-bg/60",
         compact ? "px-3 py-2.5" : "px-4 py-3",
         className
       )}
@@ -112,7 +112,7 @@ export function AiDraftBlock({
       </div>
       {state === "editing" ? (
         <div>
-          {editor ?? <div contentEditable suppressContentEditableWarning className="rounded border border-teal-500 bg-white p-2 text-body outline-none ring-2 ring-teal-500/20">{children}</div>}
+          {editor ?? <div contentEditable suppressContentEditableWarning className="rounded border border-teal-500 bg-surface p-2 text-body outline-none ring-2 ring-teal-500/20">{children}</div>}
           <div className="mt-2 flex justify-end gap-2">
             <Button size="sm" variant="ghost" onClick={() => set("draft")}>
               Cancel
@@ -131,9 +131,9 @@ export function AiDraftBlock({
 
 /* Safety alert --------------------------------------------------------- */
 const sev = {
-  high: { label: "High", cls: "border-danger/30 bg-danger-bg", icon: ShieldAlert, iconCls: "text-danger", pill: "bg-danger text-white" },
-  moderate: { label: "Moderate", cls: "border-warning/30 bg-warning-bg", icon: AlertTriangle, iconCls: "text-warning", pill: "bg-warning-fg text-white" },
-  info: { label: "Info", cls: "border-info/25 bg-info-bg", icon: Info, iconCls: "text-info", pill: "bg-info-fg text-white" },
+  high: { label: "High", cls: "border-danger/30 bg-danger-bg", icon: ShieldAlert, iconCls: "text-danger", pill: "bg-danger text-on-accent" },
+  moderate: { label: "Moderate", cls: "border-warning/30 bg-warning-bg", icon: AlertTriangle, iconCls: "text-warning", pill: "bg-warning-fg text-on-accent" },
+  info: { label: "Info", cls: "border-info/25 bg-info-bg", icon: Info, iconCls: "text-info", pill: "bg-info-fg text-on-accent" },
 };
 export function SafetyAlert({
   severity,
@@ -158,7 +158,7 @@ export function SafetyAlert({
   const Icon = s.icon;
   if (resolved) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-small text-slate-500">
+      <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-surface px-3 py-2 text-small text-slate-500">
         <CircleCheck className="size-4 text-success" />
         <span className="font-medium text-slate-700">{category}:</span>
         <span className="truncate">{resolved === "changed" ? "Resolved by changing medicine" : "Acknowledged by doctor"}</span>
@@ -227,9 +227,9 @@ export function Stepper({
               <span
                 className={cn(
                   "tnum inline-flex size-7 shrink-0 items-center justify-center rounded-full border text-small font-semibold",
-                  done && "border-teal-700 bg-teal-700 text-white",
-                  active && "border-teal-700 bg-white text-teal-800 ring-4 ring-teal-100",
-                  !done && !active && "border-slate-300 bg-white text-slate-500"
+                  done && "border-teal-700 bg-teal-700 text-on-accent",
+                  active && "border-teal-700 bg-surface text-teal-800 ring-4 ring-teal-100",
+                  !done && !active && "border-slate-300 bg-surface text-slate-500"
                 )}
               >
                 {done ? <Check className="size-4" strokeWidth={2.5} /> : i + 1}
@@ -268,9 +268,9 @@ export function TimelineItem({
       <span
         className={cn(
           "relative z-10 mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded-full",
-          state === "done" && "bg-teal-700 text-white",
-          state === "current" && "border-2 border-teal-700 bg-white text-teal-700",
-          state === "pending" && "border-2 border-slate-300 bg-white text-slate-300"
+          state === "done" && "bg-teal-700 text-on-accent",
+          state === "current" && "border-2 border-teal-700 bg-surface text-teal-700",
+          state === "pending" && "border-2 border-slate-300 bg-surface text-slate-300"
         )}
       >
         {state === "done" ? (

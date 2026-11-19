@@ -26,7 +26,7 @@ export default function ResponseRx() {
       }
     >
       <div className="space-y-5 px-4 py-5">
-        <div className="rounded-lg border border-slate-200 bg-white p-4">
+        <div className="rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-4">
           <div className="flex items-center gap-3">
             <Avatar initials="FR" />
             <div>
@@ -46,7 +46,7 @@ export default function ResponseRx() {
           </h2>
           <ul className="space-y-2">
             {meds.map((m) => (
-              <li key={m.name} className="rounded-lg border border-slate-200 bg-white p-4">
+              <li key={m.name} className="rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-4">
                 <div className="flex items-start justify-between gap-2">
                   <p className="font-semibold">{m.name}</p>
                   {m.changed && <span className="rounded-full bg-info-bg px-2 py-0.5 text-caption font-medium text-info-fg">{m.changed}</span>}

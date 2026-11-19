@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_Bengali } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { Noto_Sans_Bengali } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/toast";
 import { ProtoBar } from "@/components/shell/proto-bar";
+import { ThemeProvider, themeScript } from "@/components/shell/theme";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const bengali = Noto_Sans_Bengali({
   subsets: ["bengali"],
   weight: ["400", "500", "600", "700"],
@@ -22,12 +24,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${bengali.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${bengali.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="font-sans">
-        <ToastProvider>
-          {children}
-          <ProtoBar />
-        </ToastProvider>
+        <ThemeProvider>
+          <ToastProvider>
+            {children}
+            <ProtoBar />
+          </ToastProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

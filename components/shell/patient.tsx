@@ -73,14 +73,14 @@ export function LangToggle({ className }: { className?: string }) {
     router.replace(`${pathname}${p.toString() ? `?${p}` : ""}`, { scroll: false });
   };
   return (
-    <div role="radiogroup" aria-label="Language" className={cn("inline-flex rounded-full border border-slate-200 bg-slate-100 p-0.5 text-small font-medium", className)}>
+    <div role="radiogroup" aria-label="Language" className={cn("inline-flex rounded-full bg-slate-100 p-1 text-small font-medium", className)}>
       {(["bn", "en"] as Lang[]).map((l) => (
         <button
           key={l}
           role="radio"
           aria-checked={lang === l}
           onClick={() => set(l)}
-          className={cn("h-8 min-w-11 rounded-full px-3 text-slate-500", lang === l && "bg-white text-slate-900 shadow-sm")}
+          className={cn("h-8 min-w-11 rounded-full px-3 text-slate-500", lang === l && "bg-surface text-slate-900 shadow-card")}
         >
           {l === "bn" ? "বাংলা" : "EN"}
         </button>
@@ -105,17 +105,21 @@ export function PatientFrame({
 }) {
   const { lang } = useLang();
   return (
-    <div className="min-h-screen bg-slate-100 sm:flex sm:items-center sm:justify-center sm:py-8" lang={lang}>
+    <div className="bg-dots min-h-screen bg-slate-100 sm:flex sm:items-center sm:justify-center sm:py-8" lang={lang}>
       <div
         className={cn(
-          "relative mx-auto flex min-h-screen w-full max-w-[390px] flex-col overflow-hidden sm:h-[844px] sm:min-h-0 sm:rounded-xl sm:border sm:border-slate-200 sm:shadow-sm",
+          "relative mx-auto flex min-h-screen w-full max-w-[390px] flex-col overflow-hidden sm:h-[844px] sm:min-h-0 sm:rounded-2xl sm:shadow-sm sm:ring-[6px] sm:ring-black",
           bg
         )}
       >
         <StatusBar />
         {header}
         <div className={cn("flex-1 overflow-y-auto text-base", className)}>{children}</div>
-        {bottom && <div className="sticky bottom-0 z-20 border-t border-slate-200 bg-white px-4 pb-5 pt-3">{bottom}</div>}
+        {bottom && (
+          <div className="sticky bottom-0 z-20 rounded-t-[24px] border-t border-slate-200/70 bg-surface/90 px-4 pb-6 pt-3 shadow-[0_-8px_24px_-12px_rgb(var(--shadow)/0.12)] backdrop-blur-md">
+            {bottom}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -123,10 +127,14 @@ export function PatientFrame({
 
 function StatusBar() {
   return (
-    <div className="hidden h-7 shrink-0 items-center justify-between bg-white px-6 text-caption font-semibold text-slate-900 sm:flex" aria-hidden>
+    <div className="relative hidden h-11 shrink-0 items-center justify-between bg-surface px-7 text-small font-semibold text-slate-900 sm:flex" aria-hidden>
       <span className="tnum">6:24</span>
-      <span className="flex items-center gap-1">
-        <span className="h-2.5 w-4 rounded-sm border border-slate-900" />
+      <span className="absolute left-1/2 top-2.5 h-[26px] w-[104px] -translate-x-1/2 rounded-full bg-black" />
+      <span className="flex items-center gap-1.5">
+        <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="1" /><rect x="4.5" y="5" width="3" height="6" rx="1" /><rect x="9" y="2.5" width="3" height="8.5" rx="1" /><rect x="13.5" y="0" width="3" height="11" rx="1" /></svg>
+        <span className="relative h-[11px] w-[22px] rounded-[3px] border border-current p-[1.5px] opacity-90">
+          <span className="block h-full w-[70%] rounded-[1px] bg-current" />
+        </span>
       </span>
     </div>
   );
@@ -135,16 +143,16 @@ function StatusBar() {
 /** Top app bar: back button + title, or hospital header */
 export function PHeader({ title, back, right, sub }: { title: React.ReactNode; back?: string; right?: React.ReactNode; sub?: React.ReactNode }) {
   return (
-    <header className="z-20 flex min-h-14 shrink-0 items-center gap-2 border-b border-slate-200 bg-white px-2">
+    <header className="z-20 flex min-h-[60px] shrink-0 items-center gap-2 bg-surface px-3">
       {back ? (
-        <PLink href={back} className="inline-flex size-11 items-center justify-center rounded-full text-slate-700 hover:bg-slate-100" aria-label="Back">
+        <PLink href={back} className="inline-flex size-11 items-center justify-center rounded-full bg-slate-100 text-slate-700 hover:bg-slate-150" aria-label="Back">
           <ArrowLeft className="size-5" />
         </PLink>
       ) : (
         <span className="w-2" />
       )}
       <div className="min-w-0 flex-1 py-2">
-        <p className="truncate text-h3 font-semibold">{title}</p>
+        <p className="truncate text-h3 font-semibold tracking-tight">{title}</p>
         {sub && <p className="truncate text-caption text-slate-500">{sub}</p>}
       </div>
       {right ?? <LangToggle className="mr-2" />}
@@ -155,9 +163,9 @@ export function PHeader({ title, back, right, sub }: { title: React.ReactNode; b
 export function HospitalHeader() {
   const { t } = useLang();
   return (
-    <header className="shrink-0 border-b border-slate-200 bg-white px-4 py-3">
+    <header className="shrink-0 bg-surface px-4 pb-3 pt-1">
       <div className="flex items-center gap-3">
-        <span className="inline-flex size-11 items-center justify-center rounded-lg bg-slate-900 text-small font-semibold text-white">MS</span>
+        <span className="inline-flex size-11 items-center justify-center rounded-[14px] bg-slate-900 text-small font-semibold text-on-accent">MS</span>
         <div className="min-w-0 flex-1">
           <p className="truncate text-h3 font-semibold leading-tight">{t(hospital.nameBn, hospital.name)}</p>
           <p className="truncate text-small text-slate-500">{t(hospital.branchBn, hospital.branch)}</p>
@@ -204,9 +212,9 @@ export function PButton({
   type?: "button" | "submit";
 }) {
   const cls = cn(
-    "inline-flex h-12 w-full items-center justify-center gap-2 rounded text-base font-medium transition-colors [&_svg]:size-5 disabled:opacity-50",
-    variant === "primary" && "bg-teal-700 text-white hover:bg-teal-800 active:bg-teal-900",
-    variant === "secondary" && "border border-slate-200 bg-white text-slate-900 hover:bg-slate-50",
+    "inline-flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-base font-medium transition-all active:scale-[0.98] [&_svg]:size-5 disabled:opacity-50",
+    variant === "primary" && "bg-teal-700 text-on-accent shadow-card hover:bg-teal-800",
+    variant === "secondary" && "bg-slate-100 text-slate-900 hover:bg-slate-150",
     variant === "ghost" && "text-teal-700 hover:bg-teal-50",
     disabled && "pointer-events-none",
     className

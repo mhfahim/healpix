@@ -2,33 +2,145 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Token mirror as CSS variables (used by charts and inline SVG). Source of truth: tailwind.config.ts */
+/*
+ * Helpix color tokens, as RGB channels so Tailwind opacity modifiers work.
+ * Light is the default; `.dark` on <html> swaps every value.
+ * Neutrals are a cool slate. In dark mode the slate scale is inverted, so
+ * "slate-900 = strongest text" and "slate-50 = page background" hold in both themes.
+ */
 :root {
-  --teal-50: #F0FDFA; --teal-100: #CCFBF1; --teal-200: #99F6E4; --teal-500: #14B8A6;
-  --teal-600: #0D9488; --teal-700: #0F766E; --teal-800: #115E59; --teal-900: #134E4A;
-  --slate-50: #F8FAFC; --slate-100: #F1F5F9; --slate-200: #E2E8F0; --slate-300: #CBD5E1;
-  --slate-400: #94A3B8; --slate-500: #64748B; --slate-700: #334155; --slate-900: #0F172A;
-  --success: #16A34A; --warning: #D97706; --danger: #DC2626; --info: #2563EB;
-  --ai: #7C3AED; --ai-bg: #F5F3FF;
-  --chart-captured: #0D9488; --chart-leaked: #F97316; --chart-pending: #CBD5E1;
-  --chart-baseline: #64748B; --chart-secondary: #6366F1;
+  color-scheme: light;
+  --surface: 255 255 255;
+  --surface-raised: 255 255 255;
+  --surface-sunken: 246 247 249;
+  --on-accent: 255 255 255;
+  --shadow: 16 24 40;
+
+  --slate-50: 246 247 249;
+  --slate-100: 240 242 245;
+  --slate-150: 233 236 240;
+  --slate-200: 228 231 236;
+  --slate-300: 208 213 221;
+  --slate-400: 152 162 179;
+  --slate-500: 102 112 133;
+  --slate-600: 71 84 103;
+  --slate-700: 52 64 84;
+  --slate-800: 29 41 57;
+  --slate-900: 16 24 40;
+
+  --teal-50: 240 253 250;
+  --teal-100: 204 251 241;
+  --teal-200: 153 246 228;
+  --teal-300: 94 234 212;
+  --teal-500: 20 184 166;
+  --teal-600: 13 148 136;
+  --teal-700: 15 118 110;
+  --teal-800: 17 94 89;
+  --teal-900: 19 78 74;
+
+  --success: 22 163 74;   --success-bg: 240 253 244; --success-fg: 21 128 61;
+  --warning: 217 119 6;   --warning-bg: 255 251 235; --warning-fg: 180 83 9;
+  --danger: 220 38 38;    --danger-bg: 254 242 242;  --danger-fg: 185 28 28;
+  --info: 37 99 235;      --info-bg: 239 246 255;    --info-fg: 29 78 216;
+  --ai: 124 58 237;       --ai-bg: 245 243 255;      --ai-fg: 109 40 217;
+
+  --sky: 14 165 233;      --sky-bg: 240 249 255;     --sky-fg: 3 105 161;
+  --iris: 79 70 229;      --iris-bg: 238 242 255;    --iris-fg: 67 56 202;
+  --peach: 249 115 22;    --peach-bg: 255 247 237;   --peach-fg: 194 65 12;
+  --rose: 225 29 72;      --rose-bg: 255 241 242;    --rose-fg: 190 18 60;
+  --mint: 16 185 129;     --mint-bg: 236 253 245;    --mint-fg: 4 120 87;
+
+  --chart-captured: 13 148 136;
+  --chart-leaked: 249 115 22;
+  --chart-pending: 208 213 221;
+  --chart-baseline: 102 112 133;
+  --chart-secondary: 99 102 241;
+  --chart-grid: 233 236 240;
+
+  --wa-bg: 239 234 226;
+  --wa-bubble: 217 253 211;
+  --wa-header: 7 94 84;
+}
+
+.dark {
+  color-scheme: dark;
+  --surface: 20 24 31;
+  --surface-raised: 27 32 41;
+  --surface-sunken: 12 15 20;
+  --on-accent: 4 28 26;
+  --shadow: 0 0 0;
+
+  --slate-50: 12 15 20;
+  --slate-100: 27 32 41;
+  --slate-150: 33 39 49;
+  --slate-200: 39 45 56;
+  --slate-300: 58 66 80;
+  --slate-400: 98 108 125;
+  --slate-500: 148 158 175;
+  --slate-600: 176 185 199;
+  --slate-700: 203 210 221;
+  --slate-800: 226 231 238;
+  --slate-900: 243 245 248;
+
+  --teal-50: 14 38 37;
+  --teal-100: 17 54 51;
+  --teal-200: 22 78 73;
+  --teal-300: 31 110 102;
+  --teal-500: 45 212 191;
+  --teal-600: 45 212 191;
+  --teal-700: 94 234 212;
+  --teal-800: 153 246 228;
+  --teal-900: 204 251 241;
+
+  --success: 34 197 94;   --success-bg: 14 40 26;  --success-fg: 74 222 128;
+  --warning: 245 158 11;  --warning-bg: 43 31 10;  --warning-fg: 251 191 36;
+  --danger: 248 113 113;  --danger-bg: 48 18 21;   --danger-fg: 252 165 165;
+  --info: 96 165 250;     --info-bg: 15 30 58;     --info-fg: 147 197 253;
+  --ai: 167 139 250;      --ai-bg: 33 24 56;       --ai-fg: 196 181 253;
+
+  --sky: 56 189 248;      --sky-bg: 12 34 50;      --sky-fg: 125 211 252;
+  --iris: 129 140 248;    --iris-bg: 28 29 60;     --iris-fg: 165 180 252;
+  --peach: 251 146 60;    --peach-bg: 46 26 12;    --peach-fg: 253 186 116;
+  --rose: 251 113 133;    --rose-bg: 48 16 26;     --rose-fg: 253 164 175;
+  --mint: 52 211 153;     --mint-bg: 10 40 30;     --mint-fg: 110 231 183;
+
+  --chart-captured: 45 212 191;
+  --chart-leaked: 251 146 60;
+  --chart-pending: 58 66 80;
+  --chart-baseline: 148 158 175;
+  --chart-secondary: 129 140 248;
+  --chart-grid: 33 39 49;
+
+  --wa-bg: 11 20 26;
+  --wa-bubble: 0 92 75;
+  --wa-header: 31 44 52;
 }
 
 @layer base {
   html { -webkit-text-size-adjust: 100%; }
   body {
     @apply bg-slate-50 text-slate-900 text-body antialiased;
-    font-feature-settings: "cv11", "ss01";
+    font-feature-settings: "ss01", "cv11";
+    transition: background-color 200ms ease;
   }
   /* Tabular numerals for all figures */
   .tnum, table, [data-num] { font-variant-numeric: tabular-nums; }
-  :focus-visible { outline: 2px solid var(--teal-500); outline-offset: 2px; border-radius: 4px; }
+  :focus-visible { outline: 2px solid rgb(var(--teal-500)); outline-offset: 2px; border-radius: 6px; }
   button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+  ::selection { background: rgb(var(--teal-200)); }
 }
 
 @layer utilities {
   .scrollbar-none::-webkit-scrollbar { display: none; }
   .scrollbar-none { scrollbar-width: none; }
+  /* Diagonal hatch fill used by "remainder / inactive" chart areas and break times */
+  .hatch {
+    background-image: repeating-linear-gradient(135deg, currentColor 0 1px, transparent 1px 6px);
+  }
+  .bg-dots {
+    background-image: radial-gradient(rgb(var(--slate-300)) 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
 }
 
 @media print {

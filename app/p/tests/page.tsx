@@ -4,6 +4,7 @@ import { FlaskConical, Home, Info, ShieldCheck } from "lucide-react";
 import { PatientFrame, PHeader, PButton, PLink, useLang } from "@/components/shell/patient";
 import { Chip, Switch } from "@/components/ui/controls";
 import { homeCollectionFee, prescribedTestIds, testById } from "@/data/mock";
+import { IconChip } from "@/components/ui/primitives";
 import { lakh } from "@/lib/utils";
 
 export default function PrescribedTests() {
@@ -43,12 +44,10 @@ export default function PrescribedTests() {
           <p className="mt-1 text-slate-500">{t("আজ, ১৯ নভেম্বর · রহিমা বেগম", "Today, 19 Nov · Rahima Begum")}</p>
         </div>
 
-        <ul className="divide-y divide-slate-100 rounded-lg border border-slate-200 bg-white">
-          {list.map((x) => (
+        <ul className="divide-y divide-slate-100 rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70">
+          {list.map((x, i) => (
             <li key={x.id} className="flex items-start gap-3 p-4">
-              <span className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-teal-50">
-                <FlaskConical className="size-5 text-teal-700" strokeWidth={1.5} />
-              </span>
+              <IconChip icon={FlaskConical} tone={(["teal", "sky", "iris", "peach"] as const)[i % 4]} />
               <div className="min-w-0 flex-1">
                 <p className="font-semibold">{t(x.bn, x.name)}</p>
                 <p className="flex items-center gap-1 text-small text-slate-700">
@@ -65,7 +64,7 @@ export default function PrescribedTests() {
           {t("রিপোর্ট সরাসরি ডা. রহমানের কাছে যাবে। রিপোর্ট দেখাতে আবার আসতে হবে না।", "Your report goes straight to Dr. Rahman. No need to come back just to show it.")}
         </div>
 
-        <label className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-4">
+        <label className="flex items-center gap-3 rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-4">
           <Home className="size-6 shrink-0 text-teal-700" strokeWidth={1.5} />
           <span className="flex-1">
             <span className="block font-semibold">{t("বাসা থেকে নমুনা সংগ্রহ", "Home sample collection")}</span>

@@ -31,8 +31,8 @@ function Inner() {
     router.replace(`${pathname}${p.toString() ? `?${p}` : ""}`, { scroll: false });
   };
   return (
-    <div className="no-print fixed bottom-4 left-4 z-[55] hidden items-center sm:flex gap-1 rounded-full border border-slate-200 bg-white/95 p-1 pr-2 text-small shadow-sm backdrop-blur">
-      <Link href="/" className="inline-flex h-7 items-center gap-1.5 rounded-full bg-slate-900 px-3 font-medium text-white hover:bg-slate-700" title="Prototype index">
+    <div className="no-print fixed bottom-4 left-4 z-[55] hidden items-center sm:flex gap-1 rounded-full border border-slate-200 bg-surface/95 p-1 pr-2 text-small shadow-sm backdrop-blur">
+      <Link href="/" className="inline-flex h-7 items-center gap-1.5 rounded-full bg-slate-900 px-3 font-medium text-on-accent hover:bg-slate-700" title="Prototype index">
         <LayoutGrid className="size-3.5" /> Index
       </Link>
       {screen && (

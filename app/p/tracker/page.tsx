@@ -4,6 +4,7 @@ import { CalendarClock, Clock, Footprints, RefreshCw, XCircle, MapPin } from "lu
 import { PatientFrame, PHeader, PButton, useLang } from "@/components/shell/patient";
 import { Dialog, Chip } from "@/components/ui/controls";
 import { Button } from "@/components/ui/button";
+import { TickMeter } from "@/components/ui/data";
 import { useToast } from "@/components/ui/toast";
 
 export default function Tracker() {
@@ -25,13 +26,13 @@ export default function Tracker() {
       bottom={
         !cancelled && (
           <div className="grid grid-cols-3 gap-2">
-            <button onClick={() => setLate(true)} className="flex min-h-16 flex-col items-center justify-center gap-1 rounded border border-slate-200 bg-white text-small font-medium">
+            <button onClick={() => setLate(true)} className="flex min-h-16 flex-col items-center justify-center gap-1 rounded border border-slate-200 bg-surface text-small font-medium">
               <Footprints className="size-5 text-teal-700" /> {t("দেরি হবে", "Running late")}
             </button>
-            <button className="flex min-h-16 flex-col items-center justify-center gap-1 rounded border border-slate-200 bg-white text-small font-medium">
+            <button className="flex min-h-16 flex-col items-center justify-center gap-1 rounded border border-slate-200 bg-surface text-small font-medium">
               <CalendarClock className="size-5 text-teal-700" /> {t("সময় বদলান", "Reschedule")}
             </button>
-            <button onClick={() => setCancel(true)} className="flex min-h-16 flex-col items-center justify-center gap-1 rounded border border-slate-200 bg-white text-small font-medium text-danger-fg">
+            <button onClick={() => setCancel(true)} className="flex min-h-16 flex-col items-center justify-center gap-1 rounded border border-slate-200 bg-surface text-small font-medium text-danger-fg">
               <XCircle className="size-5" /> {t("বাতিল", "Cancel")}
             </button>
           </div>
@@ -40,7 +41,7 @@ export default function Tracker() {
     >
       <div className="space-y-4 px-4 py-5">
         {cancelled ? (
-          <div className="rounded-lg border border-slate-200 bg-white p-6 text-center">
+          <div className="rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-6 text-center">
             <XCircle className="mx-auto size-10 text-slate-400" />
             <p className="mt-3 text-h2 font-semibold">{t("বুকিং বাতিল হয়েছে", "Booking cancelled")}</p>
             <p className="mt-1 text-slate-500">{t("আপনার সিরিয়াল অন্য রোগীকে দেওয়া হবে।", "Your serial will be offered to another patient.")}</p>
@@ -50,7 +51,7 @@ export default function Tracker() {
           </div>
         ) : (
           <>
-            <div className="rounded-xl border border-teal-200 bg-white p-5" aria-live="polite">
+            <div className="rounded-xl border border-teal-200 bg-surface p-5" aria-live="polite">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-success-bg px-2.5 py-1 text-small font-medium text-success-fg">
                   <span className="relative inline-flex size-2 rounded-full bg-success">
@@ -67,15 +68,13 @@ export default function Tracker() {
                   <p className="text-small text-slate-500">{t("ডাক্তার এখন দেখছেন", "Doctor is on serial")}</p>
                   <p className="tnum text-display font-semibold">{n(current)}</p>
                 </div>
-                <div className="rounded-lg bg-teal-700 p-3 text-white">
+                <div className="rounded-lg bg-teal-700 p-3 text-on-accent">
                   <p className="text-small text-teal-100">{t("আপনার সিরিয়াল", "You are serial")}</p>
                   <p className="tnum text-display font-semibold">{n(serial)}</p>
                 </div>
               </div>
               <div className="mt-5">
-                <div className="h-3 overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100}>
-                  <div className="h-full rounded-full bg-teal-600" style={{ width: `${progress}%` }} />
-                </div>
+                <TickMeter value={current} max={serial} ticks={serial} height={22} label="Queue progress" />
                 <p className="mt-2 text-slate-700">{t(`আপনার আগে আরও ${n(ahead)} জন`, `${ahead} patients ahead of you`)}</p>
               </div>
               <p className="mt-4 flex items-center gap-2 text-h3 font-semibold">
@@ -83,7 +82,7 @@ export default function Tracker() {
               </p>
               <p className="text-small text-warning-fg">{t("ডাক্তার ১৫ মিনিট দেরিতে চলছেন", "Doctor is running 15 min late")}</p>
             </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-4">
+            <div className="rounded-lg bg-surface shadow-card ring-1 ring-slate-200/70 p-4">
               <p className="font-semibold">{t("ডা. ফারহানা রহমান", "Dr. Farhana Rahman")}</p>
               <p className="flex items-center gap-1.5 text-slate-700">
                 <MapPin className="size-4 text-slate-500" /> {t("রুম ৩০৪, ৩ তলা · মেরিডিয়ান, ধানমন্ডি", "Room 304, 3rd floor · Meridian, Dhanmondi")}

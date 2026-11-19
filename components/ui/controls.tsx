@@ -22,7 +22,7 @@ export function TabsTrigger({ className, ...p }: React.ComponentProps<typeof Tab
   return (
     <TabsPrimitive.Trigger
       className={cn(
-        "-mb-px inline-flex h-10 items-center gap-2 border-b-2 border-transparent px-3 text-body font-medium text-slate-500 transition-colors hover:text-slate-900 data-[state=active]:border-teal-700 data-[state=active]:text-teal-800",
+        "-mb-px inline-flex h-11 items-center gap-2 border-b-2 border-transparent px-3 text-body font-medium text-slate-500 transition-colors hover:text-slate-900 data-[state=active]:border-teal-700 data-[state=active]:text-slate-900 [&_svg]:size-4",
         className
       )}
       {...p}
@@ -48,7 +48,7 @@ export function Segmented<T extends string>({
   ariaLabel?: string;
 }) {
   return (
-    <div role="radiogroup" aria-label={ariaLabel} className={cn("inline-flex rounded border border-slate-200 bg-slate-100 p-0.5", className)}>
+    <div role="radiogroup" aria-label={ariaLabel} className={cn("inline-flex rounded-full bg-slate-100 p-1", className)}>
       {options.map((o) => (
         <button
           key={o.value}
@@ -57,11 +57,11 @@ export function Segmented<T extends string>({
           aria-checked={value === o.value}
           onClick={() => onChange(o.value)}
           className={cn(
-            "inline-flex flex-1 items-center justify-center gap-1.5 rounded-sm font-medium text-slate-500 transition-colors hover:text-slate-900 [&_svg]:size-4",
+            "inline-flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full font-medium text-slate-500 transition-all hover:text-slate-900 [&_svg]:size-4",
             size === "sm" && "h-7 px-2.5 text-small",
             size === "md" && "h-8 px-3 text-body",
             size === "lg" && "h-11 px-4 text-base",
-            value === o.value && "bg-white text-slate-900 shadow-sm"
+            value === o.value && "bg-surface text-slate-900 shadow-card ring-1 ring-slate-200/60"
           )}
         >
           {o.label}
@@ -97,8 +97,8 @@ export function Chip({
         "inline-flex shrink-0 items-center gap-1.5 rounded-full border font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:size-4",
         size === "md" ? "h-8 px-3 text-small" : "min-h-11 px-4 text-base",
         selected
-          ? "border-teal-700 bg-teal-700 text-white"
-          : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50",
+          ? "border-teal-700 bg-teal-700 text-on-accent"
+          : "border-slate-200 bg-surface text-slate-700 shadow-card hover:border-slate-300 hover:bg-slate-50",
         className
       )}
     >
@@ -118,7 +118,7 @@ export function Switch({ className, ...p }: React.ComponentProps<typeof SwitchPr
       )}
       {...p}
     >
-      <SwitchPrimitive.Thumb className="block size-4 translate-x-0.5 rounded-full bg-white shadow-sm transition-transform data-[state=checked]:translate-x-[18px]" />
+      <SwitchPrimitive.Thumb className="block size-4 translate-x-0.5 rounded-full bg-white shadow-sm data-[state=checked]:bg-on-accent transition-transform data-[state=checked]:translate-x-[18px]" />
     </SwitchPrimitive.Root>
   );
 }
@@ -128,13 +128,13 @@ export function Checkbox({ className, ...p }: React.ComponentProps<typeof Checkb
   return (
     <CheckboxPrimitive.Root
       className={cn(
-        "inline-flex size-5 shrink-0 items-center justify-center rounded-sm border border-slate-300 bg-white data-[state=checked]:border-teal-700 data-[state=checked]:bg-teal-700",
+        "inline-flex size-5 shrink-0 items-center justify-center rounded-sm border border-slate-300 bg-surface data-[state=checked]:border-teal-700 data-[state=checked]:bg-teal-700",
         className
       )}
       {...p}
     >
       <CheckboxPrimitive.Indicator>
-        <Check className="size-3.5 text-white" strokeWidth={3} />
+        <Check className="size-3.5 text-on-accent" strokeWidth={3} />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
@@ -161,10 +161,10 @@ export function Dialog({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-50 animate-fade-in bg-slate-900/40" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-50 animate-fade-in bg-black/50" />
         <DialogPrimitive.Content
           className={cn(
-            "fixed left-1/2 top-1/2 z-50 w-[calc(100%-32px)] max-w-md -translate-x-1/2 -translate-y-1/2 animate-fade-in rounded-xl border border-slate-200 bg-white p-6 shadow-sm focus:outline-none",
+            "fixed left-1/2 top-1/2 z-50 w-[calc(100%-32px)] max-w-md -translate-x-1/2 -translate-y-1/2 animate-fade-in rounded-xl border border-slate-200 bg-surface p-6 shadow-sm focus:outline-none",
             className
           )}
         >
@@ -206,10 +206,10 @@ export function Sheet({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-50 animate-fade-in bg-slate-900/30" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-50 animate-fade-in bg-black/40" />
         <DialogPrimitive.Content
           className={cn(
-            "fixed inset-y-0 right-0 z-50 flex w-full animate-slide-in flex-col rounded-l-xl border-l border-slate-200 bg-white shadow-sm focus:outline-none",
+            "fixed inset-y-0 right-0 z-50 flex w-full animate-slide-in flex-col rounded-l-xl border-l border-slate-200 bg-surface shadow-sm focus:outline-none",
             width
           )}
         >
@@ -242,7 +242,7 @@ export function Tooltip({ content, children, side = "top" }: { content: React.Re
           <TooltipPrimitive.Content
             side={side}
             sideOffset={6}
-            className="z-50 max-w-xs animate-fade-in rounded border border-slate-200 bg-white px-3 py-2 text-small text-slate-700 shadow-sm"
+            className="z-50 max-w-xs animate-fade-in rounded border border-slate-200 bg-surface px-3 py-2 text-small text-slate-700 shadow-sm"
           >
             {content}
           </TooltipPrimitive.Content>
@@ -315,7 +315,7 @@ export function Combobox<T>({
         }}
       />
       {open && q && (
-        <ul role="listbox" className="absolute z-40 mt-1 max-h-72 w-full overflow-auto rounded-lg border border-slate-200 bg-white py-1 shadow-sm">
+        <ul role="listbox" className="absolute z-40 mt-1 max-h-72 w-full overflow-auto rounded-lg border border-slate-200 bg-surface py-1 shadow-sm">
           {filtered.length === 0 && <li className="px-3 py-2 text-body text-slate-500">No matches</li>}
           {filtered.map((t, i) => (
             <li
@@ -378,7 +378,7 @@ export function DatePicker({
         </span>
       </button>
       {open && (
-        <div className="absolute z-40 mt-1 w-72 rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+        <div className="absolute z-40 mt-1 w-72 rounded-lg border border-slate-200 bg-surface p-3 shadow-sm">
           <div className="mb-2 flex items-center justify-between">
             <button type="button" className="rounded p-1 hover:bg-slate-100" aria-label="Previous month" onClick={() => setView(new Date(view.getFullYear(), view.getMonth() - 1, 1))}>
               <ChevronLeft className="size-4" />
@@ -409,7 +409,7 @@ export function DatePicker({
                   }}
                   className={cn(
                     "tnum h-8 rounded text-small text-slate-900 hover:bg-teal-50",
-                    same(d) && "bg-teal-700 font-medium text-white hover:bg-teal-700"
+                    same(d) && "bg-teal-700 font-medium text-on-accent hover:bg-teal-700"
                   )}
                 >
                   {d}
