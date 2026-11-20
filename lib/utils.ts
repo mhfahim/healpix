@@ -6,6 +6,7 @@ const merge = extendTailwindMerge({
   extend: {
     classGroups: {
       "font-size": [{ text: ["caption", "small", "body", "h3", "base", "h2", "h1", "display", "kpi", "hero"] }],
+      "max-w": [{ "max-w": ["content"] }],
     },
   },
 });

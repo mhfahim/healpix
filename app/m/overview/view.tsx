@@ -12,12 +12,13 @@ import { captureTrend, deptCapture, funnel, insights, metrics, topLeakingTests }
 import { tokens } from "@/lib/tokens";
 import { bdt, cn, num } from "@/lib/utils";
 import type { ViewState } from "@/lib/screens";
+import { Stat } from "../stat";
 
 export function OverviewView({ state }: { state: ViewState }) {
   const router = useRouter();
   const loading = state === "loading";
   return (
-    <AppShell surface="management" title="Overview" subtitle="November 2026 · Dhanmondi branch" management>
+    <AppShell surface="management" title="Overview" subtitle="November 2026 · Dhanmondi branch" management contentClassName="max-w-[1760px]">
       {state === "offline" && (
         <Banner tone="warning" className="mb-6" title="You're offline">
           Showing figures cached at 6:02 PM. They'll refresh automatically when you reconnect.
@@ -206,49 +207,6 @@ function CaptureLead({ loading, className }: { loading?: boolean; className?: st
   );
 }
 
-/* Compact stat: label, figure, change with its reference ---------------- */
-function Stat({
-  label,
-  value,
-  delta,
-  vs,
-  downIsGood,
-  loading,
-  className,
-}: {
-  label: string;
-  value: React.ReactNode;
-  delta?: string;
-  vs?: string;
-  downIsGood?: boolean;
-  loading?: boolean;
-  className?: string;
-}) {
-  if (loading) {
-    return (
-      <Card className={cn("p-5", className)}>
-        <Skeleton className="h-3 w-24" />
-        <Skeleton className="mt-3 h-7 w-28" />
-        <Skeleton className="mt-3 h-3 w-32" />
-      </Card>
-    );
-  }
-  const negative = delta?.startsWith("−") || delta?.startsWith("-");
-  const good = delta ? (downIsGood ? negative : !negative) : null;
-  return (
-    <Card className={cn("flex min-w-0 flex-col p-5", className)}>
-      <p className="truncate text-small text-slate-600">{label}</p>
-      <p className="tnum mt-2 whitespace-nowrap text-[28px] font-medium leading-8 tracking-[-0.02em] text-slate-900">{value}</p>
-      {(delta || vs) && (
-        <p className="tnum mt-2 text-caption text-slate-500">
-          {delta && <span className={cn("mr-1 font-medium", good ? "text-success-fg" : "text-danger-fg")}>{delta}</span>}
-          {vs}
-        </p>
-      )}
-    </Card>
-  );
-}
-
 /* Journey: one teal, hatched drop-off, only the largest drop called out -- */
 function Journey() {
   const top = funnel[0].value;
@@ -271,7 +229,7 @@ function Journey() {
               <div className="absolute inset-y-0 left-0 bg-chart-captured" style={{ width: `${pct}%` }} />
             </div>
             {i > 0 && drops[i] > 0 && (
-              <p className={cn("tnum mt-1 text-caption", i === worst ? "text-chart-leaked" : "text-slate-500")}>
+              <p className={cn("tnum mt-1 text-caption", i === worst ? "text-peach-fg" : "text-slate-500")}>
                 −{drops[i]}% from {funnel[i - 1].stage.toLowerCase()}
                 {i === worst && " · largest drop"}
               </p>
